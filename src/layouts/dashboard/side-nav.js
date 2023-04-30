@@ -74,7 +74,7 @@ export const SideNav = (props) => {
                 Devias
               </Typography>
               <Typography
-                color="common.white"
+                color="neutral.400"
                 variant="body2"
               >
                 Production
