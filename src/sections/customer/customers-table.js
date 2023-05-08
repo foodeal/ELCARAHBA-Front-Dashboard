@@ -156,3 +156,5 @@ CustomersTable.propTypes = {
   rowsPerPage: PropTypes.number,
   selected: PropTypes.array
 };
+
+
