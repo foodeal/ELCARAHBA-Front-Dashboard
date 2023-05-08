@@ -23,7 +23,7 @@ export const CustomersTable = (props) => {
     items = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => {},
+    onPageChange = () => { },
     onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
@@ -75,7 +75,9 @@ export const CustomersTable = (props) => {
             <TableBody>
               {items.map((customer) => {
                 const isSelected = selected.includes(customer.id);
-                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
+                const date = new Date(customer.createdAt);
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                const createdAt = date.toLocaleDateString('en-US', options);
 
                 return (
                   <TableRow
@@ -113,10 +115,10 @@ export const CustomersTable = (props) => {
                       {customer.email}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {customer.adresse_user}, {customer.ville_user}, {customer.pays_user}
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
+                      {customer.tel_utilisateur}
                     </TableCell>
                     <TableCell>
                       {createdAt}

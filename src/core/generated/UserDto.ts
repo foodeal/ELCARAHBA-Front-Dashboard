@@ -1,6 +1,5 @@
 export interface UserDTO {
   id: number;
-  token: string;
   email: string;
   nom_utilisateur: string;
   prenom_utilisateur: string;
@@ -11,5 +10,4 @@ export interface UserDTO {
   ville_user: string;
   adresse_user: string;
   argent_gagner: number;
-  motdepasse: string;
 }
