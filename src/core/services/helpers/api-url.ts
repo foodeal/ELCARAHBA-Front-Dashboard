@@ -15,7 +15,7 @@ export enum ApiUrlsEnum {
   RegisterPrestataire = '/users/register',
   CheckTokenPrestataire = '/users/profile',
   GetPrestataire = '',
-  GetAllPrestataire = '/users/',
+  GetAllPrestataire = 'prestataires',
   DeletePrestataire = '/users/',
   UpdatePrestataire = '/users/',
 

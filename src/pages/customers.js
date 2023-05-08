@@ -8,11 +8,12 @@ import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/materia
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/customers-table';
+import { PrestatairesTable } from 'src/sections/customer/prestataires-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../core/services/userServices.service';
 
-function UsersPage({ users }) {
+function UsersPage({ users, prestataires }) {
 
   const useCustomers = (page, rowsPerPage) => {
     return useMemo(
@@ -64,6 +65,7 @@ function UsersPage({ users }) {
           py: 8
         }}
       >
+        {/* Clients */}
         <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack
@@ -73,9 +75,7 @@ function UsersPage({ users }) {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  {/* Put the length of usersData here */}
-
-                  Customers {users.length}
+                  Les clients {users.length}
                 </Typography>
                 <Stack
                   alignItems="center"
@@ -133,6 +133,77 @@ function UsersPage({ users }) {
             />
           </Stack>
         </Container>
+        {/* Add space between containers */}
+        <Box sx={{ py: 4 }} />
+        {/* Prestataires  */}
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Stack spacing={1}>
+                <Typography variant="h4">
+                  Les Prestataires {prestataires.length}
+                </Typography>
+                <Stack
+                  alignItems="center"
+                  direction="row"
+                  spacing={1}
+                >
+                  <Button
+                    color="inherit"
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <ArrowUpOnSquareIcon />
+                      </SvgIcon>
+                    )}
+                  >
+                    Import
+                  </Button>
+                  <Button
+                    color="inherit"
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <ArrowDownOnSquareIcon />
+                      </SvgIcon>
+                    )}
+                  >
+                    Export
+                  </Button>
+                </Stack>
+              </Stack>
+              <div>
+                <Button
+                  startIcon={(
+                    <SvgIcon fontSize="small">
+                      <PlusIcon />
+                    </SvgIcon>
+                  )}
+                  variant="contained"
+                >
+                  Add
+                </Button>
+              </div>
+            </Stack>
+            <CustomersSearch />
+            <PrestatairesTable
+              count={prestataires.length}
+              items={prestataires}
+              onDeselectAll={customersSelection.handleDeselectAll}
+              onDeselectOne={customersSelection.handleDeselectOne}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              onSelectAll={customersSelection.handleSelectAll}
+              onSelectOne={customersSelection.handleSelectOne}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              selected={customersSelection.selected}
+            />
+          </Stack>
+        </Container>
+
       </Box>
     </>
   );
@@ -141,9 +212,11 @@ function UsersPage({ users }) {
 export async function getStaticProps() {
   try {
     const users = await userServices.getAllUsers();
+    const prestataires = await userServices.getAllPrestataires();
     return {
       props: {
         users,
+        prestataires
       },
     };
   } catch (error) {
@@ -151,6 +224,7 @@ export async function getStaticProps() {
     return {
       props: {
         users: [],
+        prestataires: []
       },
     };
   }
