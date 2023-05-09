@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
   Avatar,
   Box,
@@ -75,10 +74,6 @@ export const CustomersTable = (props) => {
             <TableBody>
               {items.map((customer) => {
                 const isSelected = selected.includes(customer.id);
-                const date = new Date(customer.createdAt);
-                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-                const createdAt = date.toLocaleDateString('en-US', options);
-
                 return (
                   <TableRow
                     hover
@@ -121,7 +116,7 @@ export const CustomersTable = (props) => {
                       {customer.tel_utilisateur}
                     </TableCell>
                     <TableCell>
-                      {createdAt}
+                      {customer.createdAt}
                     </TableCell>
                   </TableRow>
                 );

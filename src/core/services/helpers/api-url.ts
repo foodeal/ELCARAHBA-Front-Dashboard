@@ -49,7 +49,7 @@ export enum ApiUrlsEnum {
   //Expert
   AddExpert = '/experts/add',
   GetExpert = '/experts/',
-  GetAllExperts = '/experts/',
+  GetAllExperts = 'experts',
   DeleteExpert = '/experts/',
   UpdateExpert = '/experts/',
 
