@@ -9,11 +9,12 @@ import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/customers-table';
 import { PrestatairesTable } from 'src/sections/customer/prestataires-table';
+import { ExpertsTable } from 'src/sections/customer/experts-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../core/services/userServices.service';
 
-function UsersPage({ users, prestataires }) {
+function UsersPage({ users, prestataires, experts }) {
 
   const useCustomers = (page, rowsPerPage) => {
     return useMemo(
@@ -203,7 +204,76 @@ function UsersPage({ users, prestataires }) {
             />
           </Stack>
         </Container>
-
+        {/* Add space between containers */}
+        <Box sx={{ py: 4 }} />
+        {/* Experts  */}
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              spacing={4}
+            >
+              <Stack spacing={1}>
+                <Typography variant="h4">
+                  Les Experts {experts.length}
+                </Typography>
+                <Stack
+                  alignItems="center"
+                  direction="row"
+                  spacing={1}
+                >
+                  <Button
+                    color="inherit"
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <ArrowUpOnSquareIcon />
+                      </SvgIcon>
+                    )}
+                  >
+                    Import
+                  </Button>
+                  <Button
+                    color="inherit"
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <ArrowDownOnSquareIcon />
+                      </SvgIcon>
+                    )}
+                  >
+                    Export
+                  </Button>
+                </Stack>
+              </Stack>
+              <div>
+                <Button
+                  startIcon={(
+                    <SvgIcon fontSize="small">
+                      <PlusIcon />
+                    </SvgIcon>
+                  )}
+                  variant="contained"
+                >
+                  Add
+                </Button>
+              </div>
+            </Stack>
+            <CustomersSearch />
+            <ExpertsTable
+              count={experts.length}
+              items={experts}
+              onDeselectAll={customersSelection.handleDeselectAll}
+              onDeselectOne={customersSelection.handleDeselectOne}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              onSelectAll={customersSelection.handleSelectAll}
+              onSelectOne={customersSelection.handleSelectOne}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              selected={customersSelection.selected}
+            />
+          </Stack>
+        </Container>
       </Box>
     </>
   );
@@ -213,10 +283,12 @@ export async function getStaticProps() {
   try {
     const users = await userServices.getAllUsers();
     const prestataires = await userServices.getAllPrestataires();
+    const experts = await userServices.getAllExpert();
     return {
       props: {
         users,
-        prestataires
+        prestataires,
+        experts
       },
     };
   } catch (error) {
@@ -224,7 +296,8 @@ export async function getStaticProps() {
     return {
       props: {
         users: [],
-        prestataires: []
+        prestataires: [],
+        experts: []
       },
     };
   }
