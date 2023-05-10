@@ -7,10 +7,10 @@ import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { CustomersTable } from 'src/sections/customer/customers-table';
-import { PrestatairesTable } from 'src/sections/customer/prestataires-table';
-import { ExpertsTable } from 'src/sections/customer/experts-table';
-import { CustomersSearch } from 'src/sections/customer/customers-search';
+import { CustomersTable } from 'src/sections/user/customers-table';
+import { PrestatairesTable } from 'src/sections/user/prestataires-table';
+import { ExpertsTable } from 'src/sections/user/experts-table';
+import { CustomersSearch } from 'src/sections/user/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../core/services/userServices.service';
 

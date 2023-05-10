@@ -72,4 +72,12 @@ export enum ApiUrlsEnum {
   GetAllGarages = '/garages/',
   DeleteGarage = '/garages/',
   UpdateGarage = '/garages/',
+
+
+  //Carnet
+  AddCarnet = '/carnets/add',
+  GetCarnet = '/carnets/',
+  GetAllCarnets = 'carnets',
+  DeleteCarnet = '/carnets/',
+  UpdateCarnet = '/carnets/',
 }

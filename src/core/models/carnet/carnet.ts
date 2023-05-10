@@ -1,4 +1,4 @@
-import { CarnetDTO } from "@core/generated/CarnetDTO";
+import { CarnetDTO } from "../../generated/CarnetDTO";
 
 export interface CarnetData {
     id: number;
