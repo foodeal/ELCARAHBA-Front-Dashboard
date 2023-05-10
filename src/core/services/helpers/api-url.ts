@@ -69,7 +69,7 @@ export enum ApiUrlsEnum {
   //Garage
   AddGarage = '/garages/add',
   GetGarage = '/garages/',
-  GetAllGarages = '/garages/',
+  GetAllGarages = 'garages',
   DeleteGarage = '/garages/',
   UpdateGarage = '/garages/',
 
