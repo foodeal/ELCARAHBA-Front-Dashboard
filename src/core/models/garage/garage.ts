@@ -1,4 +1,4 @@
-import { GarageDTO } from '@core/generated/GarageDTO';
+import { GarageDTO } from '../../generated/GarageDTO';
 
 export interface GarageData {
   id: number;
