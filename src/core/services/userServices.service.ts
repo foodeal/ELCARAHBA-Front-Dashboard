@@ -44,6 +44,23 @@ async function getAllPrestataires(): Promise<PrestataireDTO[]> {
     }
 }
 
+async function getAllDemandes(): Promise<PrestataireDTO[]> {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    try {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
+        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.GetAllPrestataire}/`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data.map((userData: any) => PrestataireDetails.mapToApiValue(userData));
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        return [];
+    }
+}
+
 async function getAllExpert(): Promise<ExpertDTO[]> {
     const headers = new Headers();
     headers.append('Accept', 'application/json');
@@ -112,5 +129,22 @@ async function getExpert(id: number): Promise<ExpertDTO> {
     }
 }
 
+async function getDemande(id: number): Promise<ExpertDTO> {
+    const headers = { Accept: 'application/json' };
+    try {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
+        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.GetPrestataire}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                ...headers,
+            },
+        });
+        return ExpertData.mapToApiValue(res.data);
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+    }
+}
 
-export default { getAllUsers, getAllPrestataires, getAllExpert, getUser, GetPrestataire, getExpert };
+
+export default { getAllUsers, getAllPrestataires, getAllExpert, getUser, GetPrestataire, getExpert, getAllDemandes, getDemande };

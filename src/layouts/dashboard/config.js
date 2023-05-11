@@ -46,8 +46,8 @@ export const items = [
     )
   },
   {
-    title: 'Settings',
-    path: '/settings',
+    title: 'Demandes en attentes',
+    path: '/demandes_prestataires',
     icon: (
       <SvgIcon fontSize="small">
         <CogIcon />
