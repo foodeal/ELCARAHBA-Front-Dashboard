@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
-
+import Link from 'next/link';
 
 
 export const ExpertsTable = (props) => {
@@ -58,6 +58,9 @@ export const ExpertsTable = (props) => {
                                     />
                                 </TableCell>
                                 <TableCell>
+                                    Avatar
+                                </TableCell>
+                                <TableCell>
                                     Nom complet
                                 </TableCell>
                                 <TableCell>
@@ -75,12 +78,12 @@ export const ExpertsTable = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {items.map((customer) => {
-                                const isSelected = selected.includes(customer.id);
+                            {items.map((expert) => {
+                                const isSelected = selected.includes(expert.id);
                                 return (
                                     <TableRow
                                         hover
-                                        key={customer.id}
+                                        key={expert.id}
                                         selected={isSelected}
                                     >
                                         <TableCell padding="checkbox">
@@ -88,9 +91,9 @@ export const ExpertsTable = (props) => {
                                                 checked={isSelected}
                                                 onChange={(event) => {
                                                     if (event.target.checked) {
-                                                        onSelectOne?.(customer.id);
+                                                        onSelectOne?.(expert.id);
                                                     } else {
-                                                        onDeselectOne?.(customer.id);
+                                                        onDeselectOne?.(expert.id);
                                                     }
                                                 }}
                                             />
@@ -101,25 +104,30 @@ export const ExpertsTable = (props) => {
                                                 direction="row"
                                                 spacing={2}
                                             >
-                                                <Avatar src={customer.avatar}>
-                                                    {getInitials(customer.nom_prenom_expert)}
+                                                <Avatar src={expert.avatar}>
+                                                    {getInitials(expert.nom_prenom_expert)}
                                                 </Avatar>
                                                 <Typography variant="subtitle2">
-                                                    {customer.nom_prenom_expert}
+                                                    {expert.nom_prenom_expert}
                                                 </Typography>
                                             </Stack>
                                         </TableCell>
                                         <TableCell>
-                                            {customer.mail_expert}
+                                            <Link href={`/experts/${expert.id}`}>
+                                                {expert.nom_prenom_expert}
+                                            </Link>
                                         </TableCell>
                                         <TableCell>
-                                            {customer.telephone_expert}
+                                            {expert.mail_expert}
                                         </TableCell>
                                         <TableCell>
-                                            {customer.domaine_expert}
+                                            {expert.telephone_expert}
                                         </TableCell>
                                         <TableCell>
-                                            {customer.createdAt}
+                                            {expert.domaine_expert}
+                                        </TableCell>
+                                        <TableCell>
+                                            {expert.createdAt}
                                         </TableCell>
                                     </TableRow>
                                 );

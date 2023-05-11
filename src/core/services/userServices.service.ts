@@ -6,6 +6,7 @@ import { PrestataireDetails } from '../models/prestataire/prestataire-details';
 import { PrestataireDTO } from '../generated/PrestataireDTO';
 import { ExpertDTO } from '../generated/ExpertDTO';
 import { ExpertData } from '../models/expert/expert';
+import { UserDTO } from '../generated/UserDto';
 // handleResponse
 
 
@@ -60,4 +61,56 @@ async function getAllExpert(): Promise<ExpertDTO[]> {
     }
 }
 
-export default { getAllUsers, getAllPrestataires, getAllExpert };
+async function getUser(id: number): Promise<UserDetails> {
+    const headers = { Accept: 'application/json' };
+    try {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
+        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.GetUser}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                ...headers,
+            },
+        });
+        return UserDetails.mapToApiValue(res.data);
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+    }
+}
+
+async function GetPrestataire(id: number): Promise<PrestataireDTO> {
+    const headers = { Accept: 'application/json' };
+    try {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
+        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.GetPrestataire}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                ...headers,
+            },
+        });
+        return PrestataireDetails.mapToApiValue(res.data);
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+    }
+}
+
+async function getExpert(id: number): Promise<ExpertDTO> {
+    const headers = { Accept: 'application/json' };
+    try {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
+        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.GetExpert}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                ...headers,
+            },
+        });
+        return ExpertData.mapToApiValue(res.data);
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+    }
+}
+
+
+export default { getAllUsers, getAllPrestataires, getAllExpert, getUser, GetPrestataire, getExpert };

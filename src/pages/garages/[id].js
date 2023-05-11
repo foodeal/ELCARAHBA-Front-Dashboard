@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 
 
-function GarageDetails({ garage }) {
+function GarageDetails() {
 
     const router = useRouter();
     const { id } = router.query;

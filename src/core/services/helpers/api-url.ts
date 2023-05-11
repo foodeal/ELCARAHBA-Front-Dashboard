@@ -6,7 +6,7 @@ export enum ApiUrlsEnum {
   Authenticate = '/users/authenticate',
   Register = '/users/register',
   CheckToken = '/users/profile',
-  GetUser = '',
+  GetUser = 'users',
   GetAllUsers = 'users',
   DeleteUser = '/users/',
   UpdateUser = '/users/',
@@ -48,7 +48,7 @@ export enum ApiUrlsEnum {
 
   //Expert
   AddExpert = '/experts/add',
-  GetExpert = '/experts/',
+  GetExpert = 'experts',
   GetAllExperts = 'experts',
   DeleteExpert = '/experts/',
   UpdateExpert = '/experts/',

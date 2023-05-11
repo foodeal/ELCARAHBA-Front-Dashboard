@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import {
   Avatar,
   Box,
@@ -55,7 +56,10 @@ export const CustomersTable = (props) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Name
+                  Avatar
+                </TableCell>
+                <TableCell>
+                  Nom complet
                 </TableCell>
                 <TableCell>
                   Email
@@ -72,12 +76,12 @@ export const CustomersTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
+              {items.map((user) => {
+                const isSelected = selected.includes(user.id);
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={user.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
@@ -85,9 +89,9 @@ export const CustomersTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(user.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(user.id);
                           }
                         }}
                       />
@@ -98,25 +102,30 @@ export const CustomersTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
+                        <Avatar src={user.avatar}>
+                          {getInitials(user.nom_utilisateur + user.prenom_utilisateur)}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {customer.name}
+                          {user.name}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.email}
+                      <Link href={`/users/${user.id}`}>
+                        {user.nom_utilisateur} {user.prenom_utilisateur}
+                      </Link>
                     </TableCell>
                     <TableCell>
-                      {customer.adresse_user}, {customer.ville_user}, {customer.pays_user}
+                      {user.email}
                     </TableCell>
                     <TableCell>
-                      {customer.tel_utilisateur}
+                      {user.adresse_user}, {user.ville_user}, {user.pays_user}
                     </TableCell>
                     <TableCell>
-                      {customer.createdAt}
+                      {user.tel_utilisateur}
+                    </TableCell>
+                    <TableCell>
+                      {user.createdAt}
                     </TableCell>
                   </TableRow>
                 );
