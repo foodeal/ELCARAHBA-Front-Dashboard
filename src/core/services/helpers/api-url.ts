@@ -14,7 +14,7 @@ export enum ApiUrlsEnum {
   AuthenticatePrestataire = '/users/authenticate',
   RegisterPrestataire = '/users/register',
   CheckTokenPrestataire = '/users/profile',
-  GetPrestataire = '',
+  GetPrestataire = "prestataires",
   GetAllPrestataire = 'prestataires',
   DeletePrestataire = '/users/',
   UpdatePrestataire = '/users/',
@@ -68,7 +68,7 @@ export enum ApiUrlsEnum {
 
   //Garage
   AddGarage = '/garages/add',
-  GetGarage = '/garages/',
+  GetGarage = 'garages',
   GetAllGarages = 'garages',
   DeleteGarage = '/garages/',
   UpdateGarage = '/garages/',
