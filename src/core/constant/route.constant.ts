@@ -16,6 +16,7 @@ export namespace RouterPaths {
     export const diagnosisPath = "/diagnosis";
     export const trackingPath = "/tracking";
     export const userProfilePath = "/profile";
+    export const prestatairesPath = "/prestataires";
   }
 
   export namespace EntryPaths {

@@ -19,8 +19,8 @@ export const items = [
     )
   },
   {
-    title: 'Customers',
-    path: '/customers',
+    title: 'Users',
+    path: '/users',
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
@@ -28,8 +28,8 @@ export const items = [
     )
   },
   {
-    title: 'Companies',
-    path: '/companies',
+    title: 'Carnets',
+    path: '/carnets',
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />
@@ -37,8 +37,8 @@ export const items = [
     )
   },
   {
-    title: 'Account',
-    path: '/account',
+    title: 'Garages',
+    path: '/garages',
     icon: (
       <SvgIcon fontSize="small">
         <UserIcon />
@@ -46,8 +46,8 @@ export const items = [
     )
   },
   {
-    title: 'Settings',
-    path: '/settings',
+    title: 'Demandes en attentes',
+    path: '/demandes_prestataires',
     icon: (
       <SvgIcon fontSize="small">
         <CogIcon />
