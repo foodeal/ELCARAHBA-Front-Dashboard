@@ -36,10 +36,7 @@ function GaragesPage({ garages }) {
     const customers = useCustomers(page, rowsPerPage);
     const customersIds = useCustomerIds(customers);
     const customersSelection = useSelection(customersIds);
-    if (!garages) {
-        return <div>Loading...</div>;
-    }
-
+    
     const handlePageChange = useCallback(
         (event, value) => {
             setPage(value);
@@ -53,6 +50,10 @@ function GaragesPage({ garages }) {
         },
         []
     );
+
+    if (!garages) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>
