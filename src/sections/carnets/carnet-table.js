@@ -5,6 +5,7 @@ import {
   Table, TableHead, TableBody, TableRow, TableCell, Checkbox, TablePagination
 } from '@mui/material';
 import { getInitials } from 'src/utils/get-initials';
+import Link from 'next/link';
 export const CarnetsTable = (props) => {
   const {
     count = 0,
@@ -64,12 +65,13 @@ export const CarnetsTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
+              {items.map((carnet) => {
+                const isSelected = selected.includes(carnet.id);
                 return (
+
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={carnet.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
@@ -77,9 +79,9 @@ export const CarnetsTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(carnet.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(carnet.id);
                           }
                         }}
                       />
@@ -90,30 +92,33 @@ export const CarnetsTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.user_id}>
-                          {/* {getInitials(customer.id)} */}
-                        </Avatar>
+                        <Link href={`/carnets/${carnet.id}`}>
+                          <Avatar src={carnet.user_id}>
+                            {/* {getInitials(customer.id)} */}
+                          </Avatar>
+                        </Link>
                         <Typography variant="subtitle2">
-                          {customer.date_vidange}
+                          {carnet.date_vidange}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.klm_vidange}
+                      {carnet.klm_vidange}
                     </TableCell>
                     <TableCell>
-                      {customer.klm_plaque}
+                      {carnet.klm_plaque}
                     </TableCell>
                     <TableCell>
-                      {customer.date_batterie}
+                      {carnet.date_batterie}
                     </TableCell>
                     <TableCell>
-                      {customer.date_assurance}
+                      {carnet.date_assurance}
                     </TableCell>
                     <TableCell>
-                      {customer.date_visite}
+                      {carnet.date_visite}
                     </TableCell>
                   </TableRow>
+
                 );
               })}
             </TableBody>

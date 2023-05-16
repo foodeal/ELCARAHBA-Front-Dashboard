@@ -16,7 +16,7 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { CarnetsTable } from 'src/sections/carnets/carnet-card';
+import { CarnetsTable } from 'src/sections/carnets/carnet-table';
 import { CarnetsSearch } from 'src/sections/carnets/carnets-search';
 import carnetServicesService from 'src/core/services/carnetServices.service';
 function CarnetsPage({ carnets }) {

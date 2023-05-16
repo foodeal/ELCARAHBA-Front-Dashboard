@@ -76,7 +76,7 @@ export enum ApiUrlsEnum {
 
   //Carnet
   AddCarnet = '/carnets/add',
-  GetCarnet = '/carnets/',
+  GetCarnet = 'carnets',
   GetAllCarnets = 'carnets',
   DeleteCarnet = '/carnets/',
   UpdateCarnet = '/carnets/',
