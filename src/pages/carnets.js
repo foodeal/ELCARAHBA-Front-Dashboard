@@ -43,10 +43,7 @@ function CarnetsPage({ carnets }) {
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
-  if (!carnets) {
-    return <div>Loading...</div>;
-  }
-
+  
   const handlePageChange = useCallback(
     (event, value) => {
       setPage(value);
@@ -60,6 +57,11 @@ function CarnetsPage({ carnets }) {
     },
     []
   );
+
+  if (!carnets) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <Head>

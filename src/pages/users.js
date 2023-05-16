@@ -39,9 +39,6 @@ function UsersPage({ users, prestataires, experts }) {
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
-  if (!users) {
-    return <div>Loading...</div>;
-  }
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -56,6 +53,11 @@ function UsersPage({ users, prestataires, experts }) {
     },
     []
   );
+  
+  if (!users) {
+    return <div>Loading...</div>;
+  }
+
 
   return (
     <>

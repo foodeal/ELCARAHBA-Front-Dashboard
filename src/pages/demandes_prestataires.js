@@ -38,15 +38,6 @@ function PrestatairesWaitingForApprovalPage({ demandes }) {
         );
     };
 
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-    const lesDemandes = useDemandes(page, rowsPerPage);
-    const demandesIds = useDemandeIds(lesDemandes);
-    const demandesSelection = useSelection(demandesIds);
-
-    if (!demandes) {
-        return <div>Loading...</div>
-    }
     const handlePageChange = useCallback(
         (event, value) => {
             setPage(value);
@@ -60,6 +51,17 @@ function PrestatairesWaitingForApprovalPage({ demandes }) {
         },
         []
     );
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const lesDemandes = useDemandes(page, rowsPerPage);
+    const demandesIds = useDemandeIds(lesDemandes);
+    const demandesSelection = useSelection(demandesIds);
+
+    if (!demandes) {
+        return <div>Loading...</div>
+    }
+
 
 
     return (
