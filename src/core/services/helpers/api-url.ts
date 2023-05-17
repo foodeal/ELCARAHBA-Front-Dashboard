@@ -57,6 +57,8 @@ export enum ApiUrlsEnum {
   AddCoupon = '/coupons/add',
   GetCoupon = '/coupons/',
   GetAllCoupons = '/coupons/',
+  getAllCouponsValide = 'coupons/',
+  getAllCouponsExpired = 'coupons/',
   DeleteCoupon = '/coupons/',
   UpdateCoupon = '/coupons/',
 

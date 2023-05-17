@@ -17,7 +17,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 
-export const CouponsTable = (props) => {
+export const CouponExpiredTable = (props) => {
   const {
     count = 0,
     items = [],

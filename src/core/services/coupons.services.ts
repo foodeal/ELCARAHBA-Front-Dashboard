@@ -1,35 +1,59 @@
-import { apiUrlMatcher, ApiUrlsEnum, post, get } from './helpers';
-import { HttpParamsType } from '../models';
-import { LoginDTO } from '../generated/LoginDto';
-import { UserDTO } from '../generated/UserDto';
-import { UserDetails } from '../models/user/user-details';
-import { SignupDTO } from '@core/generated/SignupDTO';
+import axios from 'axios';
+import { apiUrl } from './helpers/api-url';
+import { ApiUrlsEnum } from './helpers/api-url';
+import { GarageDTO } from "../generated/GarageDTO";
+import { GarageData } from "../models/garage/garage";
 
-export async function authenticate(params: HttpParamsType<LoginDTO>): Promise<UserDetails> {
-  console.log("Params", params);
-  const user = await post<UserDTO>(apiUrlMatcher(ApiUrlsEnum.Authenticate), params);
-
-  return UserDetails.mapToApiValue(user);
+async function getAllCouponsValide(): Promise<GarageDTO[]> {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    try {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
+        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.getAllCouponsValide}/`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data.map((userData: any) => GarageData.mapToApiValue(userData));
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        return [];
+    }
 }
 
-export async function register(params: HttpParamsType<SignupDTO>): Promise<UserDetails> {
-  console.log("Params", params);
-  const user = await post<UserDTO>(apiUrlMatcher(ApiUrlsEnum.Register), params);
-
-  return UserDetails.mapToApiValue(user);
+async function getAllCouponsExpired(): Promise<GarageDTO[]> {
+  const headers = new Headers();
+  headers.append('Accept', 'application/json');
+  try {
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
+      const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.getAllCouponsExpired}/`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      return res.data.map((userData: any) => GarageData.mapToApiValue(userData));
+  } catch (error) {
+      console.error('Error fetching users:', error);
+      return [];
+  }
 }
 
-export async function checkToken(): Promise<UserDetails> {
-  const user = await get<UserDTO>(apiUrlMatcher(ApiUrlsEnum.CheckToken));
-
-  // const user: UserDTO = {
-  //   token:
-  //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-  //   id: 1,
-  //   email: 'mail@gmail.com',
-  //   firstName: 'ahmed',
-  //   lastName: 'chebil',
-  // };
-
-  return UserDetails.mapToApiValue(user);
+async function getGarageDetails(id: number): Promise<GarageDTO | null> {
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    try {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
+        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.GetGarage}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return GarageData.mapToApiValue(res.data);
+    } catch (error) {
+        console.error('Error fetching garage:', error);
+        return null;
+    }
 }
+
+
+export default { getAllGarages, getGarageDetails }
