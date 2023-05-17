@@ -20,7 +20,25 @@ export const items = [
   },
   {
     title: 'Users',
-    path: '/users',
+    path: '/users/users',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Prestataires',
+    path: '/users/prestataires',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Experts',
+    path: '/users/experts',
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
