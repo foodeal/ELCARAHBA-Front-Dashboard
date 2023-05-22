@@ -1,44 +1,62 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { apiUrl } from './helpers/api-url';
 import { ApiUrlsEnum } from './helpers/api-url';
 
 import { CarnetData } from '../models/carnet/carnet';
 import { CarnetDTO } from '../generated/CarnetDTO';
+import CarnetDetails from 'src/pages/carnets/[id]';
+import RequestPerformer from './helpers/request_performer';
 
 // Get all carnets
 async function getAllCarnets(): Promise<CarnetDTO[]> {
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
-    try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
-        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.GetAllCarnets}/`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return res.data.map((userData: any) => CarnetData.mapToApiValue(userData));
-    } catch (error) {
+    const onSuccess = (response: AxiosResponse) => {
+        return response.data.map((userData: any) => CarnetData.mapToApiValue(userData));
+    };
+
+    const onFailure = (error: any) => {
         console.error('Error fetching users:', error);
         return [];
+    };
+
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllCarnets}/`, onSuccess, onFailure);
+    requestPerformer.performRequest();
+
+    return new Promise<CarnetDTO[]>((resolve, reject) => {
+        requestPerformer.onSuccess = (response: AxiosResponse) => {
+            resolve(response.data);
+        };
+
+        requestPerformer.onFailure = (error: any) => {
+            reject(error);
+        };
     }
+    );
 
 }
 
 async function getCarnet(id: number): Promise<CarnetDTO> {
-    const headers = { Accept: 'application/json' };
-    try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODM1NTA0MTYsImV4cCI6MTY4NDE1NTIxNn0.nqmEB8lwxzIq19NVWIta3JXgS-q1RB7zBSdU6dUPhQw";
-        const res = await axios.get(`${apiUrl}/${ApiUrlsEnum.GetCarnet}/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                ...headers,
-            },
-        });
-        return CarnetData.mapToApiValue(res.data);
-    } catch (error) {
-        console.error('Error fetching carnet:', error);
-        return null;
+    const onSuccess = (response: AxiosResponse) => {
+        return CarnetData.mapToApiValue(response.data);
+    };
+
+    const onFailure = (error: any) => {
+        console.error('Error fetching users:', error);
+        return [];
+    };
+
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetCarnet}/${id}`, onSuccess, onFailure);
+    requestPerformer.performRequest();
+
+    return new Promise<CarnetDTO>((resolve, reject) => {
+        requestPerformer.onSuccess = (response: AxiosResponse) => {
+            resolve(response.data);
+        };
+
+        requestPerformer.onFailure = (error: any) => {
+            reject(error);
+        };
     }
+    );
 }
 
 
