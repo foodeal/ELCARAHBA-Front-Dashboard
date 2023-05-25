@@ -8,7 +8,6 @@ import { ExpertDTO } from '../generated/ExpertDTO';
 import { ExpertData } from '../models/expert/expert';
 import { UserDTO } from '../generated/UserDto';
 import RequestPerformer from './helpers/request_performer';
-// handleResponse
 
 
 async function getAllUsers(): Promise<UserDetails[]> {
@@ -35,7 +34,6 @@ async function getAllUsers(): Promise<UserDetails[]> {
         };
     });
 }
-
 
 async function getAllPrestataires(): Promise<PrestataireDTO[]> {
     const onSuccess = (response: AxiosResponse) => {
@@ -176,9 +174,19 @@ async function getDemande(id: number): Promise<ExpertDTO> {
     );
 }
 
-// Add user
-async function addUser(user: UserDetails): Promise<UserDetails> {
+async function addUser(
+    nom_utilisateur: string,
+    prenom_utilisateur: string,
+    date_naissance: string,
+    email: string,
+    tel_utilisateur: string,
+    pays_user: string,
+    ville_user: string,
+    adresse_user: string,
+    motdepasse: string,
+): Promise<UserDetails> {
     const onSuccess = (response: AxiosResponse) => {
+        console.log('User added successfully:', response.data);
         return UserDetails.mapToApiValue(response.data);
     };
 
@@ -187,8 +195,18 @@ async function addUser(user: UserDetails): Promise<UserDetails> {
         return null;
     };
 
-    const requestPerformer = new RequestPerformer('post', `${apiUrl}/${ApiUrlsEnum.Register}`, onSuccess, onFailure);
-    requestPerformer.setData(user);
+    const requestPerformer = new RequestPerformer('post', `${apiUrl}${ApiUrlsEnum.Register}`, onSuccess, onFailure);
+    requestPerformer.setData({
+        nom_utilisateur,
+        prenom_utilisateur,
+        date_naissance,
+        email,
+        tel_utilisateur,
+        pays_user,
+        ville_user,
+        adresse_user,
+        motdepasse,
+    });
 
     return new Promise<UserDetails>((resolve, reject) => {
         requestPerformer.performRequest();
@@ -205,4 +223,4 @@ async function addUser(user: UserDetails): Promise<UserDetails> {
 
 
 
-export default { getAllUsers, getAllPrestataires, getAllExpert, getUser, GetPrestataire, getExpert, getAllDemandes, getDemande };
+export default { getAllUsers, getAllPrestataires, getAllExpert, getUser, GetPrestataire, getExpert, getAllDemandes, getDemande, addUser };

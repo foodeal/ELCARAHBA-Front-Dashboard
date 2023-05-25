@@ -103,7 +103,7 @@ export const CustomersTable = (props) => {
                         spacing={2}
                       >
                         <Avatar src={user.avatar}>
-                          {getInitials(user.nom_utilisateur + user.prenom_utilisateur)}
+                          {/* {getInitials(user.nom_utilisateur + user.prenom_utilisateur)} */}
                         </Avatar>
                         <Typography variant="subtitle2">
                           {user.name}
