@@ -11,7 +11,6 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../../core/services/userServices.service';
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { apiUrl, ApiUrlsEnum } from 'src/core/services/helpers';
 function UsersPage({ users }) {
 
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -72,28 +71,32 @@ function UsersPage({ users }) {
   const [adresse, setAdresse] = useState('');
   const [motdepasse, setMotdepasse] = useState('');
 
+  const user = {
+    "nom_prenom": nomUtilisateur + prenomUtilisateur,
+    "date_naissance": dateNaissance,
+    "email": email,
+    "tel_utilisateur": telephone,
+    "pays_user": pays,
+    "ville_user": ville,
+    "adresse_user": adresse,
+    "motdepasse": motdepasse
+  };
+
   const submitForm = (event) => {
     event.preventDefault();
     // 👇 Send a fetch request to Backend API.
     fetch("http://localhost:4000/users/register", {
-      method: "POST",
-      body: JSON.stringify({
-        "nom_prenom": nomUtilisateur,
-        "date_naissance": dateNaissance,
-        "email": email,
-        "tel_utilisateur": telephone,
-        "pays_user": pays,
-        "ville_user": ville,
-        "adresse_user": adresse,
-        "motdepasse": motdepasse
-      }),
+      method: 'POST',
       headers: {
-        "content-type": "application/json",
+        'Content-Type': 'application/json'
       },
-    }).catch((e) => console.log(e)).then((message) => console.log(message));
+      body: JSON.stringify(user)
+    });
 
+    // Reset the form state
     setNomUtilisateur('');
-    setDateNaissance('');
+    setPrenomUtilisateur('');
+    setDateNaissance('1992-02-17');
     setEmail('');
     setTelephone('');
     setPays('Tunis');

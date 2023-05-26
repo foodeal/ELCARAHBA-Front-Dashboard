@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import userServicesService from 'src/core/services/userServices.service';
+import { apiUrl, ApiUrlsEnum } from 'src/core/services/helpers';
 const states = [
     {
         value: 'Ariana',
@@ -158,29 +159,38 @@ function UserDetails() {
 
 function UserDetailsForm({ user }) {
 
-    const [values, setValues] = useState({
-        nom_utilisateur: '',
-        prenom_utilisateur: '',
-        date_naissance: '',
-        email: '',
-        tel_utilisateur: '',
-        role: '',
-        pays_user: '',
-        ville_user: '',
-        adresse_user: '',
-    });
+    const [nom_prenom, setNomPrenom] = useState(user.nom_utilisateur + " " + user.prenom_utilisateur);
+    const [date_naissance, setDateNaissance] = useState(user.date_naissance);
+    const [email, setEmail] = useState(user.email);
+    const [tel_utilisateur, setTelUtilisateur] = useState(user.tel_utilisateur);
+    const [ville_user, setVilleUser] = useState(user.ville_user);
+    const [adresse_user, setAdresseUser] = useState(user.adresse_user);
 
-    const handleChange = (event) => {
-        setValues({
-            ...values,
-            [event.target.name]: event.target.value
-        });
+    const updateUser = {
+        "nom_prenom": nom_prenom,
+        "date_naissance": date_naissance,
+        "email": email,
+        "tel_utilisateur": tel_utilisateur,
+        "pays_user": user.pays_user,
+        "ville_user": ville_user,
+        "adresse_user": adresse_user,
+        "motdepasse": user.motdepasse
     };
 
-    const handleSubmit = useCallback((event) => {
+    const handleSubmit = (event) => {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODQ2OTEyOTQsImV4cCI6MTY4NTI5NjA5NH0.hjZEv7-KdEpN2QTC8uYH0xpcJvcF1mCy-ssZfOqL3lE";
         event.preventDefault();
-        console.log(values);
-    }, [values]);
+        console.log(updateUser);
+        // 👇 Send a fetch request to Backend API to update the user.
+        fetch(apiUrl + "/users/" + user.id, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updateUser),
+        }).then((message) => console.log(message)).catch((error) => console.log(error));
+    };
 
     return <form
         autoComplete="off"
@@ -205,10 +215,10 @@ function UserDetailsForm({ user }) {
                                 fullWidth
                                 helperText="Entrer le nom de l'utilisateur"
                                 label="Nom"
-                                name="nom_utilisateur"
-                                onChange={handleChange}
+                                name="nom_prenom"
+                                onChange={(event) => setNomPrenom(event.target.value)}
                                 required
-                                value={user.nom_utilisateur} />
+                                value={nom_prenom} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -216,11 +226,11 @@ function UserDetailsForm({ user }) {
                         >
                             <TextField
                                 fullWidth
-                                label="Prenom"
-                                name="prenom_utilisateur"
-                                onChange={handleChange}
+                                label="Date de naissance"
+                                name="date_naissance"
+                                onChange={(event) => setDateNaissance(event.target.value)}
                                 required
-                                value={user.prenom_utilisateur} />
+                                value={date_naissance} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -230,9 +240,9 @@ function UserDetailsForm({ user }) {
                                 fullWidth
                                 label="Email"
                                 name="email"
-                                onChange={handleChange}
+                                onChange={(event) => setEmail(event.target.value)}
                                 required
-                                value={user.email} />
+                                value={email} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -242,9 +252,9 @@ function UserDetailsForm({ user }) {
                                 fullWidth
                                 label="Numéro de téléphone"
                                 name="tel_utilisateur"
-                                onChange={handleChange}
+                                onChange={(event) => setTelUtilisateur(event.target.value)}
                                 type="number"
-                                value={user.tel_utilisateur} />
+                                value={tel_utilisateur} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -254,9 +264,9 @@ function UserDetailsForm({ user }) {
                                 fullWidth
                                 label="Adresse"
                                 name="adresse_user"
-                                onChange={handleChange}
+                                onChange={(event) => setAdresseUser(event.target.value)}
                                 required
-                                value={user.adresse_user} />
+                                value={adresse_user} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -266,11 +276,11 @@ function UserDetailsForm({ user }) {
                                 fullWidth
                                 label="Select State"
                                 name="ville_user"
-                                onChange={handleChange}
+                                onChange={(event) => setVilleUser(event.target.value)}
                                 required
                                 select
                                 SelectProps={{ native: true }}
-                                value={user.ville_user}
+                                value={ville_user}
                             >
                                 {states.map((option) => (
                                     <option
@@ -287,7 +297,7 @@ function UserDetailsForm({ user }) {
             </CardContent>
             <Divider />
             <CardActions sx={{ justifyContent: 'flex-end' }}>
-                <Button variant="contained">
+                <Button variant="contained" type='submit'>
                     Enregistrer
                 </Button>
             </CardActions>
