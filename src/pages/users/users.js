@@ -84,7 +84,6 @@ function UsersPage({ users }) {
 
   const submitForm = (event) => {
     event.preventDefault();
-    // 👇 Send a fetch request to Backend API.
     fetch("http://localhost:4000/users/register", {
       method: 'POST',
       headers: {

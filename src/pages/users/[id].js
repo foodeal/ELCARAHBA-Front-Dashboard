@@ -181,7 +181,6 @@ function UserDetailsForm({ user }) {
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODQ2OTEyOTQsImV4cCI6MTY4NTI5NjA5NH0.hjZEv7-KdEpN2QTC8uYH0xpcJvcF1mCy-ssZfOqL3lE";
         event.preventDefault();
         console.log(updateUser);
-        // 👇 Send a fetch request to Backend API to update the user.
         fetch(apiUrl + "/users/" + user.id, {
             method: "PUT",
             headers: {

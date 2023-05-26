@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Avatar,
   Box,
@@ -15,7 +17,10 @@ import {
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
-import { getInitials } from 'src/utils/get-initials';
+import { useState } from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { apiUrl } from 'src/core/services/helpers';
+
 
 export const CustomersTable = (props) => {
   const {
@@ -34,6 +39,37 @@ export const CustomersTable = (props) => {
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
+
+  const [isChecked, setIsChecked] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState(null);
+
+
+  const handleCheckboxChange = (event) => {
+    const itemId = event.target.value;
+    setSelectedItemId(itemId);
+    setIsChecked(itemId);
+  };
+
+  const handleDeleteIconClick = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleConfirmDelete = (userId) => {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODQ2OTEyOTQsImV4cCI6MTY4NTI5NjA5NH0.hjZEv7-KdEpN2QTC8uYH0xpcJvcF1mCy-ssZfOqL3lE";
+    fetch(apiUrl + "/users/" + userId, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+    }).then((message) => console.log(message)).catch((error) => console.log(error));
+    setIsDialogOpen(false);
+  };
 
   return (
     <Card>
@@ -77,25 +113,40 @@ export const CustomersTable = (props) => {
             </TableHead>
             <TableBody>
               {items.map((user) => {
-                const isSelected = selected.includes(user.id);
+                // const isSelected = selected.includes(user.id);
                 return (
                   <TableRow
                     hover
                     key={user.id}
-                    selected={isSelected}
+                    selected={user.id === selectedItemId}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(user.id);
-                          } else {
-                            onDeselectOne?.(user.id);
-                          }
-                        }}
-                      />
+                    <TableCell>
+                      <div>
+                        <IconButton onClick={() => handleDeleteIconClick(user)} aria-label="delete" color="primary">
+                          <DeleteIcon color="error" />
+                        </IconButton>
+                        {/* <Checkbox
+                          checked={user.id === selectedItemId}
+                          value={user.id}
+                          onChange={handleCheckboxChange}
+                        />
+                        {user.id === selectedItemId && (
+                          <IconButton onClick={() => handleDeleteIconClick(user)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        )} */}
+                        <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+                          <DialogTitle>Confirmation</DialogTitle>
+                          <DialogContent>Êtes-vous sûr de vouloir supprimer ?</DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleDialogClose}>Annuler</Button>
+                            <Button onClick={() => handleConfirmDelete(user.id)} color="error">Supprimer</Button>
+                          </DialogActions>
+                        </Dialog>
+                      </div>
                     </TableCell>
+                    {/* if checkbox is selected add a delete icon to delete the user */}
+
                     <TableCell>
                       <Stack
                         alignItems="center"
