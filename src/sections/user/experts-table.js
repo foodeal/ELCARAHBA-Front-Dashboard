@@ -70,7 +70,7 @@ export const ExpertsTable = (props) => {
                                     Téléphone
                                 </TableCell>
                                 <TableCell>
-                                    Domaine d'expertise
+                                    Domaine
                                 </TableCell>
                                 <TableCell>
                                     Date de création

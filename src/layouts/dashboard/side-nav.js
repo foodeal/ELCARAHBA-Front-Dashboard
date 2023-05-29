@@ -52,7 +52,10 @@ export const SideNav = (props) => {
               width: 32
             }}
           >
-            <Logo />
+            <img src={"/assets/elcarhba.png"} 
+            height='90px'
+            >
+            </img>
           </Box>
           <Box
             sx={{
@@ -71,21 +74,15 @@ export const SideNav = (props) => {
                 color="inherit"
                 variant="subtitle1"
               >
-                Devias
+                ELCARAHBA
               </Typography>
               <Typography
                 color="neutral.400"
                 variant="body2"
               >
-                Production
+                Admin-Dashboard
               </Typography>
             </div>
-            <SvgIcon
-              fontSize="small"
-              sx={{ color: 'neutral.500' }}
-            >
-              <ChevronUpDownIcon />
-            </SvgIcon>
           </Box>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />

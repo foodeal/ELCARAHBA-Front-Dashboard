@@ -51,4 +51,5 @@ async function getGarageDetails(id: number): Promise<GarageDTO | null> {
 }
 
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { getAllGarages, getGarageDetails }

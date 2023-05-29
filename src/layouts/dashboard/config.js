@@ -3,8 +3,10 @@ import CogIcon from '@heroicons/react/24/solid/CogIcon';
 import LockClosedIcon from '@heroicons/react/24/solid/LockClosedIcon';
 import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
+import BookOpenIcon  from "@heroicons/react/24/solid/BookOpenIcon";
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
+import CircleStackIcon from '@heroicons/react/24/solid/CircleStackIcon'; 
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import { SvgIcon } from '@mui/material';
 
@@ -69,6 +71,33 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <CogIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Offres',
+    path: '/offres',
+    icon: (
+      <SvgIcon fontSize="small">
+        <CircleStackIcon  />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Coupon Valides',
+    path: '/coupons_valid',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BookOpenIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Coupon Expired',
+    path: '/coupons_expired',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BookOpenIcon />
       </SvgIcon>
     )
   },

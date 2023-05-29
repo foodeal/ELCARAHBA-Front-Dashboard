@@ -28,7 +28,7 @@ export enum ApiUrlsEnum {
 
   AddOfferDispo = '/offres_dispo/add',
   GetOfferDispo = '/offres_dispo/',
-  GetAllOffersDispo = '/offres_dispo/',
+  GetAllOffersDispo = 'offres_dispo',
   DeleteOfferDispo = '/offres_dispo/',
   UpdateOfferDispo = '/offres_dispo/',
 
@@ -56,9 +56,9 @@ export enum ApiUrlsEnum {
   //Coupon & Coupon Historique
   AddCoupon = '/coupons/add',
   GetCoupon = '/coupons/',
-  GetAllCoupons = '/coupons/',
-  getAllCouponsValide = 'coupons/',
-  getAllCouponsExpired = 'coupons/',
+  GetAllCoupons = 'coupons',
+  GetAllCouponsValid = 'coupons/dispo',
+  getAllCouponsExpired = 'coupons/ndispo',
   DeleteCoupon = '/coupons/',
   UpdateCoupon = '/coupons/',
 

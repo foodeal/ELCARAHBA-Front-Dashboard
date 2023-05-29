@@ -3,6 +3,7 @@ import { OffreFullData } from './../models/offre/offreFull';
 import axios from 'axios';
 import { apiUrl } from './helpers/api-url';
 import { ApiUrlsEnum } from './helpers/api-url';
+import RequestPerformer from './helpers/request_performer';
 
 async function getAllOffres(): Promise<OffreFullDTO[]> {
   const onSuccess = (response: AxiosResponse) => {
@@ -14,7 +15,7 @@ async function getAllOffres(): Promise<OffreFullDTO[]> {
       return [];
   };
 
-  const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllOffres}/`, onSuccess, onFailure);
+  const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllOffersDispo}/`, onSuccess, onFailure);
   requestPerformer.performRequest();
 
   return new Promise<OffreFullDTO[]>((resolve, reject) => {

@@ -31,6 +31,7 @@ export const OffersTable = (props) => {
     rowsPerPage = 0,
     selected = []
   } = props;
+  console.log(items);
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
@@ -42,7 +43,7 @@ export const OffersTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
@@ -54,7 +55,7 @@ export const OffersTable = (props) => {
                       }
                     }}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   Titre
                 </TableCell>
@@ -70,56 +71,58 @@ export const OffersTable = (props) => {
                 <TableCell>
                   Prix
                 </TableCell>
+                <TableCell>
+                  Date
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {items.map((offre) => {
-                const isSelected = selected.includes(offre.id);
-                const createdAt = format(offre.createdAt, 'dd/MM/yyyy');
+                const isSelected = selected.includes(offre.offre.id);
 
                 return (
                   <TableRow
                     hover
-                    key={offre.id}
+                    key={offre.offre.id}
                     selected={isSelected}
                   >
-                    <TableCell padding="checkbox">
+                    {/* <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(offre.id);
+                            onSelectOne?.(offre.offre.id);
                           } else {
-                            onDeselectOne?.(offre.id);
+                            onDeselectOne?.(offre.offre.id);
                           }
                         }}
                       />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Stack
                         alignItems="center"
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={offre.avatar}>
-                          {getInitials(offre.name)}
-                        </Avatar>
                         <Typography variant="subtitle2">
-                          {offre.titre_offre}
+                          {offre.offre.titre_offre}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {offre.quantite}
+                      {offre.offre.quantite}
                     </TableCell>
                     <TableCell>
-                      {offre.statut}
+                      {offre.offre.statut}
                     </TableCell>
                     <TableCell>
-                      {offre.categorie}
+                      {offre.offre.categorie}
                     </TableCell>
                     <TableCell>
-                      {offre.prix_remise}
+                      {offre.offre.prix_remise} DT
+                    </TableCell>
+                    <TableCell>
+                      {offre.date_fin} 
                     </TableCell>
                   </TableRow>
                 );

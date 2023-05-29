@@ -17,7 +17,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Overview | Elcarhba
+        Overview | ELCARAHBA
       </title>
     </Head>
     <Box
@@ -105,7 +105,7 @@ const Page = () => (
               sx={{ height: '100%' }}
             />
           </Grid>
-          <Grid
+          {/* <Grid
             xs={12}
             md={6}
             lg={4}
@@ -216,7 +216,7 @@ const Page = () => (
               ]}
               sx={{ height: '100%' }}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Box>

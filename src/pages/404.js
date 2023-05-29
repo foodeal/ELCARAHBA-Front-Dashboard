@@ -7,7 +7,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        404 | Devias Kit
+        404 | ELCARAHBA
       </title>
     </Head>
     <Box
@@ -60,6 +60,7 @@ const Page = () => (
           </Typography>
           <Button
             component={NextLink}
+            color = "primary"
             href="/"
             startIcon={(
               <SvgIcon fontSize="small">

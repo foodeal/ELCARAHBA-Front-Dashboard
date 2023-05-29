@@ -37,12 +37,12 @@ export const CouponExpiredTable = (props) => {
 
   return (
     <Card>
-      <Scrollbar>
+    <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
@@ -54,18 +54,18 @@ export const CouponExpiredTable = (props) => {
                       }
                     }}
                   />
+                </TableCell> */}
+                <TableCell>
+                  Utlisateur
                 </TableCell>
                 <TableCell>
-                  Titre
+                  Date creation
                 </TableCell>
                 <TableCell>
-                  Pourcentage
+                  Date expiration
                 </TableCell>
                 <TableCell>
-                  Condition
-                </TableCell>
-                <TableCell>
-                  Prix
+                  Offre
                 </TableCell>
                 <TableCell>
                   Prestataire
@@ -75,7 +75,7 @@ export const CouponExpiredTable = (props) => {
             <TableBody>
               {items.map((coupon) => {
                 const isSelected = selected.includes(coupon.id);
-                const createdAt = format(coupon.createdAt, 'dd/MM/yyyy');
+                // const createdAt = format(coupon.createdAt, 'dd/MM/yyyy');
 
                 return (
                   <TableRow
@@ -83,7 +83,7 @@ export const CouponExpiredTable = (props) => {
                     key={coupon.id}
                     selected={isSelected}
                   >
-                    <TableCell padding="checkbox">
+                    {/* <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
@@ -94,32 +94,29 @@ export const CouponExpiredTable = (props) => {
                           }
                         }}
                       />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Stack
                         alignItems="center"
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={coupon.avatar}>
-                          {getInitials(coupon.name)}
-                        </Avatar>
                         <Typography variant="subtitle2">
-                          {coupon.titre_coupon}
+                          {coupon.user.nom_utilisateur + " " + coupon.user.prenom_utilisateur}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {coupon.pourcentage_coupon}
+                      {coupon.date_creation_coupon}
                     </TableCell>
                     <TableCell>
-                      {coupon.condition_coupon}
+                      {coupon.date_valide_coupon}
                     </TableCell>
                     <TableCell>
-                      {coupon.prix_final}
+                      {coupon.offre.titre_offre}
                     </TableCell>
                     <TableCell>
-                      {coupon.prestataire_id}
+                      {coupon.prestataire.nom_prestataire}
                     </TableCell>
                   </TableRow>
                 );
@@ -141,7 +138,7 @@ export const CouponExpiredTable = (props) => {
   );
 };
 
-CouponsExpiredTable.propTypes = {
+CouponExpiredTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

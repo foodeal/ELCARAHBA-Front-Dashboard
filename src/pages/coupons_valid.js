@@ -7,35 +7,37 @@ import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/materia
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { applyPagination } from 'src/utils/apply-pagination';
-import couponsServices from '../core/services/couponsServices.service';
 import { CouponValidSearch } from 'src/sections/coupons/couponValid-search';
 import { CouponValidTable } from 'src/sections/coupons/couponValid-table';
+import  couponService  from '../core/services/couponServices.services';
 
 function CouponValidPage({ couponValid }) {
 
-    const useCustomers = (page, rowsPerPage) => {
+    console.log(couponValid);
+
+    const useCoupons = (page, rowsPerPage) => {
         return useMemo(
             () => {
-                return applyPagination(CouponValid, page, rowsPerPage);
+                return applyPagination(couponValid, page, rowsPerPage);
             },
             [page, rowsPerPage]
         );
     };
 
-    const useCustomerIds = (customers) => {
+    const useCouponIds = (couponValid) => {
         return useMemo(
             () => {
-                return customers.map((customer) => customer.id);
+                return couponValid.map((couponValid) => couponValid.id);
             },
-            [customers]
+            [couponValid]
         );
     };
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const customers = useCustomers(page, rowsPerPage);
-    const customersIds = useCustomerIds(customers);
-    const customersSelection = useSelection(customersIds);
+    const coupons = useCoupons(page, rowsPerPage);
+    const couponsIds = useCouponIds(couponValid);
+    const couponsSelection = useSelection(couponsIds);
     
     const handlePageChange = useCallback(
         (event, value) => {
@@ -51,7 +53,7 @@ function CouponValidPage({ couponValid }) {
         []
     );
 
-    if (!CouponValid) {
+    if (!couponValid) {
         return <div>Loading...</div>;
     }
 
@@ -74,9 +76,9 @@ function CouponValidPage({ couponValid }) {
                         >
                             <Stack spacing={1}>
                                 <Typography variant="h4">
-                                    Les CouponValid {couponValid.length}
+                                    Les Coupons valides : {couponValid.length}
                                 </Typography>
-                                <Stack
+                                {/* <Stack
                                     alignItems="center"
                                     direction="row"
                                     spacing={1}
@@ -101,10 +103,10 @@ function CouponValidPage({ couponValid }) {
                                     >
                                         Exporter
                                     </Button>
-                                </Stack>
+                                </Stack> */}
                             </Stack>
                             <div>
-                                <Button
+                                {/* <Button
                                     startIcon={(
                                         <SvgIcon fontSize="small">
                                             <PlusIcon />
@@ -113,22 +115,22 @@ function CouponValidPage({ couponValid }) {
                                     variant="contained"
                                 >
                                     Ajouter
-                                </Button>
+                                </Button> */}
                             </div>
                         </Stack>
                         <CouponValidSearch />
                         <CouponValidTable
                             count={couponValid.length}
                             items={couponValid}
-                            onDeselectAll={customersSelection.handleDeselectAll}
-                            onDeselectOne={customersSelection.handleDeselectOne}
+                            onDeselectAll={couponsSelection.handleDeselectAll}
+                            onDeselectOne={couponsSelection.handleDeselectOne}
                             onPageChange={handlePageChange}
                             onRowsPerPageChange={handleRowsPerPageChange}
-                            onSelectAll={customersSelection.handleSelectAll}
-                            onSelectOne={customersSelection.handleSelectOne}
+                            onSelectAll={couponsSelection.handleSelectAll}
+                            onSelectOne={couponsSelection.handleSelectOne}
                             page={page}
                             rowsPerPage={rowsPerPage}
-                            selected={customersSelection.selected}
+                            selected={couponsSelection.selected}
                         />
                     </Stack>
                 </Container>
@@ -139,7 +141,7 @@ function CouponValidPage({ couponValid }) {
 
 export async function getStaticProps() {
     try {
-        const couponValid = await couponsServices.getAllcouponsValid();
+        const couponValid = await couponService.getAllCouponsValide();
         return {
             props: {
                 couponValid

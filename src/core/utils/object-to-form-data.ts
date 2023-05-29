@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const isUndefined = (value: any) => value === undefined;
 
 const isNull = (value: any) => value === null;
