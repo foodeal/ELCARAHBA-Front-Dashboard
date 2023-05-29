@@ -1,16 +1,12 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { apiUrl } from './helpers/api-url';
 import { ApiUrlsEnum } from './helpers/api-url';
+import { CouponDTO } from "../generated/CouponDTO";
+import { CouponData } from "../models/coupon/coupon";
 
-import { CarnetData } from '../models/carnet/carnet';
-import { CarnetDTO } from '../generated/CarnetDTO';
-import CarnetDetails from 'src/pages/carnets/[id]';
-import RequestPerformer from './helpers/request_performer';
-
-// Get all carnets
-async function getAllCarnets(): Promise<CarnetDTO[]> {
+async function getAllCoupons(): Promise<CouponDTO[]> {
     const onSuccess = (response: AxiosResponse) => {
-        return response.data.map((userData: any) => CarnetData.mapToApiValue(userData));
+        return response.data.map((couponData: any) => CouponData.mapToApiValue(couponData));
     };
 
     const onFailure = (error: any) => {
@@ -18,10 +14,10 @@ async function getAllCarnets(): Promise<CarnetDTO[]> {
         return [];
     };
 
-    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllCarnets}/`, onSuccess, onFailure);
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllCoupons}/`, onSuccess, onFailure);
     requestPerformer.performRequest();
 
-    return new Promise<CarnetDTO[]>((resolve, reject) => {
+    return new Promise<CouponDTO[]>((resolve, reject) => {
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -34,9 +30,9 @@ async function getAllCarnets(): Promise<CarnetDTO[]> {
 
 }
 
-async function getCarnet(id: number): Promise<CarnetDTO> {
+async function getCoupon(id: number): Promise<CouponDTO> {
     const onSuccess = (response: AxiosResponse) => {
-        return CarnetData.mapToApiValue(response.data);
+        return CouponData.mapToApiValue(response.data);
     };
 
     const onFailure = (error: any) => {
@@ -44,10 +40,10 @@ async function getCarnet(id: number): Promise<CarnetDTO> {
         return [];
     };
 
-    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetCarnet}/${id}`, onSuccess, onFailure);
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetCoupon}/${id}`, onSuccess, onFailure);
     requestPerformer.performRequest();
 
-    return new Promise<CarnetDTO>((resolve, reject) => {
+    return new Promise<CouponDTO>((resolve, reject) => {
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -61,4 +57,5 @@ async function getCarnet(id: number): Promise<CarnetDTO> {
 
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAllCarnets, getCarnet }
+export default { getAllCoupons, getCoupon }
+

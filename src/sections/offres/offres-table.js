@@ -56,31 +56,31 @@ export const OffersTable = (props) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Name
+                  Titre
                 </TableCell>
                 <TableCell>
-                  Email
+                  Quantite
                 </TableCell>
                 <TableCell>
-                  Location
+                  Statut
                 </TableCell>
                 <TableCell>
-                  Phone
+                  Categorie
                 </TableCell>
                 <TableCell>
-                  Signed Up
+                  Prix
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
-                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
+              {items.map((offre) => {
+                const isSelected = selected.includes(offre.id);
+                const createdAt = format(offre.createdAt, 'dd/MM/yyyy');
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={offre.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
@@ -88,9 +88,9 @@ export const OffersTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(offre.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(offre.id);
                           }
                         }}
                       />
@@ -101,25 +101,25 @@ export const OffersTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
+                        <Avatar src={offre.avatar}>
+                          {getInitials(offre.name)}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {customer.name}
+                          {offre.titre_offre}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.email}
+                      {offre.quantite}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {offre.statut}
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
+                      {offre.categorie}
                     </TableCell>
                     <TableCell>
-                      {createdAt}
+                      {offre.prix_remise}
                     </TableCell>
                   </TableRow>
                 );

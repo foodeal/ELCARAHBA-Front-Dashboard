@@ -8,11 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-<<<<<<< Updated upstream
-        Settings | Elcarhba
-=======
-        Settings
->>>>>>> Stashed changes
+        Settings | ELCARAHBA
       </title>
     </Head>
     <Box
