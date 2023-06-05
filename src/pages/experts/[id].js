@@ -268,7 +268,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
     const { id } = params;
     try {
-        expert = await userServicesService.getExpert(id);
+        var expert = await userServicesService.getExpert(id);
         return {
             props: {
                 expert: expert,

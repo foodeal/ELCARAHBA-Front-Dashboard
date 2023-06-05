@@ -173,35 +173,35 @@ function PrestataireDetailsForm({ prestataire }) {
     </form>;
 }
 
-export async function getStaticPaths() {
-    const demandes = await userServicesService.getAllDemandes();
+// export async function getStaticPaths() {
+//     const demandes = await userServicesService.getAllDemandes();
 
-    const paths = demandes.map((demande) => ({
-        params: { id: demande.id.toString() },
-    }));
+//     const paths = demandes.map((demande) => ({
+//         params: { id: demande.id.toString() },
+//     }));
 
-    console.log(paths);
-    return { paths, fallback: false };
-}
+//     console.log(paths);
+//     return { paths, fallback: false };
+// }
 
-export async function getStaticProps({ params }) {
-    const { id } = params;
-    try {
-        demande = await userServicesService.getDemande(id);
-        return {
-            props: {
-                demande: demande,
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching user details:', error);
-        return {
-            props: {
-                demande: null,
-            },
-        };
-    }
-}
+// export async function getStaticProps({ params }) {
+//     const { id } = params;
+//     try {
+//         demande = await userServicesService.getDemande(id);
+//         return {
+//             props: {
+//                 demande: demande,
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching user details:', error);
+//         return {
+//             props: {
+//                 demande: null,
+//             },
+//         };
+//     }
+// }
 
 
 DemandeDetails.getLayout = (page) => (

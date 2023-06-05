@@ -20,7 +20,7 @@ import { CarnetsTable } from 'src/sections/carnets/carnet-table';
 import { CarnetsSearch } from 'src/sections/carnets/carnets-search';
 import carnetServicesService from 'src/core/services/carnetServices.service';
 function CarnetsPage({ carnets }) {
-  const useCustomers = (page, rowsPerPage) => {
+  const useCarnetUsers = (page, rowsPerPage) => {
     return useMemo(
       () => {
         return applyPagination(carnets, page, rowsPerPage);
@@ -29,20 +29,20 @@ function CarnetsPage({ carnets }) {
     );
   };
 
-  const useCustomerIds = (customers) => {
+  const useCarnetUserIds = (carnetUsers) => {
     return useMemo(
       () => {
-        return customers.map((customer) => customer.id);
+        return carnetUsers.map((carnetUser) => carnetUser.id);
       },
-      [customers]
+      [carnetUsers]
     );
   };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+  const carnetUsers = useCarnetUsers(page, rowsPerPage);
+  const carnetUsersIds = useCarnetUserIds(carnetUsers);
+  const carnetUsersSelection = useSelection(carnetUsersIds);
   
   const handlePageChange = useCallback(
     (event, value) => {
@@ -131,15 +131,15 @@ function CarnetsPage({ carnets }) {
             <CarnetsTable
               count={carnets.length}
               items={carnets}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              onDeselectAll={carnetUsersSelection.handleDeselectAll}
+              onDeselectOne={carnetUsersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={carnetUsersSelection.handleSelectAll}
+              onSelectOne={carnetUsersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={carnetUsersSelection.selected}
             />
             <Box
               sx={{

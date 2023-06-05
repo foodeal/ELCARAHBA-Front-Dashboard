@@ -139,7 +139,7 @@ function PrestatairesPage({ prestataires }) {
 
 export async function getStaticProps() {
   try {
-    const prestataires = await userServices.getAllPrestataires();
+    var prestataires = await userServices.getAllPrestataires();
     return {
       props: {
         prestataires

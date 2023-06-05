@@ -309,17 +309,17 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
     const { id } = params;
     try {
-        user = await userServicesService.GetPrestataire(id);
+        var prestataire = await userServicesService.GetPrestataire(id);
         return {
             props: {
-                user: user,
+                prestataire: prestataire,
             },
         };
     } catch (error) {
-        console.error('Error fetching user details:', error);
+        console.error('Error fetching prestataire details:', error);
         return {
             props: {
-                user: null,
+                prestataire: null,
             },
         };
     }

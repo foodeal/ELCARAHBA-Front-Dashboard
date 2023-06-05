@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-props-per-line */
 import { useCallback, useMemo, useState } from 'react';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
@@ -11,7 +12,7 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../../core/services/userServices.service';
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-function UsersPage({ users }) {
+function UsersPage({ clients }) {
 
   const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -23,29 +24,29 @@ function UsersPage({ users }) {
     setOpenDialog(false);
   };
 
-  const useCustomers = (page, rowsPerPage) => {
+  const useUsers = (page, rowsPerPage) => {
     return useMemo(
       () => {
-        return applyPagination(users, page, rowsPerPage);
+        return applyPagination(clients, page, rowsPerPage);
       },
       [page, rowsPerPage]
     );
   };
 
-  const useCustomerIds = (customers) => {
+  const useUserIds = (clients) => {
     return useMemo(
       () => {
-        return customers.map((customer) => customer.id);
+        return clients.map((client) => client.id);
       },
-      [customers]
+      [clients]
     );
   };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+  const users = useUsers(page, rowsPerPage);
+  const usersIds = useUserIds(users);
+  const usersSelection = useSelection(usersIds);
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -237,17 +238,17 @@ function UsersPage({ users }) {
             </Stack>
             <CustomersSearch />
             <CustomersTable
-              count={users.length}
-              items={users}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              count={clients.length}
+              items={clients}
+              onDeselectAll={usersSelection.handleDeselectAll}
+              onDeselectOne={usersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={usersSelection.handleSelectAll}
+              onSelectOne={usersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={usersSelection.selected}
             />
           </Stack>
         </Container>
@@ -258,17 +259,17 @@ function UsersPage({ users }) {
 
 export async function getStaticProps() {
   try {
-    const users = await userServices.getAllUsers();
+    const clients = await userServices.getAllUsers();
     return {
       props: {
-        users
+        clients
       },
     };
   } catch (error) {
     console.error('Error fetching users:', error);
     return {
       props: {
-        users: []
+        clients: []
       },
     };
   }
