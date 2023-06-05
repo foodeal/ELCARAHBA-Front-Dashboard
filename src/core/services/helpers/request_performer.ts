@@ -21,7 +21,7 @@ class RequestPerformer {
 
   performRequest() {
     const headers = { Accept: 'application/json' };
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODU5MjYwODcsImV4cCI6MTY4NjUzMDg4N30.RUgS2wvhg35nXjrN2dSFB_N_ld1ggOB66XzfplsnLe8";
+    const token = sessionStorage.getItem('token');
 
     axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       if (!config.headers.Authorization) {

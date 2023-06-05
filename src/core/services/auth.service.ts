@@ -19,7 +19,13 @@ export async function authenticate(params: HttpParamsType<LoginDTO>): Promise<Us
 
 export async function login(email: string, motdepasse: string): Promise<LoginInterface> {
   // use request performer
-  const onSuccess = (response: AxiosResponse) => LoginData.mapToApiValue(response.data);
+  const onSuccess = (response: AxiosResponse) => {
+    LoginData.mapToApiValue(response.data);
+    // Storing the token
+    sessionStorage.setItem('token', response.data.token);
+
+  }
+
   const onFailure = (error: any) => {
     console.error('Error fetching users:', error);
     throw new Error('Failed to login');
