@@ -12,7 +12,7 @@ import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
 
 const now = new Date();
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const Page = () => (
   <>
     <Head>
