@@ -33,12 +33,12 @@ function UsersPage({ clients }) {
     );
   };
 
-  const useUserIds = (users) => {
+  const useUserIds = (clients) => {
     return useMemo(
       () => {
-        return users.map((user) => user.id);
+        return clients.map((client) => client.id);
       },
-      [users]
+      [clients]
     );
   };
 
@@ -238,17 +238,17 @@ function UsersPage({ clients }) {
             </Stack>
             <CustomersSearch />
             <CustomersTable
-              count={users.length}
-              items={users}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              count={clients.length}
+              items={clients}
+              onDeselectAll={usersSelection.handleDeselectAll}
+              onDeselectOne={usersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={usersSelection.handleSelectAll}
+              onSelectOne={usersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={usersSelection.selected}
             />
           </Stack>
         </Container>
@@ -259,17 +259,17 @@ function UsersPage({ clients }) {
 
 export async function getStaticProps() {
   try {
-    const users = await userServices.getAllUsers();
+    const clients = await userServices.getAllUsers();
     return {
       props: {
-        users
+        clients
       },
     };
   } catch (error) {
     console.error('Error fetching users:', error);
     return {
       props: {
-        users: []
+        clients: []
       },
     };
   }

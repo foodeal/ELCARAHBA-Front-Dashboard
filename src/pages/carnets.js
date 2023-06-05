@@ -131,15 +131,15 @@ function CarnetsPage({ carnets }) {
             <CarnetsTable
               count={carnets.length}
               items={carnets}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              onDeselectAll={carnetUsersSelection.handleDeselectAll}
+              onDeselectOne={carnetUsersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={carnetUsersSelection.handleSelectAll}
+              onSelectOne={carnetUsersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={carnetUsersSelection.selected}
             />
             <Box
               sx={{
