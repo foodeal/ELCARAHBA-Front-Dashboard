@@ -21,8 +21,13 @@ class RequestPerformer {
 
   performRequest() {
     const headers = { Accept: 'application/json' };
+<<<<<<< Updated upstream
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY4NTM2NzI2OCwiZXhwIjoxNjg1OTcyMDY4fQ.YHdF4UtcVkEF57gmhZrW0Ph5vXJe-LEyMWHCS6IKykE";
 
+=======
+    // const token = sessionStorage.getItem('token');
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImlhdCI6MTY4NTk2MDU5NSwiZXhwIjoxNjg2NTY1Mzk1fQ.t5AAHOX3OedTwttjH7XPbbHICp0kxd3LLPCsG-OIE90";
+>>>>>>> Stashed changes
     axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       if (!config.headers.Authorization) {
         config.headers.Authorization = `Bearer ${token}`;

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-props-per-line */
 import { useCallback, useMemo, useState } from 'react';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
@@ -11,7 +12,7 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../../core/services/userServices.service';
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-function UsersPage({ users }) {
+function UsersPage({ clients }) {
 
   const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -23,29 +24,29 @@ function UsersPage({ users }) {
     setOpenDialog(false);
   };
 
-  const useCustomers = (page, rowsPerPage) => {
+  const useUsers = (page, rowsPerPage) => {
     return useMemo(
       () => {
-        return applyPagination(users, page, rowsPerPage);
+        return applyPagination(clients, page, rowsPerPage);
       },
       [page, rowsPerPage]
     );
   };
 
-  const useCustomerIds = (customers) => {
+  const useUserIds = (users) => {
     return useMemo(
       () => {
-        return customers.map((customer) => customer.id);
+        return users.map((user) => user.id);
       },
-      [customers]
+      [users]
     );
   };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+  const users = useUsers(page, rowsPerPage);
+  const usersIds = useUserIds(users);
+  const usersSelection = useSelection(usersIds);
 
   const handlePageChange = useCallback(
     (event, value) => {
