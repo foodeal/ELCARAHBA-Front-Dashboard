@@ -1,4 +1,5 @@
-export const apiUrl = 'http://localhost:4000';
+// export const apiUrl = 'http://localhost:4000';
+export const apiUrl = 'http://79.137.85.120:4000';
 
 export enum ApiUrlsEnum {
 

@@ -1,11 +1,12 @@
 import { SignupData } from './../models/auth/sign-up-data';
-import { apiUrlMatcher, ApiUrlsEnum, post, get } from './helpers';
+import { apiUrlMatcher, ApiUrlsEnum, post, get, apiUrl } from './helpers';
 import { HttpParamsType } from '../models';
-import { LoginDTO } from '../generated/LoginDto';
+import { LoginDTO, LoginData, LoginInterface } from '../generated/LoginDto';
 import { UserDTO } from '../generated/UserDto';
 import { UserDetails } from '../models/user/user-details';
-import { SignupDTO } from '@core/generated/SignupDTO';
-import user from 'pages/sign-up/user';
+import { SignupDTO } from '../generated/SignupDTO';
+import { AxiosResponse } from 'axios';
+import RequestPerformer from './helpers/request_performer';
 
 
 //User
@@ -14,6 +15,28 @@ export async function authenticate(params: HttpParamsType<LoginDTO>): Promise<Us
   const user = await post<UserDTO>(apiUrlMatcher(ApiUrlsEnum.Authenticate), params);
 
   return UserDetails.mapToApiValue(user);
+}
+
+export async function login(email: string, motdepasse: string): Promise<LoginInterface> {
+  // use request performer
+  const onSuccess = (response: AxiosResponse) => LoginData.mapToApiValue(response.data);
+  const onFailure = (error: any) => {
+    console.error('Error fetching users:', error);
+    throw new Error('Failed to login');
+  }
+
+  const requestPerformer = new RequestPerformer('post', `${apiUrl}${ApiUrlsEnum.Authenticate}`, onSuccess, onFailure);
+  requestPerformer.setData({ email, motdepasse });
+
+  return new Promise<LoginInterface>((resolve, reject) => {
+    requestPerformer.performRequest();
+    requestPerformer.onSuccess = (response: AxiosResponse) => {
+      resolve(response.data);
+    };
+    requestPerformer.onFailure = (error: any) => {
+      reject(error);
+    };
+  });
 }
 
 export async function register(params: HttpParamsType<SignupData>): Promise<SignupData> {

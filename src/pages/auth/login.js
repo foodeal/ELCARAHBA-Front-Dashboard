@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import { login } from 'src/core/services/auth.service';
 
 const Page = () => {
   const router = useRouter();
@@ -25,24 +26,23 @@ const Page = () => {
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
-      password: 'Password123!',
-      submit: null
+      email: '',
+      password: '',
     },
     validationSchema: Yup.object({
       email: Yup
         .string()
-        .email('Must be a valid email')
+        .email('Doit être un email valide')
         .max(255)
-        .required('Email is required'),
+        .required("L'e-mail est requis"),
       password: Yup
         .string()
         .max(255)
-        .required('Password is required')
+        .required('Mot de passe requis')
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values.email, values.password);
+        await login(values.email, values.password);
         router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
@@ -71,7 +71,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Login | Elcarhba
         </title>
       </Head>
       <Box
