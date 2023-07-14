@@ -114,7 +114,7 @@ function CarnetsPage({ carnets }) {
                   </Button>
                 </Stack>
               </Stack>
-              <div>
+              {/* <div>
                 <Button
                   startIcon={(
                     <SvgIcon fontSize="small">
@@ -125,7 +125,7 @@ function CarnetsPage({ carnets }) {
                 >
                   Ajouter
                 </Button>
-              </div>
+              </div> */}
             </Stack>
             <CarnetsSearch />
             <CarnetsTable

@@ -1,4 +1,4 @@
-export const apiUrl = 'http://79.137.85.120:4000';
+export const apiUrl = 'https://79.137.85.120:443';
 
 export enum ApiUrlsEnum {
 

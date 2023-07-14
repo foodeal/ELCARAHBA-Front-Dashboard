@@ -11,7 +11,7 @@ import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
 
 const clientSideEmotionCache = createEmotionCache();
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const SplashScreen = () => null;
 
 const App = (props) => {

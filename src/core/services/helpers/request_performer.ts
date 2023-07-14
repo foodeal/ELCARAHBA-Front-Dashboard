@@ -21,7 +21,7 @@ class RequestPerformer {
 
   performRequest() {
     const headers = { Accept: 'application/json' };
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY4NTM2NzI2OCwiZXhwIjoxNjg1OTcyMDY4fQ.YHdF4UtcVkEF57gmhZrW0Ph5vXJe-LEyMWHCS6IKykE";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY4OTM0Mzg4NCwiZXhwIjoxNjg5OTQ4Njg0fQ.q1QQYPRET6brO3maPlavYMXa8p8EBOVr-nEM31ptfvk";
 
     axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       if (!config.headers.Authorization) {

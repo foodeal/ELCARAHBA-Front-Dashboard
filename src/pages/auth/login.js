@@ -25,7 +25,7 @@ const Page = () => {
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
+      email: 'admin@carhba.tn',
       password: 'Password123!',
       submit: null
     },
@@ -71,7 +71,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Login | ElCARAHBA
         </title>
       </Head>
       <Box
@@ -192,9 +192,6 @@ const Page = () => {
                   severity="info"
                   sx={{ mt: 3 }}
                 >
-                  <div>
-                    You can use <b>demo@devias.io</b> and password <b>Password123!</b>
-                  </div>
                 </Alert>
               </form>
             )}
@@ -207,7 +204,7 @@ const Page = () => {
                   Not available in the demo
                 </Typography>
                 <Typography color="text.secondary">
-                  To prevent unnecessary costs we disabled this feature in the demo.
+                  Not available.
                 </Typography>
               </div>
             )}

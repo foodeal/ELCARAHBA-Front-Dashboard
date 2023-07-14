@@ -105,7 +105,7 @@ function OffresPage({ offres }) {
                                   </Button>
                               </Stack>
                           </Stack>
-                          {/* <div>
+                          <div>
                               <Button
                                   startIcon={(
                                       <SvgIcon fontSize="small">
@@ -116,7 +116,7 @@ function OffresPage({ offres }) {
                               >
                                   Ajouter
                               </Button>
-                          </div> */}
+                          </div>
                       </Stack>
                       <OffersSearch />
                       <OffersTable

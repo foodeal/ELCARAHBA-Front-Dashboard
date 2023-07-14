@@ -85,7 +85,7 @@ function UsersPage({ clients }) {
 
   const submitForm = (event) => {
     event.preventDefault();
-    fetch("http://localhost:4000/users/register", {
+    fetch("https://79.137.85.120:443/users/register", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
