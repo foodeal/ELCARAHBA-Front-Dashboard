@@ -8,7 +8,6 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/user/customers-table';
 import { CustomersSearch } from 'src/sections/user/customers-search';
 import userServices from '../../core/services/userServices.service';
-// import { CustomCard } from '../CustomCard';
 import { Grid } from '@mui/material';
 import * as XLSX from 'xlsx';
 import React from 'react';
@@ -23,7 +22,6 @@ function UsersPage({ clients }) {
       client.email,
       client.adresse_user,
       client.tel_utilisateur,
-      // Add other fields you want to export from the clients array
     ]);
 
     const headerForExcel = ['Nom','Prénom', 'Email', 'Adresse','Téléphone'];
@@ -40,9 +38,7 @@ function UsersPage({ clients }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false); 
   const [searchResults, setSearchResults] = useState([]);
-  
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const allUsers = [clients];
+
   const handleSearch = (searchQuery) => { 
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
     setLoading(true);
@@ -100,7 +96,6 @@ function UsersPage({ clients }) {
   };
     const useUsers = (page, rowsPerPage) => {
       return useMemo(() => {
-        // Calculate the offset and slice the clients array accordingly
         const offset = page * rowsPerPage;
         return clients.slice(offset, offset + rowsPerPage);
       }, [clients, page, rowsPerPage]);
@@ -279,7 +274,7 @@ function UsersPage({ clients }) {
             </Stack>
             <div>
       <CustomersSearch users={users} onSearch={handleSearch} />
-      {loading ? <p>Loading...</p> : <CustomersTable users={searchResults} />} 
+      {/* {loading ? <p>Loading...</p> : <CustomersTable users={searchResults} />}  */}
     </div>
             <CustomersTable
               count={clients.length}

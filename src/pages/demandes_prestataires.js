@@ -114,8 +114,6 @@ function PrestatairesWaitingForApprovalPage({ demandes }) {
           },
           body: JSON.stringify(user)
         });
-    
-        // Reset the form state
         setNomUtilisateur('');
         setPrenomUtilisateur('');
         setDateNaissance('1992-02-17');

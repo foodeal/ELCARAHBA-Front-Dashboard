@@ -1,31 +1,8 @@
-// import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
-// import { Card, InputAdornment, OutlinedInput, SvgIcon } from '@mui/material';
-
-// export const CustomersSearch = () => (
-//   <Card sx={{ p: 2 }}>
-//     <OutlinedInput
-//       defaultValue=""
-//       fullWidth
-//       placeholder="Search customer"
-//       startAdornment={(
-//         <InputAdornment position="start">
-//           <SvgIcon
-//             color="action"
-//             fontSize="small"
-//           >
-//             <MagnifyingGlassIcon />
-//           </SvgIcon>
-//         </InputAdornment>
-//       )}
-//       sx={{ maxWidth : 500 }}
-//     />
-//   </Card>
-// );
 import React, { useState } from 'react';
 import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
 import { Card, InputAdornment, OutlinedInput, SvgIcon } from '@mui/material';
 
-export const CustomersSearch = ({  onSearch }) => {
+export const PubsSearch = ({  onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchChange = (event) => {
@@ -46,7 +23,7 @@ export const CustomersSearch = ({  onSearch }) => {
         onChange={handleSearchChange}
         onKeyDown={handleKeyDown} 
         fullWidth
-        placeholder="Chercher "
+        placeholder="Chercher une publicité"
         startAdornment={(
           <InputAdornment position="start">
             <SvgIcon

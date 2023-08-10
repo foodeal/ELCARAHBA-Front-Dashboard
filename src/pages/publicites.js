@@ -1,5 +1,5 @@
-/* eslint-disable react/jsx-max-props-per-line */
-import { useCallback, useMemo, useState } from 'react';
+
+import { useCallback, useMemo, useState ,useEffect} from 'react';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography} from '@mui/material';
@@ -7,13 +7,42 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { Grid } from '@mui/material';
 import * as XLSX from 'xlsx';
 import React from 'react';
+import { useSelection } from 'src/hooks/use-selection';
 import axios from 'axios';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { PublicitesTable } from 'src/sections/publicite/publicites-table';
 import { Table } from '@mui/material';
-
+import  '../core/services/publicites.service';
+import { PubsSearch } from 'src/sections/publicite/pubs-search';
 function PublicitesPage({publicites})
 {
+  const [imageFile, setImageFile] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const selectedFile = event.target.files[0];
+    setImageFile(selectedFile);
+  };
+
+
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(false); 
+  const [searchResults, setSearchResults] = useState([]);
+  const handleSearch = (searchQuery) => { 
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
+    setLoading(true);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios
+      .get(`https://79.137.85.120:443/users?nom_like=${searchQuery}`)
+      .then((response) => {
+        setSearchResults(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error occurred while searching:', error);
+        setLoading(false);
+      });
+  };
     const usePubs = (page, rowsPerPage) => {
       return useMemo(() => {
         const offset = page * rowsPerPage;
@@ -34,8 +63,8 @@ function PublicitesPage({publicites})
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const pubs = usePubs(page, rowsPerPage);
-  const pubsIds = usePubIds(users);
-  const pubsSelection = pubsSelection(usersIds);
+  const pubsIds = usePubIds(publicites);
+  const pubsSelection = useSelection(pubsIds);
   const paginatedPubs = usePubs(page, rowsPerPage);
 
   const handlePageChange = useCallback(
@@ -59,6 +88,7 @@ function PublicitesPage({publicites})
   const [prix, setPrix] = useState('');
   const [client, setClient] = useState('');
   const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
   const handleSubmit = (event) => {
     event.preventDefault(); 
     const newPub = {
@@ -96,7 +126,6 @@ function PublicitesPage({publicites})
           pub.prix_pub,
           pub.duree_pub,
           pub.description_pub,
-          // Add other fields you want to export from the clients array
         ]);
     
         const headerForExcel = ['Titre','Client', 'Prix', 'Durée','Déscription'];
@@ -172,23 +201,26 @@ function PublicitesPage({publicites})
     
                             </Stack>
                             <Stack direction="row" spacing={2}>
-                              <TextField label="Prix" fullWidth sx={{ width: '50%' }} required type='text'
+                              <TextField label="Prix" fullWidth sx={{ width: '50%' }} variant="outlined" required type='text'
                                 value={prix}
                                 onChange={(event) => setPrix(event.target.value)}
                               />
-                              <TextField label="Durée" fullWidth sx={{ width: '50%' }} required type='email'
+                              <TextField label="Durée" fullWidth sx={{ width: '50%' }} variant="outlined" required type='email'
                                 value={duree}
                                 onChange={(event) => setDuree(event.target.value)}
                               />
     
                             </Stack>
-                            <Stack direction="row" spacing={2}>
-                              <TextField label="Description" fullWidth sx={{ width: '50%' }}
-                                value={description}
-                                onChange={(event) => setDescription(event.target.value)}
-                              />
-                              </Stack>
-                              </Stack>
+                              <Stack direction="column" spacing={2}>
+                          <TextField label="Description" fullWidth value={description} onChange={(event) => setDescription(event.target.value)} />
+                          <input accept="image/*" style={{ display: 'none' }} id="image-upload" type="file" onChange={handleImageUpload} />
+                          <label htmlFor="image-upload">
+                            <Button variant="contained" color="primary" component="span">
+                              Télécharger une image
+                            </Button>
+                          </label>
+                        </Stack>
+                         </Stack>
                         </DialogContent>
                         <DialogActions>
                           <Button onClick={handleCloseDialog}>Annuler</Button>
@@ -225,7 +257,7 @@ function PublicitesPage({publicites})
                 </Grid>
                 <div>
       <PubsSearch pubs={pubs} onSearch={handleSearch} />
-      {loading ? <p>Loading...</p> : <PublicitesTable pubs={searchResults} />} 
+      {/* {loading ? <p>Loading...</p> : <PublicitesTable pubs={searchResults} />}  */}
     </div>
             <PublicitesTable
               count={pubs.length}

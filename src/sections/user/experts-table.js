@@ -190,22 +190,22 @@ export const ExpertsTable = (props) => {
       };
       const submitForm = (event, id) => {
         // event.preventDefault(); // Empêcher le rechargement de la page
-        const updatedData = {
-            nom_prenom_expert ,
-            mail_expert ,
-            telephone_expert,
-            domaine_expert,
-        };
-        const access_token = localStorage.getItem(localStorageKeys.token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-        axios
-          .post("https://79.137.85.120:443/experts/" + id, updatedData)
-          .then((response) => {
-            console.log(response); 
-          })
-          .catch((error) => {
-            console.error('Error occurred while submitting the form:', error); 
-          });
+        // const updatedData = {
+        //     nom_prenom_expert : nomPrenom,
+        //     mail_expert ,
+        //     telephone_expert,
+        //     domaine_expert,
+        // };
+        // const access_token = localStorage.getItem(localStorageKeys.token);
+        // axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+        // axios
+        //   .post("https://79.137.85.120:443/experts/" + id, updatedData)
+        //   .then((response) => {
+        //     console.log(response); 
+        //   })
+        //   .catch((error) => {
+        //     console.error('Error occurred while submitting the form:', error); 
+        //   });
       };
     
     return (

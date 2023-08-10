@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CustomCard from 'src/pages/users/customcard';
 import {
   Avatar,
   Box,
@@ -32,21 +31,6 @@ import { apiUrl } from 'src/core/services/helpers';
 export const CustomersTable = (props) => {
   const [userEditingState, setUserEditingState] = useState({});
 
-  const handleEditIconClick = (user) => {
-    setIsEditDialogOpen(true);
-    // Set the editing state for the specific user
-    setUserEditingState({
-      ...userEditingState,
-      [user.id]: {
-        nomPrenom: user.nom_utilisateur,
-        dateNaissance: user.dateNaissance,
-        email: user.email,
-        telUtilisateur: user.tel_utilisateur,
-        adresseUser: user.adresse_user,
-        villeUser: user.ville_user,
-      },
-    });
-  };
 
   const handleCloseEditDialog = () => {
     setIsEditDialogOpen(false);

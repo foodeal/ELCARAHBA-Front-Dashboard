@@ -6,7 +6,7 @@ export const CouponExpiredSearch = () => (
     <OutlinedInput
       defaultValue=""
       fullWidth
-      placeholder="Search customer"
+      placeholder="Chercher un coupon"
       startAdornment={(
         <InputAdornment position="start">
           <SvgIcon

@@ -22,6 +22,7 @@ import Link from 'next/link';
 
 
 export const DemandesTable = (props) => {
+  
   const {
     count = 0,
     items = [],
@@ -36,6 +37,13 @@ export const DemandesTable = (props) => {
   const selectedAll = (items.length > 0) && (selected.length === items.length);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [page, setPage] = useState(0);
+  const [selectedDemande, setSelectedDemande] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const handleApprouveClick = () => {
+    setIsDialogOpen(true);  
+
+  };
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleConfirmDelete = (userId) => {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
@@ -61,8 +69,10 @@ export const DemandesTable = (props) => {
   const onRowsPerPageChange = (event) => {
     const newRowsPerPage = parseInt(event.target.value, 10);
     setRowsPerPage(newRowsPerPage);
-    setPage(0); // Reset page to 0 when changing rows per page
+    setPage(0); 
   };
+
+  const handleConfirm = (id) =>{};
   return (
     <Card>
       <Scrollbar>
@@ -159,7 +169,21 @@ export const DemandesTable = (props) => {
                     <TableCell>
                       {createdAt}
                     </TableCell>
+                    <TableCell>
+                    <Button variant="contained" color="primary" onClick={() => handleApprouveClick()}>
+                      Approuver
+                    </Button>
+                    <Dialog open={isDialogOpen} onClose={handleDialogClose}   slotProps={{backdrop: { style: { backgroundColor: "rgba(0, 0, 0, 0.15)", },},}}>
+                                        <DialogTitle>Confirmation</DialogTitle>
+                                        <DialogContent>Êtes-vous sûr de vouloir approuver cette demande ?</DialogContent>
+                                        <DialogActions>
+                                          <Button onClick={handleDialogClose}>Annuler</Button>
+                                          <Button onClick={() => handleConfirm(demand.id)} color="error">Approuver</Button>
+                                        </DialogActions>
+                                      </Dialog>
+                  </TableCell>
                   </TableRow>
+                  
                 );
               })}
             </TableBody>
