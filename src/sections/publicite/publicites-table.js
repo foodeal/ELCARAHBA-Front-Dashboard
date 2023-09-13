@@ -199,8 +199,8 @@ const submitForm = (event, id) => {
   };
 
   const handleConfirmDelete = (pubId) => {
-  
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
+    // const access_token = localStorage.getItem(localStorageKeys.token);
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9Us";
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios.delete(`https://79.137.85.120:443/users/${pubId}`)
       .then((response) => {

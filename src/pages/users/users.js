@@ -15,6 +15,9 @@ import axios from 'axios';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
 function UsersPage({ clients }) {
+
+ 
+ // exporter la liste des clients :
   const exportDataToExcel = () => {
     const dataForExcel = clients.map((client) => [
       client.nom_utilisateur,
@@ -38,43 +41,33 @@ function UsersPage({ clients }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false); 
   const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearch = (searchQuery) => { 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
-    setLoading(true);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    axios
-      .get(`https://79.137.85.120:443/users?nom_like=${searchQuery}`)
-      .then((response) => {
-        setSearchResults(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error occurred while searching:', error);
-        setLoading(false);
-      });
-  };
+ // chercher des clients : 
+
   
-  
+  // l'ajout d'un client : 
   const handleSubmit = (event) => {
     event.preventDefault(); 
     const newUser = {
-      nom_utilisateur: nomUtilisateur,
+      nom_utilisateur : nomUtilisateur,
       prenom_utilisateur: prenomUtilisateur,
-      dateNaissance: dateNaissance,
+      date_naissance: dateNaissance,
       email: email,
       tel_utilisateur: telephone,
+      role : 'User',
       pays_user: pays,
       ville_user: ville,
       adresse_user: adresse,
       motdepasse: motdepasse,
-      motdepasse: motdepasse,
+      argent_gagner : 0,
     };
-    
-    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
+    console.log(newUser);
+    // const access_token = localStorage.getItem(localStorageKeys.token); 
+    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios
-      .post("https://79.137.85.120:443/users/", newUser)
+      .post("https://79.137.85.120:443/users/register",newUser)
       .then((response) => {
         console.log("Utilisateur ajouté avec succès :", response.data); 
         setOpenDialog(false);
@@ -141,24 +134,31 @@ function UsersPage({ clients }) {
   const [ville, setVille] = useState('');
   const [adresse, setAdresse] = useState('');
   const [motdepasse, setMotdepasse] = useState('');
+  const [usersList, setUsersList] = useState([]);
+  const [count, setCount] = useState(0);
+ 
 
-  const user = {
-    "nom_prenom": nomUtilisateur + prenomUtilisateur,
-    "date_naissance": dateNaissance,
-    "email": email,
-    "tel_utilisateur": telephone,
-    "pays_user": pays,
-    "ville_user": ville,
-    "adresse_user": adresse,
-    "motdepasse": motdepasse
-  };
 
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
+  
+  const handleChange = async (event) => {
+    const newValue = event.target.value;
+    setSearchTerm(newValue);
+
+    try {
+      const response = await axios.post('https://79.137.85.120:443/users/suser', {
+        search_term: newValue, // Sending the search term to the backend
+      });
+
+      console.log('Response:', response.data);
+      setUsersList(response.data);
+      setCount(Math.ceil(response.data.length / 9));
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
   };
-  useEffect(() => {
-    handleSearch(searchQuery);
-  }, [searchQuery]);
+  
+
+
   return (
     <>
       <Box
@@ -207,7 +207,7 @@ function UsersPage({ clients }) {
                 </Button>
                 <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth sx={{ display: 'flex',alignItems: 'center',justifyContent: 'center', }}>
                   <DialogTitle>Ajouter un client</DialogTitle>
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={ (event) => handleSubmit(event)}>
                     <DialogContent>
                       <Stack spacing={2}>
                         <Stack direction="row" spacing={2}>
@@ -273,9 +273,11 @@ function UsersPage({ clients }) {
               </div>
             </Stack>
             <div>
-      <CustomersSearch users={users} onSearch={handleSearch} />
-      {/* {loading ? <p>Loading...</p> : <CustomersTable users={searchResults} />}  */}
+      <CustomersSearch users={users} onSearch={handleChange} />
+      {/* {loading ? <p>Loadi
+        ng...</p> : <CustomersTable users={searchResults} />}  */}
     </div>
+      
             <CustomersTable
               count={clients.length}
               items={clients}

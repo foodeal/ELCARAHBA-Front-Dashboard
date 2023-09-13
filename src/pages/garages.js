@@ -12,6 +12,7 @@ import { GaragesSearch } from 'src/sections/garages/garages-search';
 import { GaragesTable } from 'src/sections/garages/garages-table';
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import * as XLSX from 'xlsx';
 
 function GaragesPage({ garages }) {
     const exportDataToExcel = () => {
@@ -88,33 +89,31 @@ function GaragesPage({ garages }) {
     const [type, setType] = useState('');
     const [contact, setContact] = useState('');
     const [adresse, setAdresse] = useState('');
-  
-    const garage = {
-      "nom_Garage": nomGarage,
-      "heures_travail": heures,
-      "jours_travail": jours,
-      "type_garage": type,
-      "contact_garage":contact,
-      "adresse_garage": adresse,
-    };
+    const [prestId,setPrestId] = useState('');
   
     const submitForm = (event) => {
-      event.preventDefault();
-      fetch("https://79.137.85.120:443/users/register", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-      });
-  
-      // Reset the form state
-      setNomGarage('');
-      setHeuresTravail('');
-      setJoursTravail('');
-      setContact('');
-      setAdresse('');
-      setType('');
+        event.preventDefault(); 
+        const newGarage = {
+            nom_garage: nomGarage,
+            heures_travail: heures,
+            jours_travail: jours,
+            adresse_garage: adresse,
+            contact_garage:contact,
+            type_garage: type,
+            prestataire_id : prestId,
+          };
+        // const access_token = localStorage.getItem(localStorageKeys.token);
+        const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios
+          .post("https://79.137.85.120:443/garages/add" , newGarage)
+          .then((response) => {
+            console.log("Garage ajouté avec succès :", response.data); 
+            setOpenDialog(false);
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la soumission du formulaire :', error); 
+          });
     }
 
     if (!garages) {
@@ -217,6 +216,12 @@ function GaragesPage({ garages }) {
                           <TextField label="Type du garage" fullWidth sx={{ width: '50%' }} 
                             value={type}
                             onChange={(event) => setType(event.target.value)}
+                          />
+                        </Stack>
+                        <Stack direction="row" spacing={2}>
+                          <TextField label="Id du prestataire" fullWidth sx={{ width: '50%' }} required type='text'
+                            value={prestId}
+                            onChange={(event) => setPrestId(event.target.value)}
                           />
                         </Stack>
                       </Stack>

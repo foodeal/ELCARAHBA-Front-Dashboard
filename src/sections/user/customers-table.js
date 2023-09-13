@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { localStorageKeys } from 'src/core/constant/local-storage.constant';
 import {
   Avatar,
   Box,
@@ -29,12 +30,10 @@ import { apiUrl } from 'src/core/services/helpers';
 
 
 export const CustomersTable = (props) => {
-  const [userEditingState, setUserEditingState] = useState({});
-
-
+  const [userX, setUserX] = useState({});
+  const [editingUser, setEditingUser] = useState(null);
   const handleCloseEditDialog = () => {
     setIsEditDialogOpen(false);
-    setUserEditingState({});
   };
   const onPageChange = (event, newPage) => {
     setPage(newPage);
@@ -165,31 +164,6 @@ const handleDialogClose = () => {
   setIsDialogOpen(false);
 };
 
-const submitForm = (event, id) => {
-  event.preventDefault(); // Empêcher le rechargement de la page
-  const updatedData = {
-    nom_utilisateur: nomPrenom,
-    dateNaissance: dateNaissance,
-    email: email,
-    tel_utilisateur: telUtilisateur,
-    adresse_user: adresseUser,
-    ville_user: villeUser,
-  };
-  const access_token = localStorage.getItem(localStorageKeys.token);
-  axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-  axios
-    .post("https://79.137.85.120:443/users/" + id, updatedData)
-    .then((response) => {
-      console.log(response); 
-    })
-    .catch((error) => {
-      console.error('Error occurred while submitting the form:', error); 
-    });
-};
-
-
-
-
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -199,27 +173,70 @@ const submitForm = (event, id) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   
 
-  const handleDeleteIconClick = () => {
+  const handleDeleteIconClick = (userId) => {
+    console.log(userId);
+    setUserX(userId.id);
     setIsDialogOpen(true);
+
   };
 
+  const handleEditIconClick = (user) =>
+ { 
+  console.log("user : "+user);
+  setEditingUser(user);
+  console.log(editingUser);
+  setIsEditDialogOpen(true);
+}
+
+
+// modifier un client : 
+const submitForm = (event, userId) => {
+  event.preventDefault(); // empecher le comportement par défaut du formulaire 
+  const updatedData = {
+    nom_utilisateur: nomPrenom,
+    dateNaissance: dateNaissance,
+    email: email,
+    tel_utilisateur: telUtilisateur,
+    role : 'User',
+    adresse_user: adresseUser,
+    ville_user: villeUser,
+    argent_gagner : 0,
+  }; // créer un objet contenant les nouvelles données du client 
+
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
+  // const access_token = localStorage.getItem(localStorageKeys.token);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  axios
+    .post("https://79.137.85.120:443/users/" + editingUser.id, updatedData)
+    .then((response) => {
+      console.log(response); 
+    })
+    .catch((error) => {
+      console.error('Error occurred while submitting the form:', error); 
+    });
+};
+
+// supprimer un client : 
   const handleConfirmDelete = (userId) => {
-  
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
+  console.log(userX);
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
+    // const access_token = localStorage.getItem(localStorageKeys.token);
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    axios.delete(`https://79.137.85.120:443/users/${userId}`)
+    axios.delete(`https://79.137.85.120:443/users/`+ userX)
       .then((response) => {
         console.log("Utilisateur supprimé avec succès :", response.data);
-        const updatedUsers = users.filter((user) => user.id !== userId);
-        setUsers(updatedUsers);
+        const updatedUsers = users.filter((user) => user.id !== userId); // filtrer la liste des clients en ignorant le client suuprimé
+        setUsers(updatedUsers); // mettre à jour la liste des clients 
       })
       .catch((error) => {
         console.error("Erreur lors de la suppression de l'utilisateur :", error);
       });
+      setIsDialogOpen(false); // fermer la dialogue 
+      refreshPage(); // refraicher la page 
   };
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const paginatedUsers = items.slice(startIndex, endIndex)
+  const startIndex = page * rowsPerPage;  // une variable qui contient la valeur du 1er élément de la page
+  const endIndex = startIndex + rowsPerPage; // une variable qui contient la valeur du dernier élément dans la page
+  const paginatedUsers = items.slice(startIndex, endIndex) // prendre uniquement les éléments de la 1ere page 
   return (
     <Card>
         <Box sx={{ minWidth: 800 }}>
@@ -266,8 +283,10 @@ const submitForm = (event, id) => {
             </TableHead>
             <TableBody>
               
-              {paginatedUsers.map((user) => {
-               const editingState = userEditingState[user.id] || {};
+              {paginatedUsers.map((user) => {   
+                const date = new Date(user.createdAt);
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                const createdAt = date.toLocaleDateString('en-US', options); 
                 return (
                   <TableRow
                     hover
@@ -276,29 +295,29 @@ const submitForm = (event, id) => {
                   >
                     <TableCell>
                       <div>
-                        <IconButton onClick={() => handleDeleteIconClick(user)} aria-label="delete" color="primary">
+                        <IconButton onClick={() => handleDeleteIconClick(user)} aria-label="delete" color="primary">    
                           <DeleteIcon color="error" />
-                        </IconButton>
+                        </IconButton> {/* bouton pour ouvrir la dialogue de supprission sous forme d'icone */}
                         <Dialog open={isDialogOpen} onClose={handleDialogClose}   slotProps={{backdrop: { style: { backgroundColor: "rgba(0, 0, 0, 0.15)", },},}}>
                           <DialogTitle>Confirmation</DialogTitle>
                           <DialogContent>Êtes-vous sûr de vouloir supprimer ?</DialogContent>
                           <DialogActions>
                             <Button onClick={handleDialogClose}>Annuler</Button>
                             <Button onClick={() => handleConfirmDelete(user.id)} color="error">Supprimer</Button>
-                          </DialogActions>
+                          </DialogActions> {/* les boutons pour annuler ou confirmer l'action de suppression */}
                         </Dialog>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div>
-                      <IconButton onClick={() => setIsEditDialogOpen(true)} aria-label="edit" color="primary" 
+                      <IconButton onClick={() => handleEditIconClick(user)} aria-label="edit" color="primary" 
                   variant="contained"> 
                 <EditIcon />
-                    </IconButton>
+                    </IconButton> {/* le bouton pour ouvrir la dialogue de modification contenant toutes les données de l'utilisateur sous forme d'icone */}
                         <Dialog open = {isEditDialogOpen} onClose = {handleCloseEditDialog} slotProps={{backdrop: { style: { backgroundColor: "rgba(0, 0, 0, 0.15)", },},}}>
                         <DialogTitle>Modifications de l'utilisateur : </DialogTitle>
                         <DialogContent>
-                        <form onSubmit={(event) => submitForm(event, user.id)}>
+                        <form onSubmit={(event) => submitForm(event, editingUser.id)}>
                     <Grid
                         container
                         spacing={3}
@@ -309,12 +328,11 @@ const submitForm = (event, id) => {
                         >
                             <TextField
                                 fullWidth
-                                helperText="Entrer le nom de l'utilisateur"
                                 label="Nom"
                                 name="nom_prenom"
-                                onChange={(event) => setNomPrenom(event.target.value)}
+                                onChange={(event) => setNomUtilisateur(event.target.value)}
                                 required
-                                 value={user.nom_utilisateur} />
+                                value={editingUser?.nom_utilisateur}/>
                         </Grid>
                         <Grid
                             xs={12}
@@ -326,7 +344,7 @@ const submitForm = (event, id) => {
                                 name="date_naissance"
                                 onChange={(event) => setDateNaissance(event.target.value)}
                                 required
-                                value={user.dateNaissance} />
+                                value={editingUser?.date_naissance} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -338,7 +356,7 @@ const submitForm = (event, id) => {
                                 name="email"
                                 onChange={(event) => setEmail(event.target.value)}
                                 required
-                                value={user.email} />
+                                value={editingUser?.email} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -351,7 +369,7 @@ const submitForm = (event, id) => {
                                 onChange={(event) => setTelUtilisateur(event.target.value)}
                                 type="number"
                                 required
-                                value={user.tel_utilisateur} />
+                                value={editingUser?.tel_utilisateur} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -363,7 +381,7 @@ const submitForm = (event, id) => {
                                 name="adresse_user"
                                 onChange={(event) => setAdresseUser(event.target.value)}
                                 required
-                                value={user.adresse_user} />
+                                value={editingUser?.adresse_user} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -377,7 +395,7 @@ const submitForm = (event, id) => {
                                 required
                                 select
                                 SelectProps={{ native: true }}
-                                value={user.ville_user}
+                                value={editingUser?.ville_user}
                             >
                               {states.map((option) => (
                                     <option
@@ -391,13 +409,14 @@ const submitForm = (event, id) => {
                               
                         </Grid>
                         </Grid>
-                <Divider /></form>
+                <Divider />
+                </form>
                 </DialogContent>
                 <DialogActions>
                             <Button onClick={handleDialogClose}>Annuler</Button>
                             <Button  variant="contained" color="primary" type="submit" >Enregistrer </Button>
 
-                          </DialogActions>
+                          </DialogActions> {/* les boutons  pour annuler ou confirmer l'action de modification  */}
                      </Dialog>
                       </div>
                       </TableCell>
@@ -431,7 +450,7 @@ const submitForm = (event, id) => {
                       {user.tel_utilisateur}
                     </TableCell>
                     <TableCell>
-                      {user.createdAt}
+                      {createdAt}
                     </TableCell>
                   </TableRow>
                 );

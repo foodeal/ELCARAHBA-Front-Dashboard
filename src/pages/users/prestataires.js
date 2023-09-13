@@ -12,7 +12,7 @@ import * as XLSX from 'xlsx';
 import userServices from '../../core/services/userServices.service';
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-
+import axios from 'axios';
 function PrestatairesPage({ prestataires }) {
   const exportDataToExcel = () => {
   const dataForExcel = prestataires.map((prestataire) => [
@@ -86,38 +86,45 @@ function PrestatairesPage({ prestataires }) {
   const [telephone, setTelephone] = useState('');
   const [pays, setPays] = useState('Tunis');
   const [ville, setVille] = useState('');
-  const [adresse, setAdresse] = useState('');
+  const [raisonSociale, setRaisonSociale] = useState('');
   const [motdepasse, setMotdepasse] = useState('');
-
-  const prestataire= {
-    "nom_prenom": nomPrestataire + prenomPrestataire,
-    "date_naissance": dateNaissance,
-    "email": email,
-    "tel_utilisateur": telephone,
-    "pays_user": pays,
-    "ville_user": ville,
-    "adresse_user": adresse,
-    "motdepasse": motdepasse
-  };
-
+  const [adresse, setAdresse] = useState('');
+  const [lienFB, setLienFB] = useState('');
+  const [lienInsta, setLienInsta] = useState('');
+  const [contratCondition, setContratCondition] = useState('');
+  const [CinGeron, setCINGerant] = useState('');
+  const [siteWeb, setSiteWeb] = useState('');
+  const [registreCommerce, setRegistreCommerce] = useState('');
+  const [nomGarage, setNomGarage] = useState('');
+  const [service,setService] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault(); 
     const newPrest = {
-      nom_prenom: nomPrestataire,
+      nom_prestataire : nomPrestataire,
       prenom_prestataire: prenomPrestataire,
-      dateNaissance: dateNaissance,
-      email: email,
-      tel_prestataire: telephone,
-      pays_user: pays,
-      ville_user: ville,
-      adresse_user: adresse,
-      mot_de_passe: motdepasse,
+      email_prestataire: email ,
+      tel_prestataire: telephone ,
+      raison_sociale: raisonSociale,
+      role: 'Prestataire',
+      pays_prestataire : pays,
+      ville_prestataire: ville,
+      adresse_prestataire: adresse,
+      service_prestataire: service ,
+      site_web: siteWeb,
+      lien_fb: lienFB,
+      lien_insta: lienInsta,
+      registre_commerce: registreCommerce,
+      cin_geron: CinGeron,
+      nom_garage : nomGarage,
+      contrat_condition: contratCondition,
+      motdepasse: motdepasse,
     };
 
-    const access_token = localStorage.getItem(localStorageKeys.token);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+    // const token = localStorage.getItem(localStorageKeys.token);
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios
-      .post("https://79.137.85.120:443prestataires/", newPrest)
+      .post("https://79.137.85.120:443/prestataires/register", newPrest)
       .then((response) => {
         console.log(response);
       })
@@ -227,12 +234,60 @@ function PrestatairesPage({ prestataires }) {
                           />
                         </Stack>
                         <Stack direction="row" spacing={2}>
+                          <TextField label="Raison sociale" fullWidth sx={{ width: '50%' }} required
+                            value={raisonSociale}
+                            onChange={(event) => setRaisonSociale(event.target.value)}
+                          />
+                          <TextField label="Site web" fullWidth sx={{ width: '50%' }} required
+                            value={siteWeb}
+                            onChange={(event) => setSiteWeb(event.target.value)}
+                          />
+                        </Stack>
+                        <Stack direction="row" spacing={2}>
+                          <TextField label="Lien Facebook" fullWidth sx={{ width: '50%' }} required
+                            value={lienFB}
+                            onChange={(event) => setLienFB(event.target.value)}
+                          />
+                          <TextField label="Lien Instagram" fullWidth sx={{ width: '50%' }} required
+                            value={lienInsta}
+                            onChange={(event) => setLienInsta(event.target.value)}
+                          />
+                        </Stack>
+                        <Stack direction="row" spacing={2}>
+                          <TextField label="Registre commerce" fullWidth sx={{ width: '50%' }} required
+                            value={registreCommerce}
+                            onChange={(event) => setRegistreCommerce(event.target.value)}
+                          />
+                          <TextField label="CIN du gérant" fullWidth sx={{ width: '50%' }} required
+                            value={CinGeron}
+                            onChange={(event) => setCINGerant(event.target.value)}
+                          />
+                        </Stack>
+                        <Stack direction="row" spacing={2}>
+                          <TextField label="Nom garage" fullWidth sx={{ width: '50%' }} required
+                            value={nomGarage}
+                            onChange={(event) => setNomGarage(event.target.value)}
+                          />
+                          <TextField label="Contrat condition" fullWidth sx={{ width: '50%' }} required
+                            value={contratCondition}
+                            onChange={(event) => setContratCondition(event.target.value)}
+                          />
+                          </Stack>
+                        <Stack direction="row" spacing={2}>
+                          <TextField label="Service" fullWidth sx={{ width: '50%' }} required
+                            value={service}
+                            onChange={(event) => setService(event.target.value)}
+                          />
+
+                        </Stack>
+                        <Stack direction="row" spacing={2}>
                           <TextField label="Mot de passe" fullWidth sx={{ width: '50%' }} required type='password'
                             value={motdepasse}
                             onChange={(event) => setMotdepasse(event.target.value)}
                           />
                           <TextField label="Confirmer mot de passe" fullWidth sx={{ width: '50%' }} required type='password' />
                         </Stack>
+                        
                       </Stack>
                     </DialogContent>
                     <DialogActions>

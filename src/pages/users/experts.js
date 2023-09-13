@@ -13,7 +13,7 @@ import * as XLSX from 'xlsx';
 import userServices from '../../core/services/userServices.service';
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-
+import axios from 'axios';
 function ExpertsPage({ experts }) {
   const exportDataToExcel = () => {
     const dataForExcel = experts.map((user) => [
@@ -82,37 +82,24 @@ function ExpertsPage({ experts }) {
         []
     );
   const [nomExpert, setNomExpert] = useState('');
-  const [prenomExpert, setPrenomExpert] = useState('');
-  const [dateNaissance, setDateNaissance] = useState('1992-02-17');
   const [email, setEmail] = useState('');
   const [telephone, setTelephone] = useState('');
   const [domaine, setDomaine] = useState('');
-  const [motdepasse, setMotdepasse] = useState('');
 
-  const user = {
-    "nom_prenom": nomExpert + prenomExpert,
-    "date_naissance": dateNaissance,
-    "email": email,
-    "tel_utilisateur": telephone,
-    "domaine": domaine,
-    "motdepasse": motdepasse
-  };
 
   const submitForm = (event) => {
     event.preventDefault(); 
     const newExpert = {
-      nom_expert ,
-      domaine_expert,
-      dateNaissance: dateNaissance,
-      email: email,
-      telephone_expert: telephone,
-
+      nom_prenom_expert : nomExpert ,
+      mail_expert : email ,
+      telephone_expert : telephone ,
+      domaine_expert :domaine ,
     };
-    
-    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
+    // const access_token = localStorage.getItem(localStorageKeys.token);
+    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios
-      .post("https://79.137.85.120:443/experts/", newExpert)
+      .post("https://79.137.85.120:443/experts/add", newExpert)
       .then((response) => {
         console.log("Expert ajouté avec succès :", response.data); 
         setOpenDialog(false);
@@ -171,42 +158,25 @@ function ExpertsPage({ experts }) {
                       <Stack spacing={2}>
                         <Stack direction="row" spacing={2}>
                           <TextField label="Nom" fullWidth sx={{ width: '50%' }} variant="outlined" required
-                            value={nomExpert}
+                            value={nomExpert }
                             onChange={(event) => setNomExpert(event.target.value)}
                           />
-                          <TextField label="Prénom" fullWidth sx={{ width: '50%' }} variant="outlined" required
-                            value={prenomExpert}
-                            onChange={(event) => setPrenomExpert(event.target.value)}
-                          />
-
-                        </Stack>
-                        <Stack direction="row" spacing={2}>
-                          <TextField label="Date de naissance" fullWidth sx={{ width: '50%' }} required type='text'
-                            value={dateNaissance}
-                            onChange={(event) => setDateNaissance(event.target.value)}
-                          />
-                          <TextField label="Email" fullWidth sx={{ width: '50%' }} required type='email'
+                          <TextField label="Email" fullWidth sx={{ width: '50%' }} variant="outlined" required type='email'
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
                           />
 
                         </Stack>
                         <Stack direction="row" spacing={2}>
-                          <TextField label="Téléphone" fullWidth sx={{ width: '50%' }} required type='number'
+                          <TextField label="Téléphone" fullWidth sx={{ width: '50%' }} required 
                             value={telephone}
                             onChange={(event) => setTelephone(event.target.value)}
                           />
-                          <TextField label="Domaine" fullWidth sx={{ width: '50%' }} required type = 'text'
+                          <TextField label="Domaine " fullWidth sx={{ width: '50%' }} required 
                             value={domaine}
-                            onChange={(event) => setPays(event.target.value)}
+                            onChange={(event) => setDomaine(event.target.value)}
                           />
-                        </Stack>
-                        <Stack direction="row" spacing={2}>
-                          <TextField label="Mot de passe" fullWidth sx={{ width: '50%' }} required type='password'
-                            value={motdepasse}
-                            onChange={(event) => setMotdepasse(event.target.value)}
-                          />
-                          <TextField label="Confirmer mot de passe" fullWidth sx={{ width: '50%' }} required type='password' />
+
                         </Stack>
                       </Stack>
                     </DialogContent>

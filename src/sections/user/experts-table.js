@@ -6,6 +6,7 @@ import { useCallback } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import { format } from 'date-fns';
+import axios from 'axios';
 import {
     Avatar,
     Box,
@@ -27,119 +28,120 @@ import { getInitials } from 'src/utils/get-initials';
 import Link from 'next/link';
 import exp from 'constants';
 
-  
-  const states = [
-    {
-        value: 'Ariana',
-        label: 'Ariana'
-    },
-    {
-        value: 'Béja',
-        label: 'Béja'
-    },
-    {
-        value: 'Ben Arous',
-        label: 'Ben Arous'
-    },
-    {
-        value: 'Bizerte',
-        label: 'Bizerte'
-    },
-    {
-        value: 'Gabès',
-        label: 'Gabès'
-    },
-    {
-        value: 'Gafsa',
-        label: 'Gafsa'
-    },
-    {
-        value: 'Jendouba',
-        label: 'Jendouba'
-    },
-    {
-        value: 'Kairouan',
-        label: 'Kairouan'
-    },
-    {
-        value: 'Kasserine',
-        label: 'Kasserine'
-    },
-    {
-        value: 'Kébili',
-        label: 'Kébili'
-    },
-    {
-        value: 'Le Kef',
-        label: 'Le Kef'
-    },
-    {
-        value: 'Mahdia',
-        label: 'Mahdia'
-    },
-    {
-        value: 'La Manouba',
-        label: 'La Manouba'
-    },
-    {
-        value: 'Médenine',
-        label: 'Médenine'
-    },
-    {
-        value: 'Monastir',
-        label: 'Monastir'
-    },
-    {
-        value: 'Nabeul',
-        label: 'Nabeul'
-    },
-    {
-        value: 'Sfax',
-        label: 'Sfax'
-    },
-    {
-        value: 'Sidi Bouzid',
-        label: 'Sidi Bouzid'
-    },
-    {
-        value: 'Siliana',
-        label: 'Siliana'
-    },
-    {
-        value: 'Sousse',
-        label: 'Sousse'
-    },
-    {
-        value: 'Tataouine',
-        label: 'Tataouine'
-    },
-    {
-        value: 'Tozeur',
-        label: 'Tozeur'
-    },
-    {
-        value: 'Tunis',
-        label: 'Tunis'
-    },
-    {
-        value: 'Zaghouan',
-        label: 'Zaghouan'
-  
-    }
-  ];
-  const handleDialogClose = () => {
-    setIsDialogOpen(false);
-    setIsEditDialogOpen(false);
-  };
-  const handleEditIconClick = (userId) =>
-  {
-    setIsDialogOpen(true);
-  }
-
 
 export const ExpertsTable = (props) => {
-    
+    const handleEditIconClick = (user) =>
+    { 
+     console.log("user : "+user);
+     setEditingUser(user);
+     console.log(editingUser);
+     setIsEditDialogOpen(true);
+   }
+   
+    const states = [
+        {
+            value: 'Ariana',
+            label: 'Ariana'
+        },
+        {
+            value: 'Béja',
+            label: 'Béja'
+        },
+        {
+            value: 'Ben Arous',
+            label: 'Ben Arous'
+        },
+        {
+            value: 'Bizerte',
+            label: 'Bizerte'
+        },
+        {
+            value: 'Gabès',
+            label: 'Gabès'
+        },
+        {
+            value: 'Gafsa',
+            label: 'Gafsa'
+        },
+        {
+            value: 'Jendouba',
+            label: 'Jendouba'
+        },
+        {
+            value: 'Kairouan',
+            label: 'Kairouan'
+        },
+        {
+            value: 'Kasserine',
+            label: 'Kasserine'
+        },
+        {
+            value: 'Kébili',
+            label: 'Kébili'
+        },
+        {
+            value: 'Le Kef',
+            label: 'Le Kef'
+        },
+        {
+            value: 'Mahdia',
+            label: 'Mahdia'
+        },
+        {
+            value: 'La Manouba',
+            label: 'La Manouba'
+        },
+        {
+            value: 'Médenine',
+            label: 'Médenine'
+        },
+        {
+            value: 'Monastir',
+            label: 'Monastir'
+        },
+        {
+            value: 'Nabeul',
+            label: 'Nabeul'
+        },
+        {
+            value: 'Sfax',
+            label: 'Sfax'
+        },
+        {
+            value: 'Sidi Bouzid',
+            label: 'Sidi Bouzid'
+        },
+        {
+            value: 'Siliana',
+            label: 'Siliana'
+        },
+        {
+            value: 'Sousse',
+            label: 'Sousse'
+        },
+        {
+            value: 'Tataouine',
+            label: 'Tataouine'
+        },
+        {
+            value: 'Tozeur',
+            label: 'Tozeur'
+        },
+        {
+            value: 'Tunis',
+            label: 'Tunis'
+        },
+        {
+            value: 'Zaghouan',
+            label: 'Zaghouan'
       
+        }
+      ];
+    
+    const [userX, setUserX] = useState({});  
+    const refreshPage = () => {
+        window.location.reload();
+      };   
     const {
         count = 0,
         items = [],
@@ -153,59 +155,60 @@ export const ExpertsTable = (props) => {
         rowsPerPage = 0,
         selected = []
     } = props;
-    const [isChecked, setIsChecked] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [selectedItemId, setSelectedItemId] = useState(null);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
     const selectedSome = (selected.length > 0) && (selected.length < items.length);
     const selectedAll = (items.length > 0) && (selected.length === items.length);
-    const handleEditIconClick = (userId) =>
-    {}
-    const handleConfirmDelete = (Id) => {
-  
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDM2MzI4OCwiZXhwIjoxNjkwOTY4MDg4fQ.mhwzL-pHZ6w32Kq04Rmz8dCQiVWVNRhQmoSrVPhqgyo";
+    const handleConfirmDelete = (userId) => {
+        // const access_token = localStorage.getItem(localStorageKeys.token);
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        axios.delete(`https://79.137.85.120:443/Experts/${Id}`)
+        axios.delete(`https://79.137.85.120:443/experts/`+ userX)
           .then((response) => {
             console.log("Expert supprimé avec succès :", response.data);
-            const updatedUsers = experts.filter((expert) => expert.id !== Id);
+            const updatedUsers = experts.filter((expert) => expert.id !== userId);
             setUsers(updatedUsers);
           })
           .catch((error) => {
             console.error("Erreur lors de la suppression de l'expert :", error);
           });
+          setIsDialogOpen(false);
           refreshPage();
       };
       const handleDialogClose = () => {
         setIsDialogOpen(false);
         setIsEditDialogOpen(false);
       };
-      const handleDeleteIconClick = () => {
+      const handleDeleteIconClick = (userId) => {
+        console.log(userId);
+        setUserX(userId.id);
         setIsDialogOpen(true);
+    
       };
       const handleChange = (event) => {
         const { name, value } = event.target;
         setExpert((prevExpert) => ({ ...prevExpert, [name]: value }));
       };
       const submitForm = (event, id) => {
-        // event.preventDefault(); // Empêcher le rechargement de la page
-        // const updatedData = {
-        //     nom_prenom_expert : nomPrenom,
-        //     mail_expert ,
-        //     telephone_expert,
-        //     domaine_expert,
-        // };
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
+        event.preventDefault(); // Empêcher le rechargement de la page
+        const updatedData = {
+            nom_prenom_expert : nomPrenom,
+            mail_expert  ,
+            telephone_expert,
+            domaine_expert,
+        };
         // const access_token = localStorage.getItem(localStorageKeys.token);
         // axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-        // axios
-        //   .post("https://79.137.85.120:443/experts/" + id, updatedData)
-        //   .then((response) => {
-        //     console.log(response); 
-        //   })
-        //   .catch((error) => {
-        //     console.error('Error occurred while submitting the form:', error); 
-        //   });
+        axios
+          .post("https://79.137.85.120:443/experts/" + editingUser.id, updatedData)
+          .then((response) => {
+            console.log(response); 
+          })
+          .catch((error) => {
+            console.error('Error occurred while submitting the form:', error); 
+          });
       };
     
     return (
@@ -254,6 +257,9 @@ export const ExpertsTable = (props) => {
                         <TableBody>
                             {items.map((expert) => {
                                 const isSelected = selected.includes(expert.id);
+                                const date = new Date(expert.createdAt);
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                const createdAt = date.toLocaleDateString('en-US', options);
                                 return (
                                     <TableRow
                                         hover
@@ -280,21 +286,21 @@ export const ExpertsTable = (props) => {
                           <DialogContent>Êtes-vous sûr de vouloir supprimer ?</DialogContent>
                           <DialogActions>
                             <Button onClick={handleDialogClose}>Annuler</Button>
-                            <Button onClick={() => handleConfirmDelete(user.id)} color="error">Supprimer</Button>
+                            <Button onClick={() => handleConfirmDelete(expert.id)} color="error">Supprimer</Button>
                           </DialogActions>
                         </Dialog>
                         </div>
                                         </TableCell>
                       <TableCell>
                       <div>
-                         <IconButton onClick={() => setIsEditDialogOpen(true)} aria-label="edit" color="primary" 
+                      <IconButton onClick={() => handleEditIconClick(expert)} aria-label="edit" color="primary" 
                   variant="contained"> 
                 <EditIcon />
                     </IconButton>
                         <Dialog open={isEditDialogOpen} onClose={handleDialogClose}slotProps={{backdrop: { style: { backgroundColor: "rgba(0, 0, 0, 0.15)", },},}}>
                             <DialogTitle>Modification de l'expert : </DialogTitle>
                             <DialogContent>
-                                <form onSubmit={submitForm(expert.id)}>
+                            <form onSubmit={(event) => submitForm(event, editingUser.id)}>
                                  <Grid
                         container
                         spacing={3}
@@ -310,7 +316,7 @@ export const ExpertsTable = (props) => {
                                 name="nom_prenom_expert"
                                 onChange={handleChange}
                                 required
-                                value={expert.nom_prenom_expert} />
+                                value={editingUser?.nom_prenom_expert} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -322,7 +328,7 @@ export const ExpertsTable = (props) => {
                                 name="domaine_expert"
                                 onChange={handleChange}
                                 required
-                                value={expert.domaine_expert} />
+                                value={editingUser?.domaine_expert} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -334,7 +340,7 @@ export const ExpertsTable = (props) => {
                                 name="mail_expert"
                                 onChange={handleChange}
                                 required
-                                value={expert.mail_expert} />
+                                value={editingUser?.mail_expert} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -346,7 +352,7 @@ export const ExpertsTable = (props) => {
                                 name="telephone_expert"
                                 onChange={handleChange}
                                 type="number"
-                                value={expert.telephone_expert} />
+                                value={editingUser?.telephone_expert} />
                         </Grid>
                     </Grid>
                     </form> 
@@ -354,7 +360,7 @@ export const ExpertsTable = (props) => {
                             </DialogContent>
                             <DialogActions>
                             <Button onClick={handleDialogClose}>Annuler</Button>
-                        <Button onClick={() => submitForm(expert.id)} color="error">Modifier</Button>
+                        <Button  variant="contained" color="primary" type="submit" >Enregistrer </Button>
                             </DialogActions>
                         </Dialog>
 
@@ -389,7 +395,7 @@ export const ExpertsTable = (props) => {
                                             {expert.domaine_expert}
                                         </TableCell>
                                         <TableCell>
-                                            {expert.createdAt}
+                                            {createdAt}
                                         </TableCell>
                                     </TableRow>
                                 );

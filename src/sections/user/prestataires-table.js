@@ -25,135 +25,138 @@ import { getInitials } from 'src/utils/get-initials';
 import Link from 'next/link';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
 
-
-const submitForm = (event, id) => {
-  event.preventDefault(); // Empêcher le rechargement de la page
-  const updatedData = {
-    nom_prestataire: nomPrenom,
-    dateNaissance: dateNaissance,
-    email: email,
-    tel_prestataire: telephone,
-    adresse_user: adresseUser,
-    ville_user: villeUser,
-  };
-  const access_token = localStorage.getItem(localStorageKeys.token);
-  axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-  axios
-    .post("https://79.137.85.120:443/prestataires/" + id, updatedData)
-    .then((response) => {
-      console.log(response); 
-    })
-    .catch((error) => {
-      console.error('Error occurred while submitting the form:', error); 
-    });
-};
-
-const states = [
-  {
-      value: 'Ariana',
-      label: 'Ariana'
-  },
-  {
-      value: 'Béja',
-      label: 'Béja'
-  },
-  {
-      value: 'Ben Arous',
-      label: 'Ben Arous'
-  },
-  {
-      value: 'Bizerte',
-      label: 'Bizerte'
-  },
-  {
-      value: 'Gabès',
-      label: 'Gabès'
-  },
-  {
-      value: 'Gafsa',
-      label: 'Gafsa'
-  },
-  {
-      value: 'Jendouba',
-      label: 'Jendouba'
-  },
-  {
-      value: 'Kairouan',
-      label: 'Kairouan'
-  },
-  {
-      value: 'Kasserine',
-      label: 'Kasserine'
-  },
-  {
-      value: 'Kébili',
-      label: 'Kébili'
-  },
-  {
-      value: 'Le Kef',
-      label: 'Le Kef'
-  },
-  {
-      value: 'Mahdia',
-      label: 'Mahdia'
-  },
-  {
-      value: 'La Manouba',
-      label: 'La Manouba'
-  },
-  {
-      value: 'Médenine',
-      label: 'Médenine'
-  },
-  {
-      value: 'Monastir',
-      label: 'Monastir'
-  },
-  {
-      value: 'Nabeul',
-      label: 'Nabeul'
-  },
-  {
-      value: 'Sfax',
-      label: 'Sfax'
-  },
-  {
-      value: 'Sidi Bouzid',
-      label: 'Sidi Bouzid'
-  },
-  {
-      value: 'Siliana',
-      label: 'Siliana'
-  },
-  {
-      value: 'Sousse',
-      label: 'Sousse'
-  },
-  {
-      value: 'Tataouine',
-      label: 'Tataouine'
-  },
-  {
-      value: 'Tozeur',
-      label: 'Tozeur'
-  },
-  {
-      value: 'Tunis',
-      label: 'Tunis'
-  },
-  {
-      value: 'Zaghouan',
-      label: 'Zaghouan'
-
-  }
-];
-const handleDialogClose = () => {
-  setIsDialogOpen(false);
-  setIsEditDialogOpen(false);
-};
 
 export const PrestatairesTable = (props) => {
+  const [editingUser, setEditingUser] = useState(null);
+  const submitForm = (event, id) => {
+    event.preventDefault(); // Empêcher le rechargement de la page
+    const updatedData = {
+      nom_prestataire: nomPrenom,
+      dateNaissance: dateNaissance,
+      email: email,
+      tel_prestataire: telephone,
+      adresse_user: adresseUser,
+      ville_user: villeUser,
+    };
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
+    // const token = localStorage.getItem(localStorageKeys.token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios
+      .post("https://79.137.85.120:443/prestataires/" + editingUser.id, updatedData)
+      .then((response) => {
+        console.log(response); 
+      })
+      .catch((error) => {
+        console.error('Error occurred while submitting the form:', error); 
+      });
+  };
+  
+  const states = [
+    {
+        value: 'Ariana',
+        label: 'Ariana'
+    },
+    {
+        value: 'Béja',
+        label: 'Béja'
+    },
+    {
+        value: 'Ben Arous',
+        label: 'Ben Arous'
+    },
+    {
+        value: 'Bizerte',
+        label: 'Bizerte'
+    },
+    {
+        value: 'Gabès',
+        label: 'Gabès'
+    },
+    {
+        value: 'Gafsa',
+        label: 'Gafsa'
+    },
+    {
+        value: 'Jendouba',
+        label: 'Jendouba'
+    },
+    {
+        value: 'Kairouan',
+        label: 'Kairouan'
+    },
+    {
+        value: 'Kasserine',
+        label: 'Kasserine'
+    },
+    {
+        value: 'Kébili',
+        label: 'Kébili'
+    },
+    {
+        value: 'Le Kef',
+        label: 'Le Kef'
+    },
+    {
+        value: 'Mahdia',
+        label: 'Mahdia'
+    },
+    {
+        value: 'La Manouba',
+        label: 'La Manouba'
+    },
+    {
+        value: 'Médenine',
+        label: 'Médenine'
+    },
+    {
+        value: 'Monastir',
+        label: 'Monastir'
+    },
+    {
+        value: 'Nabeul',
+        label: 'Nabeul'
+    },
+    {
+        value: 'Sfax',
+        label: 'Sfax'
+    },
+    {
+        value: 'Sidi Bouzid',
+        label: 'Sidi Bouzid'
+    },
+    {
+        value: 'Siliana',
+        label: 'Siliana'
+    },
+    {
+        value: 'Sousse',
+        label: 'Sousse'
+    },
+    {
+        value: 'Tataouine',
+        label: 'Tataouine'
+    },
+    {
+        value: 'Tozeur',
+        label: 'Tozeur'
+    },
+    {
+        value: 'Tunis',
+        label: 'Tunis'
+    },
+    {
+        value: 'Zaghouan',
+        label: 'Zaghouan'
+  
+    }
+  ];
+  
+  const refreshPage = () => {
+    window.location.reload();
+  };
+  const [userX, setUserX] = useState({});
     const onPageChange = (event, newPage) => {
       setPage(newPage);
     };
@@ -179,22 +182,31 @@ export const PrestatairesTable = (props) => {
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
   const handleConfirmDelete = (userId) => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
-    fetch(apiUrl + "/users/" + userId, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-    }).then((message) => console.log(message)).catch((error) => console.log(error));
-    setIsDialogOpen(false);
-  };
+    console.log(userX);
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
+      // const access_token = localStorage.getItem(localStorageKeys.token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axios.delete(`https://79.137.85.120:443/prestataires/`+ userX)
+        .then((response) => {
+          console.log("Prestataire supprimé avec succès :", response.data);
+          const updatedUsers = prestataires.filter((prestataire) => prestataire.id !== userId);
+          setUsers(updatedUsers);
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la suppression du prestataire :", error);
+        });
+        setIsDialogOpen(false);
+        refreshPage();
+    };
   const handleDialogClose = () => {
     setIsDialogOpen(false);
     setIsEditDialogOpen(false);
   };
-  const handleDeleteIconClick = () => {
+  const handleDeleteIconClick = (userId) => {
+    console.log(userId);
+    setUserX(userId.id);
     setIsDialogOpen(true);
+
   };
   
   const handleChange = (event) => {
@@ -204,6 +216,16 @@ export const PrestatairesTable = (props) => {
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const paginatedUsers = items.slice(startIndex, endIndex)
+
+  const handleEditIconClick = (user) =>
+  { 
+   console.log("user : "+user);
+   setEditingUser(user);
+   console.log(editingUser);
+   setIsEditDialogOpen(true);
+ }
+ 
+ 
   return (
     <Card>
       <Scrollbar>
@@ -281,20 +303,21 @@ export const PrestatairesTable = (props) => {
                           <DialogContent>Êtes-vous sûr de vouloir supprimer ?</DialogContent>
                           <DialogActions>
                             <Button onClick={handleDialogClose}>Annuler</Button>
-                            <Button onClick={() => handleConfirmDelete(user.id)} color="error">Supprimer</Button>
+                            <Button onClick={() => handleConfirmDelete(prestataire.id)} color="error">Supprimer</Button>
                           </DialogActions>
                         </Dialog>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div>
-                      <IconButton onClick={() => setIsEditDialogOpen(true)} aria-label="edit" color="primary" 
+                      <IconButton onClick={() => handleEditIconClick(prestataire)} aria-label="edit" color="primary" 
                   variant="contained"> 
                 <EditIcon />
-                    </IconButton>
+                </IconButton>
                         <Dialog  open={isEditDialogOpen} onClose={handleDialogClose} slotProps={{backdrop: { style: { backgroundColor: "rgba(0, 0, 0, 0.15)", },},}}>
                         <DialogTitle>Modification du prestataire</DialogTitle>
                         <DialogContent>
+                        <form onSubmit={(event) => submitForm(event, editingUser.id)}>
                         <Grid
                         container
                         spacing={3}
@@ -310,7 +333,7 @@ export const PrestatairesTable = (props) => {
                                 name="nom_prestataire"
                                 onChange={handleChange}
                                 required
-                                value={prestataire.nom_prestataire} />
+                                value={editingUser?.nom_prestataire} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -322,7 +345,7 @@ export const PrestatairesTable = (props) => {
                                 name="prenom_prestataire"
                                 onChange={handleChange}
                                 required
-                                value={prestataire.prenom_prestataire} />
+                                value={editingUser?.prenom_prestataire} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -334,7 +357,7 @@ export const PrestatairesTable = (props) => {
                                 name="email_prestataire"
                                 onChange={handleChange}
                                 required
-                                value={prestataire.email_prestataire} />
+                                value={editingUser?.email_prestataire} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -346,7 +369,7 @@ export const PrestatairesTable = (props) => {
                                 name="tel_prestataire"
                                 onChange={handleChange}
                                 type="number"
-                                value={prestataire.tel_prestataire} />
+                                value={editingUser?.tel_prestataire} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -358,7 +381,7 @@ export const PrestatairesTable = (props) => {
                                 name="adresse_prestataire"
                                 onChange={handleChange}
                                 required
-                                value={prestataire.adresse_prestataire} />
+                                value={editingUser?.adresse_prestataire} />
                         </Grid>
                         <Grid
                             xs={12}
@@ -372,7 +395,7 @@ export const PrestatairesTable = (props) => {
                                 required
                                 select
                                 SelectProps={{ native: true }}
-                                value={prestataire.ville_prestataire}
+                                value={editingUser?.ville_prestataire}
                             >
                                 {states.map((option) => (
                                     <option
@@ -384,12 +407,12 @@ export const PrestatairesTable = (props) => {
                                 ))}
                             </TextField>
                         </Grid>
-                    </Grid>
-
+                        </Grid>
+                      </form>   
                         </DialogContent>
                         <DialogActions>
                         <Button onClick={handleDialogClose}>Annuler</Button>
-                        <Button onClick={() => submitForm(prestataire.id)} color="error">Modifier</Button>
+                        <Button  variant="contained" color="primary" type="submit" >Enregistrer </Button>
 
                         </DialogActions>
                        </Dialog>

@@ -15,7 +15,7 @@ import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
 
-function OffresPage({ offres }) {
+function HistoriquePage({ offres }) {
   const exportDataToExcel = () => {
     const dataForExcel = offres.map((offre) => [
       offre.nom_utilisateur,
@@ -30,9 +30,9 @@ function OffresPage({ offres }) {
 
     const worksheet = XLSX.utils.aoa_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Offres');
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Historique');
 
-    const fileName = 'offres.xlsx';
+    const fileName = 'historique.xlsx';
     XLSX.writeFile(workbook, fileName);
   };
     const [openDialog, setOpenDialog] = React.useState(false);
@@ -150,6 +150,21 @@ function OffresPage({ offres }) {
                               <Typography variant="h4">
                                   Les offres : {offres.length}
                               </Typography>
+                              {/* <Stack
+                                  alignItems="center"
+                                  direction="row"
+                                  spacing={1}
+                              > */}
+                                  {/* <Button
+                                      color="inherit"
+                                      startIcon={(
+                                          <SvgIcon fontSize="small">
+                                              <ArrowUpOnSquareIcon />
+                                          </SvgIcon>
+                                      )}
+                                  >
+                                      Importer
+                                  </Button> */}
                                   <Button
                                       color="inherit"
                                       startIcon={(
@@ -282,7 +297,7 @@ export async function getStaticProps() {
 }
 
 
-export default OffresPage;
+export default HistoriquePage;
 
 OffresPage.getLayout = (page) => (
   <DashboardLayout>

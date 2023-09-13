@@ -110,6 +110,15 @@ export const items = [
       </SvgIcon>
     )
   },
+  {
+    title: 'Historique',
+    path: '/historique',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BookOpenIcon />
+      </SvgIcon>
+    )
+  },
   // {
   //   title: 'Login',
   //   path: '/auth/login',

@@ -13,7 +13,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@m
 import { PublicitesTable } from 'src/sections/publicite/publicites-table';
 import { Table } from '@mui/material';
 import  '../core/services/publicites.service';
-import { PubsSearch } from 'src/sections/publicite/pubs-search';
+import { PubsSearch } from 'src/sections/publicite/pubs-search';;
 function PublicitesPage({publicites})
 {
   const [imageFile, setImageFile] = useState(null);
@@ -29,7 +29,7 @@ function PublicitesPage({publicites})
   const [loading, setLoading] = useState(false); 
   const [searchResults, setSearchResults] = useState([]);
   const handleSearch = (searchQuery) => { 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MTg4NTE2NCwiZXhwIjoxNjkyNDg5OTY0fQ.uRimCr03MA5Tok0YErxg1xPGr0kt_apD4mwRLRJoqPg";
     setLoading(true);
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios
@@ -89,6 +89,10 @@ function PublicitesPage({publicites})
   const [client, setClient] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
+  
+  
+  
+  // ajouter une publicité :
   const handleSubmit = (event) => {
     event.preventDefault(); 
     const newPub = {
@@ -97,14 +101,14 @@ function PublicitesPage({publicites})
       prix_pub : prix,
       duree_pub : duree,
       description_pub : description,
-    };
-    
-    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDM2MzI4OCwiZXhwIjoxNjkwOTY4MDg4fQ.mhwzL-pHZ6w32Kq04Rmz8dCQiVWVNRhQmoSrVPhqgyo";
+    }
+    // const access_token = localStorage.getItem(localStorageKeys.token);
+    const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MjcwNDk3OCwiZXhwIjoxNjkzMzA5Nzc4fQ.KWCSfNwQ0QQushtWa2OK0icViCGXnkb4lBEPioEIc9U";
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios
-      .post("https://79.137.85.120:443/users/", newPub)
+      .post("https://79.137.85.120:443/publicites/add", newPub)
       .then((response) => {
-        console.log("Publicité ajouté avec succès :", response.data); 
+        console.log("Publicité ajoutée avec succès :", response.data); 
         setOpenDialog(false);
       })
       .catch((error) => {
@@ -119,6 +123,8 @@ function PublicitesPage({publicites})
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  //exporter la liste des pubs :
     const exportDataToExcel = () => {
         const dataForExcel = publicites.map((pub) => [
           pub.titre_pub,
@@ -166,7 +172,7 @@ function PublicitesPage({publicites})
                 <ArrowDownOnSquareIcon />
               </SvgIcon>
             )}
-            onClick={exportDataToExcel} // Attach the event handler here
+            onClick={exportDataToExcel}
           >
             Exporter
           </Button>
@@ -201,11 +207,11 @@ function PublicitesPage({publicites})
     
                             </Stack>
                             <Stack direction="row" spacing={2}>
-                              <TextField label="Prix" fullWidth sx={{ width: '50%' }} variant="outlined" required type='text'
+                              <TextField label="Prix" fullWidth sx={{ width: '50%' }} variant="outlined" required type='number'
                                 value={prix}
                                 onChange={(event) => setPrix(event.target.value)}
                               />
-                              <TextField label="Durée" fullWidth sx={{ width: '50%' }} variant="outlined" required type='email'
+                              <TextField label="Durée" fullWidth sx={{ width: '50%' }} variant="outlined" required type='number'
                                 value={duree}
                                 onChange={(event) => setDuree(event.target.value)}
                               />
@@ -260,7 +266,7 @@ function PublicitesPage({publicites})
       {/* {loading ? <p>Loading...</p> : <PublicitesTable pubs={searchResults} />}  */}
     </div>
             <PublicitesTable
-              count={pubs.length}
+              count={publicites.length}
               items={pubs}
               onDeselectAll={pubsSelection.handleDeselectAll}
               onDeselectOne={pubsSelection.handleDeselectOne}

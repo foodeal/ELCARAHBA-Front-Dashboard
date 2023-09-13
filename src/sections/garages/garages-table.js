@@ -18,6 +18,23 @@ import { getInitials } from 'src/utils/get-initials';
 import Link from 'next/link';
 import { useState } from 'react';
 export const GaragesTable = (props) => {
+
+    // "nom_garage": "G1",
+    // "heures_travail": "12",
+    // "jours_travail": "7",
+    // "adresse_garage": "AdrGarage",
+    // "contact_garage": "Contact",
+    // "type_garage": "Full",
+    // "prestataire_id": 1
+
+
+
+
+
+
+
+
+
     const {
         count = 0,
         items = [],

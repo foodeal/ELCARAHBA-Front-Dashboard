@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { useState } from 'react';
 import { format } from 'date-fns';
+import { Paper } from '@mui/material';
 import {
   Avatar,
   Box,
@@ -14,12 +15,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
+  Grid,
+  TextField
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 import Link from 'next/link';
-
 
 export const DemandesTable = (props) => {
   
@@ -35,27 +37,11 @@ export const DemandesTable = (props) => {
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
-  const [selectedItemId, setSelectedItemId] = useState(null);
   const [page, setPage] = useState(0);
-  const [selectedDemande, setSelectedDemande] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const handleApprouveClick = () => {
-    setIsDialogOpen(true);  
-
-  };
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const handleConfirmDelete = (userId) => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY5MDk3OTU3NCwiZXhwIjoxNjkxNTg0Mzc0fQ.ErBwfGXzkN7LgNvxlApzGm2tx_hwaHW9OXhf81e3-Ig";
-    fetch(apiUrl + "/users/" + userId, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-    }).then((message) => console.log(message)).catch((error) => console.log(error));
-    setIsDialogOpen(false);
-  };
+
+
   const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
@@ -65,14 +51,17 @@ export const DemandesTable = (props) => {
   const onPageChange = (event, newPage) => {
     setPage(newPage);
   };
-  
+  const handleCloseDialog = () =>{
+    setIsDialogOpen(false);
+  }
   const onRowsPerPageChange = (event) => {
     const newRowsPerPage = parseInt(event.target.value, 10);
     setRowsPerPage(newRowsPerPage);
     setPage(0); 
   };
-
-  const handleConfirm = (id) =>{};
+  const handleOpenDialog =() => {
+    setIsDialogOpen(true);
+  }
   return (
     <Card>
       <Scrollbar>
@@ -170,17 +159,146 @@ export const DemandesTable = (props) => {
                       {createdAt}
                     </TableCell>
                     <TableCell>
-                    <Button variant="contained" color="primary" onClick={() => handleApprouveClick()}>
-                      Approuver
+                    <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
+                      Tous les détails
                     </Button>
                     <Dialog open={isDialogOpen} onClose={handleDialogClose}   slotProps={{backdrop: { style: { backgroundColor: "rgba(0, 0, 0, 0.15)", },},}}>
-                                        <DialogTitle>Confirmation</DialogTitle>
-                                        <DialogContent>Êtes-vous sûr de vouloir approuver cette demande ?</DialogContent>
-                                        <DialogActions>
-                                          <Button onClick={handleDialogClose}>Annuler</Button>
-                                          <Button onClick={() => handleConfirm(demand.id)} color="error">Approuver</Button>
-                                        </DialogActions>
-                                      </Dialog>
+                    <DialogTitle>Les détails de la demande de prestation : </DialogTitle>
+
+                    <DialogContent>
+                      <Paper elevation={3} style={{ padding: '20px' }}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Nom
+                            </Typography>
+                            <Typography>
+                              {prestataire.nom_prestataire}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Prénom
+                            </Typography>
+                            <Typography>
+                              {prestataire.prenom_prestataire}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Email
+                            </Typography>
+                            <Typography>
+                              {prestataire.email_prestataire}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Télephone
+                            </Typography>
+                            <Typography>
+                              {prestataire.tel_prestataire}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Raison sociale
+                            </Typography>
+                            <Typography>
+                              {prestataire.raison_sociale}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Pays
+                            </Typography>
+                            <Typography>
+                              {prestataire.pays_prestataire}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Ville
+                            </Typography>
+                            <Typography>
+                              {prestataire.ville_prestataire}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Adresse
+                            </Typography>
+                            <Typography>
+                              {prestataire.adresse_prestataire}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Service
+                            </Typography>
+                            <Typography>
+                              {prestataire.service_prestataire}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Site Web
+                            </Typography>
+                            <Typography>
+                              {prestataire.site_web}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Lien Facebook
+                            </Typography>
+                            <Typography>
+                              {prestataire.lien_fb}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Lien Instagram:
+                            </Typography>
+                            <Typography>
+                              {prestataire.lien_insta}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Registre Commerce
+                            </Typography>
+                            <Typography>
+                              {prestataire.registre_commerce}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              CIN du gérant
+                            </Typography>
+                            <Typography>
+                              {prestataire.cin_geron}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Typography variant="subtitle1" style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                              Contrat condition
+                            </Typography>
+                            <Typography>
+                              {prestataire.contrat_condition}
+                            </Typography>
+                          </Grid>
+                       
+                        </Grid>
+                      </Paper>
+</DialogContent>
+
+              
+                    <DialogActions>
+                        <Button onClick={handleDialogClose}>fermer</Button>
+                        <Button onClick={() => handleConfirm(demand.id)} color="error">Approuver</Button>
+                    </DialogActions>
+                    </Dialog>
                   </TableCell>
                   </TableRow>
                   

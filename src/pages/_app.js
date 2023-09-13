@@ -9,20 +9,27 @@ import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 
 const clientSideEmotionCache = createEmotionCache();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const SplashScreen = () => null;
 
 const App = (props) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   useNProgress();
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
   const theme = createTheme();
-
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const tokenString = sessionStorage.getItem('token');
+      const userToken = JSON.parse(tokenString);
+    }
+  }, []);
   return (
     <CacheProvider value={emotionCache}>
       <Head>

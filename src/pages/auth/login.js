@@ -18,8 +18,12 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import useToken  from 'src/components/useToken';
 
 const Page = () => {
+  const tokenHook = useToken();
+const { saveToken } = tokenHook;
+
   const router = useRouter();
   const auth = useAuth();
   const [method, setMethod] = useState('email');
@@ -40,9 +44,15 @@ const Page = () => {
         .max(255)
         .required('Password is required')
     }),
+
     onSubmit: async (values, helpers) => {
       try {
         await auth.signIn(values.email, values.password);
+        
+        const dynamicToken = await getDynamicToken(); 
+        
+        saveToken(dynamicToken); 
+        
         router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
@@ -50,6 +60,7 @@ const Page = () => {
         helpers.setSubmitting(false);
       }
     }
+    
   });
 
   const handleMethodChange = useCallback(
