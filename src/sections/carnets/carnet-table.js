@@ -92,11 +92,11 @@ export const CarnetsTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Link href={`/carnets/${carnet.id}`}>
-                          <Avatar src={carnet.user_id}>
+                        {/* <Link href={`/carnets/${carnet.id}`}> */}
+                          {/* <Avatar src={carnet.user_id}> */}
                             {/* {getInitials(customer.id)} */}
-                          </Avatar>
-                        </Link>
+                          {/* </Avatar> */}
+                        {/* </Link> */}
                         <Typography variant="subtitle2">
                           {carnet.date_vidange}
                         </Typography>

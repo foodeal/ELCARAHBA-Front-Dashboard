@@ -35,6 +35,11 @@
     "react-apexcharts": "1.4.0",
     "react-dom": "18.2.0",
     "simplebar-react": "^3.2.1",
+<<<<<<< Updated upstream
+=======
+    "universal-cookie": "^6.1.1",
+    "xlsx": "^0.18.5",
+>>>>>>> Stashed changes
     "yup": "1.0.0"
   },
   "devDependencies": {

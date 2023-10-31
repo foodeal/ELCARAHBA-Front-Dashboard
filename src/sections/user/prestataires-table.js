@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-props-per-line */
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import {
@@ -36,6 +37,34 @@ export const PrestatairesTable = (props) => {
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
+<<<<<<< Updated upstream
+=======
+  const handleConfirmDelete = (userId) => {
+    console.log(userX);
+      const access_token = JSON.parse(localStorage.getItem('token'));
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+      axios.delete(`https://79.137.85.120:443/prestataires/`+ userX)
+        .then((response) => {
+          console.log("Prestataire supprimé avec succès :", response.data);
+          const updatedUsers = prestataires.filter((prestataire) => prestataire.id !== userId);
+          setUsers(updatedUsers);
+          setIsDialogOpen(false);
+          refreshPage();
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la suppression du prestataire :", error);
+        });
+        
+    };
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+    setIsEditDialogOpen(false);
+  };
+  const handleDeleteIconClick = (userId) => {
+    console.log(userId);
+    setUserX(userId.id);
+    setIsDialogOpen(true);
+>>>>>>> Stashed changes
 
   return (
     <Card>
@@ -45,7 +74,7 @@ export const PrestatairesTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
                     onChange={(event) => {
@@ -55,7 +84,7 @@ export const PrestatairesTable = (props) => {
                         onDeselectAll?.();
                       }
                     }}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell>
                   Avatar
@@ -111,15 +140,15 @@ export const PrestatairesTable = (props) => {
                         <Avatar src={prestataire.avatar}>
                           {getInitials(prestataire.nom_prestataire)}
                         </Avatar>
-                        <Typography variant="subtitle2">
+                        {/* <Typography variant="subtitle2">
                           {prestataire.nom_prestataire} {prestataire.prenom_prestataire}
-                        </Typography>
+                        </Typography> */}
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      <Link href={`/prestataires/${prestataire.id}`}>
-                        {prestataire.nom_prestataire}
-                      </Link>
+                      {/* <Link href={`/prestataires/${prestataire.id}`}> */}
+                      {prestataire.nom_prestataire} {prestataire.prenom_prestataire}
+                      {/* </Link> */}
                     </TableCell>
                     <TableCell>
                       {prestataire.email_prestataire}

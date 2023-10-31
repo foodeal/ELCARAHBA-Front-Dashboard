@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-props-per-line */
 import { useCallback, useState, useEffect } from 'react';
 import {
     Box,
@@ -119,15 +120,18 @@ function UserDetails() {
 
     const router = useRouter();
     const { id } = router.query;
-
     const [oldUser, setUser] = useState(null);
-
     useEffect(() => {
-        if (id) {
-            userServicesService.getUser(id).then((data) => {
-                setUser(data);
-            });
+      const getUser = async () => {
+        try {
+          const response = await api.get('https://79.137.85.120:443/users/', id);
+          setUser(response.data);
+        } catch (error) {
+          console.log(error);
         }
+      };
+  
+      getUser();
     }, [id]);
 
     if (!oldUser) {
@@ -146,9 +150,9 @@ function UserDetails() {
                 hover:text-blue-600
                 cursor-pointer
             '>
-                <Button variant="contained">
+                {/* <Button variant="contained">
                     Retourner
-                </Button>
+                </Button> */}
             </div>
             <UserDetailsForm
                 user={oldUser}

@@ -98,9 +98,9 @@ export const GaragesTable = (props) => {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Link href={`/garages/${garage.id}`}>
+                                            {/* <Link href={`/garages/${garage.id}`}> */}
                                                 {garage.nom_garage}
-                                            </Link>
+                                            {/* </Link> */}
                                         </TableCell>
                                         <TableCell>
                                             {garage.heures_travail}

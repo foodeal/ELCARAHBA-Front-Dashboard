@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { apiUrl } from './helpers/api-url';
 import { ApiUrlsEnum } from './helpers/api-url';
 import { CouponDTO } from "../generated/CouponDTO";

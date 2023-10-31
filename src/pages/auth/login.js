@@ -18,16 +18,28 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+<<<<<<< Updated upstream
 
 const Page = () => {
+=======
+import useToken  from 'src/components/useToken';
+import axios from 'axios';
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
+const Page = () => {
+  // const tokenHook = useToken();
+  // const { saveToken } = tokenHook;
+
+>>>>>>> Stashed changes
   const router = useRouter();
-  const auth = useAuth();
+  // const auth = useAuth();
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
       email: 'admin@carhba.tn',
       password: 'Password123!',
-      submit: null
+      submit: false
     },
     validationSchema: Yup.object({
       email: Yup
@@ -40,6 +52,7 @@ const Page = () => {
         .max(255)
         .required('Password is required')
     }),
+<<<<<<< Updated upstream
     onSubmit: async (values, helpers) => {
       try {
         await auth.signIn(values.email, values.password);
@@ -50,7 +63,52 @@ const Page = () => {
         helpers.setSubmitting(false);
       }
     }
+=======
+
+    // onSubmit: async (values, helpers) => {
+    //   try {
+    //     await auth.signIn(values.email, values.password);
+        
+    //     const dynamicToken = await getDynamicToken(); 
+        
+    //     saveToken(dynamicToken); 
+        
+    //     router.push('/');
+    //   } catch (err) {
+    //     helpers.setStatus({ success: false });
+    //     helpers.setErrors({ submit: err.message });
+    //     helpers.setSubmitting(false);
+    //   }
+    // }
+    
+>>>>>>> Stashed changes
   });
+
+  const onClick = async (values) => {
+    // console.log(values);
+    try {
+      try {
+        const data = {
+            email: formik.values.email,
+            motdepasse: formik.values.password
+        };
+        const response = await axios.post('https://79.137.85.120:443/prestataires/authenticate', data);
+        console.log(response); // je dois verifier l'endpoint de l'authentificationn
+        if (response) {
+        const dynamicToken = await response.data.token;
+        localStorage.setItem('token', JSON.stringify(dynamicToken));
+        cookies.set("TOKEN", response.data.token, {
+          path: "/",
+        });
+        router.push('/');
+        }
+      } catch (error) {
+        console.error('Error fetching dynamic token:', error);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleMethodChange = useCallback(
     (event, value) => {
@@ -64,7 +122,7 @@ const Page = () => {
       auth.skip();
       router.push('/');
     },
-    [auth, router]
+    [router]
   );
 
   return (
@@ -174,8 +232,8 @@ const Page = () => {
                   fullWidth
                   size="large"
                   sx={{ mt: 3 }}
-                  type="submit"
                   variant="contained"
+                  onClick={onClick}
                 >
                   Continue
                 </Button>
