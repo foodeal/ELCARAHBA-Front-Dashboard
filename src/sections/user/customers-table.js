@@ -26,8 +26,6 @@ const cookies = new Cookies();
 
 
 export const CustomersTable = (props) => {
-<<<<<<< Updated upstream
-=======
   const [userX, setUserX] = useState({});
   const [editingUser, setEditingUser] = useState(null);
   const handleCloseEditDialog = () => {
@@ -151,14 +149,13 @@ export const CustomersTable = (props) => {
   
 
 
->>>>>>> Stashed changes
   const {
     count = 0,
     items = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => { },
-    onRowsPerPageChange,
+    // onPageChange = () => { },
+    // onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
     page = 0,
@@ -188,20 +185,6 @@ export const CustomersTable = (props) => {
     setIsDialogOpen(false);
   };
 
-<<<<<<< Updated upstream
-  const handleConfirmDelete = (userId) => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJpYXQiOjE2ODQ2OTEyOTQsImV4cCI6MTY4NTI5NjA5NH0.hjZEv7-KdEpN2QTC8uYH0xpcJvcF1mCy-ssZfOqL3lE";
-    fetch(apiUrl + "/users/" + userId, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-    }).then((message) => console.log(message)).catch((error) => console.log(error));
-    setIsDialogOpen(false);
-  };
-
-=======
 
 // modifier un client : 
 const submitForm = (event, userId) => {
@@ -250,7 +233,6 @@ const submitForm = (event, userId) => {
   const endIndex = startIndex + rowsPerPage; // une variable qui contient la valeur du dernier élément dans la page
   const paginatedUsers = items.slice(startIndex, endIndex) // prendre uniquement les éléments de la 1ere page 
   
->>>>>>> Stashed changes
   return (
     <Card>
       <Scrollbar>
@@ -287,11 +269,7 @@ const submitForm = (event, userId) => {
                   Phone
                 </TableCell>
                 <TableCell>
-<<<<<<< Updated upstream
-                  Signed Up
-=======
                 Date de création
->>>>>>> Stashed changes
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -329,9 +307,6 @@ const submitForm = (event, userId) => {
                         </Dialog>
                       </div>
                     </TableCell>
-<<<<<<< Updated upstream
-                    {/* if checkbox is selected add a delete icon to delete the user */}
-=======
                     <TableCell>
                       <div>
                       <IconButton onClick={() => handleEditIconClick(user)} aria-label="edit" color="primary" 
@@ -444,7 +419,6 @@ const submitForm = (event, userId) => {
                      </Dialog>
                       </div>
                       </TableCell>
->>>>>>> Stashed changes
 
                     <TableCell>
                       <Stack

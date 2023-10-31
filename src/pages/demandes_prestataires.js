@@ -19,10 +19,6 @@ import {
     Unstable_Grid2 as Grid
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-<<<<<<< Updated upstream
-
-function PrestatairesWaitingForApprovalPage({ demandes }) {
-=======
 import * as XLSX from 'xlsx';
 import api from 'src/core/services/helpers/api-get';
 
@@ -69,7 +65,6 @@ function PrestatairesWaitingForApprovalPage() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
->>>>>>> Stashed changes
     const useDemandes = (page, rowsPerPage) => {
         return useMemo(
             () => {
@@ -107,8 +102,6 @@ function PrestatairesWaitingForApprovalPage() {
     const lesDemandes = useDemandes(page, rowsPerPage);
     const demandesIds = useDemandeIds(lesDemandes);
     const demandesSelection = useSelection(demandesIds);
-<<<<<<< Updated upstream
-=======
     
       const [nomPrestataire, setNomPrestataire] = useState('');
       const [prenomPrestataire, setPrenomPrestataire ]= useState('');
@@ -178,7 +171,6 @@ function PrestatairesWaitingForApprovalPage() {
             console.error('Error occurred while submitting the form:', error);
           });
       };
->>>>>>> Stashed changes
 
     if (demandes == []) {
         return <div>Loading...</div>
@@ -212,29 +204,10 @@ function PrestatairesWaitingForApprovalPage() {
                                     Les Demandes En Attentes 
                                     {/* {demandes.length} */}
                                 </Typography>
-<<<<<<< Updated upstream
-                                <Stack
-                                    alignItems="center"
-                                    direction="row"
-                                    spacing={1}
-                                >
-                                    <Button
-                                        color="inherit"
-                                        startIcon={(
-                                            <SvgIcon fontSize="small">
-                                                <ArrowUpOnSquareIcon />
-                                            </SvgIcon>
-                                        )}
-                                    >
-                                        Importer
-                                    </Button>
-                                    <Button
-=======
                                     
                             </Stack>
                             <div>
                             <Button
->>>>>>> Stashed changes
                                         color="inherit"
                                         startIcon={(
                                             <SvgIcon fontSize="small">
@@ -244,12 +217,6 @@ function PrestatairesWaitingForApprovalPage() {
                                     >
                                         Exporter
                                     </Button>
-<<<<<<< Updated upstream
-                                </Stack>
-                            </Stack>
-                            <div>
-=======
->>>>>>> Stashed changes
                                 <Button
                                     startIcon={(
                                         <SvgIcon fontSize="small">
@@ -260,8 +227,6 @@ function PrestatairesWaitingForApprovalPage() {
                                 >
                                     Ajouter
                                 </Button>
-<<<<<<< Updated upstream
-=======
                                 <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth sx={{ display: 'flex',alignItems: 'center',justifyContent: 'center', }}>
                   <DialogTitle>Ajouter Une Demande</DialogTitle>
                   <form onSubmit={submitForm}>
@@ -399,7 +364,6 @@ function PrestatairesWaitingForApprovalPage() {
                     </DialogActions>
                   </form>
                 </Dialog>
->>>>>>> Stashed changes
                             </div>
                         </Stack>
                         <CustomersSearch />

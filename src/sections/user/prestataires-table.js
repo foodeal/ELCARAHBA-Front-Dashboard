@@ -37,8 +37,6 @@ export const PrestatairesTable = (props) => {
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
-<<<<<<< Updated upstream
-=======
   const handleConfirmDelete = (userId) => {
     console.log(userX);
       const access_token = JSON.parse(localStorage.getItem('token'));
@@ -64,7 +62,6 @@ export const PrestatairesTable = (props) => {
     console.log(userId);
     setUserX(userId.id);
     setIsDialogOpen(true);
->>>>>>> Stashed changes
 
   return (
     <Card>
@@ -195,3 +192,5 @@ PrestatairesTable.propTypes = {
   rowsPerPage: PropTypes.number,
   selected: PropTypes.array
 };
+
+}

@@ -27,8 +27,8 @@ export const DemandesTable = (props) => {
     items = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => { },
-    onRowsPerPageChange,
+    // onPageChange = () => { },
+    // onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
     page = 0,
@@ -39,8 +39,6 @@ export const DemandesTable = (props) => {
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
 
-<<<<<<< Updated upstream
-=======
 
   const handleDialogClose = () => {
     setIsDialogOpen(false);
@@ -102,7 +100,6 @@ export const DemandesTable = (props) => {
   const handleOpenDialog =() => {
     setIsDialogOpen(true);
   }
->>>>>>> Stashed changes
   return (
     <Card>
       <Scrollbar>
@@ -199,8 +196,6 @@ export const DemandesTable = (props) => {
                     <TableCell>
                       {createdAt}
                     </TableCell>
-<<<<<<< Updated upstream
-=======
                     <TableCell>
                     <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
                       Tous les détails
@@ -344,7 +339,6 @@ export const DemandesTable = (props) => {
                     </DialogActions>
                     </Dialog>
                   </TableCell>
->>>>>>> Stashed changes
                   </TableRow>
                 );
               })}

@@ -11,10 +11,6 @@ import { ExpertsTable } from 'src/sections/user/experts-table';
 import { CustomersSearch } from 'src/sections/user/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../../core/services/userServices.service';
-<<<<<<< Updated upstream
-
-function ExpertsPage({ experts }) {
-=======
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import axios from 'axios';
@@ -65,7 +61,6 @@ function ExpertsPage() {
 
 
 
->>>>>>> Stashed changes
 
     const useCustomers = (page, rowsPerPage) => {
         return useMemo(
@@ -132,36 +127,7 @@ function ExpertsPage() {
                                     Les Experts 
                                     {/* {experts.length} */}
                                 </Typography>
-<<<<<<< Updated upstream
-                                <Stack
-                                    alignItems="center"
-                                    direction="row"
-                                    spacing={1}
-                                >
-                                    <Button
-                                        color="inherit"
-                                        startIcon={(
-                                            <SvgIcon fontSize="small">
-                                                <ArrowUpOnSquareIcon />
-                                            </SvgIcon>
-                                        )}
-                                    >
-                                        Import
-                                    </Button>
-                                    <Button
-                                        color="inherit"
-                                        startIcon={(
-                                            <SvgIcon fontSize="small">
-                                                <ArrowDownOnSquareIcon />
-                                            </SvgIcon>
-                                        )}
-                                    >
-                                        Export
-                                    </Button>
-                                </Stack>
-=======
                                       
->>>>>>> Stashed changes
                             </Stack>
                             <div>
                                     <Button color="inherit" startIcon={(  <SvgIcon fontSize="small"><ArrowDownOnSquareIcon /></SvgIcon> )} onClick={exportDataToExcel}  >

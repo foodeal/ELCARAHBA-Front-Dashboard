@@ -18,10 +18,6 @@ import {
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
-<<<<<<< Updated upstream
-
-const Page = () => {
-=======
 import useToken  from 'src/components/useToken';
 import axios from 'axios';
 import Cookies from "universal-cookie";
@@ -31,7 +27,6 @@ const Page = () => {
   // const tokenHook = useToken();
   // const { saveToken } = tokenHook;
 
->>>>>>> Stashed changes
   const router = useRouter();
   // const auth = useAuth();
   const [method, setMethod] = useState('email');
@@ -52,18 +47,6 @@ const Page = () => {
         .max(255)
         .required('Password is required')
     }),
-<<<<<<< Updated upstream
-    onSubmit: async (values, helpers) => {
-      try {
-        await auth.signIn(values.email, values.password);
-        router.push('/');
-      } catch (err) {
-        helpers.setStatus({ success: false });
-        helpers.setErrors({ submit: err.message });
-        helpers.setSubmitting(false);
-      }
-    }
-=======
 
     // onSubmit: async (values, helpers) => {
     //   try {
@@ -81,7 +64,6 @@ const Page = () => {
     //   }
     // }
     
->>>>>>> Stashed changes
   });
 
   const onClick = async (values) => {

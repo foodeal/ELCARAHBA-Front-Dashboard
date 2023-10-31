@@ -6,11 +6,6 @@ function RequestPerformer(method: string, path:string, onSuccess: (response: Axi
 
     var data : Record<string, any>;
     const headers = { Accept: 'application/json' };
-<<<<<<< Updated upstream
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY4OTM0Mzg4NCwiZXhwIjoxNjg5OTQ4Njg0fQ.q1QQYPRET6brO3maPlavYMXa8p8EBOVr-nEM31ptfvk";
-
-=======
->>>>>>> Stashed changes
     axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       if (!config.headers.Authorization) {
         config.headers.Authorization = `Bearer ${(token)}`;

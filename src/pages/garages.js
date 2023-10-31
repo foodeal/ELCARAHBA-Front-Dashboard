@@ -11,10 +11,6 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import garagesServices from '../core/services/garagesServices.service';
 import { GaragesSearch } from 'src/sections/garages/garages-search';
 import { GaragesTable } from 'src/sections/garages/garages-table';
-<<<<<<< Updated upstream
-
-function GaragesPage({ garages }) {
-=======
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import * as XLSX from 'xlsx';
@@ -64,7 +60,6 @@ function GaragesPage() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
->>>>>>> Stashed changes
 
     const useCustomers = (page, rowsPerPage) => {
         return useMemo(
@@ -144,17 +139,12 @@ function GaragesPage() {
                                         )}
                                     >
                                         Importer
-<<<<<<< Updated upstream
-                                    </Button>
-                                    <Button
-=======
-                                    </Button> */}
+                                    </Button> 
                                     
-                                {/* </Stack> */}
+                                </Stack>
                             </Stack>
                             <div>
                                      <Button
->>>>>>> Stashed changes
                                         color="inherit"
                                         startIcon={(
                                             <SvgIcon fontSize="small">
@@ -164,12 +154,6 @@ function GaragesPage() {
                                     >
                                         Exporter
                                     </Button>
-<<<<<<< Updated upstream
-                                </Stack>
-                            </Stack>
-                            <div>
-=======
->>>>>>> Stashed changes
                                 <Button
                                     startIcon={(
                                         <SvgIcon fontSize="small">

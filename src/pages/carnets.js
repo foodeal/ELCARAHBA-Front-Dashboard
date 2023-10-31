@@ -19,9 +19,6 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CarnetsTable } from 'src/sections/carnets/carnet-table';
 import { CarnetsSearch } from 'src/sections/carnets/carnets-search';
 import carnetServicesService from 'src/core/services/carnetServices.service';
-<<<<<<< Updated upstream
-function CarnetsPage({ carnets }) {
-=======
 import api from 'src/core/services/helpers/api-get';
 function CarnetsPage() {
   const exportDataToExcel = () => {
@@ -58,7 +55,6 @@ function CarnetsPage() {
     getCarnets();
   }, []);
 
->>>>>>> Stashed changes
   const useCarnetUsers = (page, rowsPerPage) => {
     return useMemo(
       () => {

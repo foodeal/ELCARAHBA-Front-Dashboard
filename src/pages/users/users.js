@@ -13,11 +13,6 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../../core/services/userServices.service';
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-<<<<<<< Updated upstream
-function UsersPage({ clients }) {
-
-  const [openDialog, setOpenDialog] = React.useState(false);
-=======
 import Cookies from "universal-cookie";
 import api from 'src/core/services/helpers/api-get';
 const cookies = new Cookies();
@@ -130,7 +125,6 @@ const UsersPage = ()=> {
       });
   };
 
->>>>>>> Stashed changes
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -158,14 +152,6 @@ const UsersPage = ()=> {
     );
   };
 
-<<<<<<< Updated upstream
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const users = useUsers(page, rowsPerPage);
-  const usersIds = useUserIds(users);
-  const usersSelection = useSelection(usersIds);
-=======
->>>>>>> Stashed changes
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -180,53 +166,6 @@ const UsersPage = ()=> {
     },
     []
   );
-<<<<<<< Updated upstream
-
-  const [nomUtilisateur, setNomUtilisateur] = useState('');
-  const [prenomUtilisateur, setPrenomUtilisateur] = useState('');
-  const [dateNaissance, setDateNaissance] = useState('1992-02-17');
-  const [email, setEmail] = useState('');
-  const [telephone, setTelephone] = useState('');
-  const [pays, setPays] = useState('Tunis');
-  const [ville, setVille] = useState('');
-  const [adresse, setAdresse] = useState('');
-  const [motdepasse, setMotdepasse] = useState('');
-
-  const user = {
-    "nom_prenom": nomUtilisateur + prenomUtilisateur,
-    "date_naissance": dateNaissance,
-    "email": email,
-    "tel_utilisateur": telephone,
-    "pays_user": pays,
-    "ville_user": ville,
-    "adresse_user": adresse,
-    "motdepasse": motdepasse
-  };
-
-  const submitForm = (event) => {
-    event.preventDefault();
-    fetch("https://79.137.85.120:443/users/register", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    });
-
-    // Reset the form state
-    setNomUtilisateur('');
-    setPrenomUtilisateur('');
-    setDateNaissance('1992-02-17');
-    setEmail('');
-    setTelephone('');
-    setPays('Tunis');
-    setVille('');
-    setAdresse('');
-    setMotdepasse('');
-  }
-
-  if (!users) {
-=======
   
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -236,7 +175,6 @@ const UsersPage = ()=> {
   const paginatedUsers = useUsers(page, rowsPerPage);
   
   if (!clients) {
->>>>>>> Stashed changes
     return <div>Loading...</div>;
   }
 
@@ -259,42 +197,11 @@ const UsersPage = ()=> {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-<<<<<<< Updated upstream
-                  Les clients {users.length}
-                </Typography>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                >
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Importer
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Exporter
-                  </Button>
-                </Stack>
-=======
                   Les Clients 
                   {/* {clients.length} */}
                 </Typography>
       
                 {/* </Stack> */}
->>>>>>> Stashed changes
               </Stack>
               <div>
               <Button

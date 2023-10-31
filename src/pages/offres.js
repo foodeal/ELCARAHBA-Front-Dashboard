@@ -12,11 +12,6 @@ import { OffersTable } from 'src/sections/offres/offres-table';
 import { OffersSearch } from 'src/sections/offres/offres-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import  offreServices  from '../core/services/offreServices.service';
-<<<<<<< Updated upstream
-
-
-function OffresPage({ offres }) {
-=======
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import api from 'src/core/services/helpers/api-get';
@@ -51,7 +46,6 @@ function OffresPage() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
->>>>>>> Stashed changes
 
   const [offres, setOffres] = useState([]);
   useEffect(() => {
@@ -131,30 +125,11 @@ function OffresPage() {
                                   Les Offres 
                                   {/* : {offres.length} */}
                               </Typography>
-<<<<<<< Updated upstream
-                              <Stack
-                                  alignItems="center"
-                                  direction="row"
-                                  spacing={1}
-                              >
-                                  <Button
-                                      color="inherit"
-                                      startIcon={(
-                                          <SvgIcon fontSize="small">
-                                              <ArrowUpOnSquareIcon />
-                                          </SvgIcon>
-                                      )}
-                                  >
-                                      Importer
-                                  </Button>
-                                  <Button
-=======
                                   
                               {/* </Stack> */}
                           </Stack>
                           <div>
                           <Button
->>>>>>> Stashed changes
                                       color="inherit"
                                       startIcon={(
                                           <SvgIcon fontSize="small">
@@ -164,12 +139,6 @@ function OffresPage() {
                                   >
                                       Exporter
                                   </Button>
-<<<<<<< Updated upstream
-                              </Stack>
-                          </Stack>
-                          <div>
-=======
->>>>>>> Stashed changes
                               <Button
                                   startIcon={(
                                       <SvgIcon fontSize="small">

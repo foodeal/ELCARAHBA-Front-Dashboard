@@ -10,10 +10,6 @@ import { PrestatairesTable } from 'src/sections/user/prestataires-table';
 import { CustomersSearch } from 'src/sections/user/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../../core/services/userServices.service';
-<<<<<<< Updated upstream
-
-function PrestatairesPage({ prestataires }) {
-=======
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import axios from 'axios';
@@ -47,7 +43,6 @@ function PrestatairesPage() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
->>>>>>> Stashed changes
 
   const [prestataires, setPrestataires] = useState([]);
   useEffect(() => {
@@ -100,8 +95,6 @@ function PrestatairesPage() {
     },
     []
   );
-<<<<<<< Updated upstream
-=======
   const [nomPrestataire, setNomPrestataire] = useState('');
   const [prenomPrestataire, setPrenomPrestataire] = useState('');
   const [dateNaissance, setDateNaissance] = useState('1992-02-17');
@@ -156,7 +149,6 @@ function PrestatairesPage() {
   };
 
 
->>>>>>> Stashed changes
 
   if (!prestataires) {
     return <div>Loading...</div>;
@@ -185,36 +177,6 @@ function PrestatairesPage() {
                   Les Prestataires 
                   {/* {prestataires.length} */}
                 </Typography>
-<<<<<<< Updated upstream
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                >
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Import
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Export
-                  </Button>
-                </Stack>
-              </Stack>
-              <div>
-=======
                  
               </Stack>
               <div>
@@ -229,7 +191,6 @@ function PrestatairesPage() {
       >
         Exporter
       </Button>
->>>>>>> Stashed changes
                 <Button
                   startIcon={(
                     <SvgIcon fontSize="small">
