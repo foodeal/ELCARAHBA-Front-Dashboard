@@ -16,7 +16,7 @@ async function getAllCoupons(): Promise<CouponDTO[]> {
     };
 
     const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllCoupons}/`, onSuccess, onFailure);
-    requestPerformer.performRequest();
+    // // requestPerformer.performRequest();
 
     return new Promise<CouponDTO[]>((resolve, reject) => {
         requestPerformer.onSuccess = (response: AxiosResponse) => {
@@ -42,7 +42,7 @@ async function getAllCouponsExpired(): Promise<CouponDTO[]> {
     };
 
     const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllCoupons}/`, onSuccess, onFailure);
-    requestPerformer.performRequest();
+    // requestPerformer.performRequest();
 
     return new Promise<CouponDTO[]>((resolve, reject) => {
         requestPerformer.onSuccess = (response: AxiosResponse) => {
@@ -68,7 +68,7 @@ async function getAllCouponsValide(): Promise<CouponDTO[]> {
     };
 
     const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllCoupons}/`, onSuccess, onFailure);
-    requestPerformer.performRequest();
+    // requestPerformer.performRequest();
 
     return new Promise<CouponDTO[]>((resolve, reject) => {
         requestPerformer.onSuccess = (response: AxiosResponse) => {
@@ -94,7 +94,7 @@ async function getCoupon(id: number): Promise<CouponDTO> {
     };
 
     const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetCoupon}/${id}`, onSuccess, onFailure);
-    requestPerformer.performRequest();
+    // requestPerformer.performRequest();
 
     return new Promise<CouponDTO>((resolve, reject) => {
         requestPerformer.onSuccess = (response: AxiosResponse) => {

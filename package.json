@@ -1,9 +1,8 @@
 {
-  "name": "material-kit-react",
-  "version": "3.0.0",
-  "author": "Devias",
+  "name": "dash-elcarhba",
+  "version": "1.0.0",
+  "author": "Foodealz",
   "licence": "MIT",
-  "homepage": "https://devias.io",
   "private": false,
   "scripts": {
     "dev": "next",
@@ -35,11 +34,7 @@
     "react-apexcharts": "1.4.0",
     "react-dom": "18.2.0",
     "simplebar-react": "^3.2.1",
-<<<<<<< Updated upstream
-=======
-    "universal-cookie": "^6.1.1",
     "xlsx": "^0.18.5",
->>>>>>> Stashed changes
     "yup": "1.0.0"
   },
   "devDependencies": {

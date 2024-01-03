@@ -4,12 +4,8 @@ import { styled } from '@mui/material/styles';
 // import { withAuthGuard } from 'src/hocs/with-auth-guard';
 import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
 
 const SIDE_NAV_WIDTH = 280;
-const token = cookies.get("TOKEN");
-console.log(token);
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
   flex: '1 1 auto',

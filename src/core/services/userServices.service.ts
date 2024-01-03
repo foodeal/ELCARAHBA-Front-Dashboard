@@ -8,10 +8,8 @@ import { ExpertDTO } from '../generated/ExpertDTO';
 import { ExpertData } from '../models/expert/expert';
 import { UserDTO } from '../generated/UserDto';
 import React from 'react';
-import Cookies from "universal-cookie";
 import { UseLocalStorage } from './helpers/use-local-storage';
 import RequestPerformer from './helpers/request_performer';
-const cookies = new Cookies();
 
 async function getAllUsers(): Promise<UserDetails[]> {
   console.log("2");

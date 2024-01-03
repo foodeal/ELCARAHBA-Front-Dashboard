@@ -1,29 +1,33 @@
 /* eslint-disable react/jsx-max-props-per-line */
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { useState } from 'react';
 import {
-    Avatar,
-    Box,
-    Card,
-    Checkbox,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography
+  Avatar,
+  Box,
+  Card,
+  Checkbox,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Button,
+  IconButton,
+  Unstable_Grid2 as Grid
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 import Link from 'next/link';
 
 
 export const ExpertsTable = (props) => {
-<<<<<<< Updated upstream
-=======
   const [editingUser, setEditingUser] = useState(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
     const handleEditIconClick = (user) =>
     { 
@@ -137,7 +141,6 @@ export const ExpertsTable = (props) => {
     const refreshPage = () => {
         window.location.reload();
       };   
->>>>>>> Stashed changes
     const {
         count = 0,
         items = [],
@@ -154,9 +157,6 @@ export const ExpertsTable = (props) => {
 
     const selectedSome = (selected.length > 0) && (selected.length < items.length);
     const selectedAll = (items.length > 0) && (selected.length === items.length);
-<<<<<<< Updated upstream
-
-=======
     const handleConfirmDelete = (userId) => {
         const access_token = JSON.parse(localStorage.getItem('token'));
         axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
@@ -207,7 +207,6 @@ export const ExpertsTable = (props) => {
           });
       };
     
->>>>>>> Stashed changes
     return (
         <Card>
             <Scrollbar>
@@ -269,8 +268,6 @@ export const ExpertsTable = (props) => {
                                                 }}
                                             />
                                         </TableCell>
-<<<<<<< Updated upstream
-=======
                       <TableCell>
                       <div>
                       <IconButton onClick={() => handleEditIconClick(expert)} aria-label="edit" color="primary" 
@@ -346,7 +343,6 @@ export const ExpertsTable = (props) => {
 
                       </div>
                       </TableCell>
->>>>>>> Stashed changes
                                         <TableCell>
                                             <Stack
                                                 alignItems="center"

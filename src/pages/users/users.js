@@ -10,8 +10,9 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/user/customers-table';
 import { CustomersSearch } from 'src/sections/user/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
+import EditIcon from '@mui/icons-material/Edit';
 import userServices from '../../core/services/userServices.service';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import Cookies from "universal-cookie";
 import api from 'src/core/services/helpers/api-get';
@@ -228,7 +229,7 @@ const UsersPage = ()=> {
                 </Button>
                 <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth sx={{ width: '800px' }}>
                   <DialogTitle>Ajouter un client</DialogTitle>
-                  <form onSubmit={submitForm}>
+                  <form onSubmit={handleSubmit}>
                     <DialogContent>
                       <Stack spacing={2}>
                         <Stack direction="row" spacing={2}>

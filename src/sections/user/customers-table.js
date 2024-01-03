@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-max-props-per-line */
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Avatar,
@@ -13,19 +12,27 @@ import {
   TableBody,
   TableCell,
   TableHead,
+  TextField,
   TablePagination,
+  Typography,
   TableRow,
-  Typography
+  Button,
+  Divider,
+  IconButton,
+  Unstable_Grid2 as Grid
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+
 import { Scrollbar } from 'src/components/scrollbar';
 import { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { apiUrl } from 'src/core/services/helpers';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 
 export const CustomersTable = (props) => {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [userX, setUserX] = useState({});
   const [editingUser, setEditingUser] = useState(null);
   const handleCloseEditDialog = () => {
@@ -170,7 +177,6 @@ export const CustomersTable = (props) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
-
   const handleCheckboxChange = (event) => {
     const itemId = event.target.value;
     setSelectedItemId(itemId);
@@ -180,6 +186,14 @@ export const CustomersTable = (props) => {
   const handleDeleteIconClick = () => {
     setIsDialogOpen(true);
   };
+
+  const handleEditIconClick = (user) =>
+  { 
+   console.log("user : "+user);
+   setEditingUser(user);
+   console.log(editingUser);
+   setIsEditDialogOpen(true);
+ }
 
   const handleDialogClose = () => {
     setIsDialogOpen(false);

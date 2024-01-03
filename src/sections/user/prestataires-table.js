@@ -35,6 +35,7 @@ export const PrestatairesTable = (props) => {
     selected = []
   } = props;
 
+
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
   const handleConfirmDelete = (userId) => {
@@ -54,6 +55,7 @@ export const PrestatairesTable = (props) => {
         });
         
     };
+
   const handleDialogClose = () => {
     setIsDialogOpen(false);
     setIsEditDialogOpen(false);
@@ -62,6 +64,7 @@ export const PrestatairesTable = (props) => {
     console.log(userId);
     setUserX(userId.id);
     setIsDialogOpen(true);
+  }
 
   return (
     <Card>
@@ -105,6 +108,7 @@ export const PrestatairesTable = (props) => {
             </TableHead>
             <TableBody>
               {items.map((prestataire) => {
+                console.log("pres" + prestataire.id);
                 const isSelected = selected.includes(prestataire.id);
                 const date = new Date(prestataire.createdAt);
                 const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -193,4 +197,3 @@ PrestatairesTable.propTypes = {
   selected: PropTypes.array
 };
 
-}

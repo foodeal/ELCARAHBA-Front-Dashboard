@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-max-props-per-line */
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import React, {useState} from 'react';
 import {
   Avatar,
   Box,
@@ -13,7 +15,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
+  Button,
+  Paper,
+  Unstable_Grid2 as Grid
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
@@ -38,7 +43,7 @@ export const DemandesTable = (props) => {
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDialogClose = () => {
     setIsDialogOpen(false);
