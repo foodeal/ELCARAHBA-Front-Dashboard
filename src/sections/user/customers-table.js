@@ -27,8 +27,7 @@ import { Scrollbar } from 'src/components/scrollbar';
 import { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { apiUrl } from 'src/core/services/helpers';
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+
 
 
 export const CustomersTable = (props) => {
@@ -52,7 +51,6 @@ export const CustomersTable = (props) => {
     window.location.reload();
   };
 
-  const token = cookies.get("TOKEN");
 
   const states = [
     {

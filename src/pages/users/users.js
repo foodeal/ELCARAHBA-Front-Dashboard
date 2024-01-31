@@ -14,9 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import userServices from '../../core/services/userServices.service';
 import React, {useEffect} from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import Cookies from "universal-cookie";
 import api from 'src/core/services/helpers/api-get';
-const cookies = new Cookies();
 
 const UsersPage = ()=> {
 

@@ -20,8 +20,6 @@ import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import useToken  from 'src/components/useToken';
 import axios from 'axios';
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
 
 const Page = () => {
   // const tokenHook = useToken();
@@ -79,9 +77,6 @@ const Page = () => {
         if (response) {
         const dynamicToken = await response.data.token;
         localStorage.setItem('token', JSON.stringify(dynamicToken));
-        cookies.set("TOKEN", response.data.token, {
-          path: "/",
-        });
         router.push('/');
         }
       } catch (error) {
