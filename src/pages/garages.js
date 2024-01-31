@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+/* eslint-disable react/jsx-max-props-per-line */
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
@@ -10,8 +11,55 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import garagesServices from '../core/services/garagesServices.service';
 import { GaragesSearch } from 'src/sections/garages/garages-search';
 import { GaragesTable } from 'src/sections/garages/garages-table';
+import React from 'react';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import * as XLSX from 'xlsx';
+import api from 'src/core/services/helpers/api-get';
 
-function GaragesPage({ garages }) {
+function GaragesPage() {
+  const [garages, setGarages] = useState([]);
+  useEffect(() => {
+    const getGarages = async () => {
+      try {
+        const response = await api.get('https://79.137.85.120:443/garages/');
+        setGarages(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getGarages();
+  }, []);
+
+    const exportDataToExcel = () => {
+        const dataForExcel = garages.map((garage) => [
+            garage.nom_garage,
+            garage.heures_travail,
+            garage.jours_travail,
+            garage.adresse_garage,
+            garage.contact_garage,
+            garage.type_garage,
+        ]);
+    
+        const headerForExcel = ['Nom','Heures de travail','Jours de travail','Adresse','Contact','Type'];
+        const data = [headerForExcel, ...dataForExcel];
+    
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Garages');
+    
+        const fileName = 'garages.xlsx';
+        XLSX.writeFile(workbook, fileName);
+      };
+    const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
     const useCustomers = (page, rowsPerPage) => {
         return useMemo(
@@ -74,7 +122,8 @@ function GaragesPage({ garages }) {
                         >
                             <Stack spacing={1}>
                                 <Typography variant="h4">
-                                    Les garages {garages.length}
+                                    Les Garages 
+                                    {/* {garages.length} */}
                                 </Typography>
                                 <Stack
                                     alignItems="center"
@@ -90,8 +139,12 @@ function GaragesPage({ garages }) {
                                         )}
                                     >
                                         Importer
-                                    </Button>
-                                    <Button
+                                    </Button> 
+                                    
+                                </Stack>
+                            </Stack>
+                            <div>
+                                     <Button
                                         color="inherit"
                                         startIcon={(
                                             <SvgIcon fontSize="small">
@@ -101,9 +154,6 @@ function GaragesPage({ garages }) {
                                     >
                                         Exporter
                                     </Button>
-                                </Stack>
-                            </Stack>
-                            <div>
                                 <Button
                                     startIcon={(
                                         <SvgIcon fontSize="small">
@@ -137,23 +187,23 @@ function GaragesPage({ garages }) {
     );
 }
 
-export async function getStaticProps() {
-    try {
-        const garages = await garagesServices.getAllGarages();
-        return {
-            props: {
-                garages
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching garages:', error);
-        return {
-            props: {
-                garages: []
-            },
-        };
-    }
-}
+// export async function getStaticProps() {
+//     try {
+//         const garages = await garagesServices.getAllGarages();
+//         return {
+//             props: {
+//                 garages
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching garages:', error);
+//         return {
+//             props: {
+//                 garages: []
+//             },
+//         };
+//     }
+// }
 
 
 export default GaragesPage;

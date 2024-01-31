@@ -2,7 +2,7 @@ import Head from 'next/head';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { applyPagination } from 'src/utils/apply-pagination';
 import { useSelection } from 'src/hooks/use-selection';
 import {
@@ -19,7 +19,42 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CarnetsTable } from 'src/sections/carnets/carnet-table';
 import { CarnetsSearch } from 'src/sections/carnets/carnets-search';
 import carnetServicesService from 'src/core/services/carnetServices.service';
-function CarnetsPage({ carnets }) {
+import api from 'src/core/services/helpers/api-get';
+function CarnetsPage() {
+  const exportDataToExcel = () => {
+    const dataForExcel = carnets.map((carnet) => [
+      carnet.date_vidange,
+      carnet.klm_vidange,
+      carnet.klm_plaque,
+      carnet.date_batterie,
+      carnet.date_assurance,
+      carnet.date_visite,
+    ]);
+  
+    const headerForExcel = ['Date vidange','Klm vidange','Klm plaque','Date batterie','Date assurances','Date visite'];
+    const data = [headerForExcel, ...dataForExcel];
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Carnets');
+  
+    const fileName = 'carnets.xlsx';
+    XLSX.writeFile(workbook, fileName);
+  }
+
+  const [carnets, setCarnets] = useState([]);
+  useEffect(() => {
+    const getCarnets = async () => {
+      try {
+        const response = await api.get('https://79.137.85.120:443/carnets/');
+        setCarnets(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getCarnets();
+  }, []);
+
   const useCarnetUsers = (page, rowsPerPage) => {
     return useMemo(
       () => {
@@ -85,7 +120,7 @@ function CarnetsPage({ carnets }) {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Les carnets
+                  Les Carnets
                 </Typography>
                 <Stack
                   alignItems="center"
@@ -114,7 +149,7 @@ function CarnetsPage({ carnets }) {
                   </Button>
                 </Stack>
               </Stack>
-              <div>
+              {/* <div>
                 <Button
                   startIcon={(
                     <SvgIcon fontSize="small">
@@ -125,7 +160,7 @@ function CarnetsPage({ carnets }) {
                 >
                   Ajouter
                 </Button>
-              </div>
+              </div> */}
             </Stack>
             <CarnetsSearch />
             <CarnetsTable
@@ -159,23 +194,23 @@ function CarnetsPage({ carnets }) {
   );
 }
 
-export async function getStaticProps() {
-  try {
-    const carnets = await carnetServicesService.getAllCarnets();
-    return {
-      props: {
-        carnets
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    return {
-      props: {
-        carnets: [],
-      },
-    };
-  }
-}
+// export async function getStaticProps() {
+//   try {
+//     const carnets = await carnetServicesService.getAllCarnets();
+//     return {
+//       props: {
+//         carnets
+//       },
+//     };
+//   } catch (error) {
+//     console.error('Error fetching users:', error);
+//     return {
+//       props: {
+//         carnets: [],
+//       },
+//     };
+//   }
+// }
 
 CarnetsPage.getLayout = (page) => (
   <DashboardLayout>

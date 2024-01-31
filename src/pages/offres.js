@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+/* eslint-disable react/jsx-max-props-per-line */
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
@@ -11,9 +12,54 @@ import { OffersTable } from 'src/sections/offres/offres-table';
 import { OffersSearch } from 'src/sections/offres/offres-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import  offreServices  from '../core/services/offreServices.service';
+import React from 'react';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import api from 'src/core/services/helpers/api-get';
 
 
-function OffresPage({ offres }) {
+function OffresPage() {
+  const exportDataToExcel = () => {
+    const dataForExcel = offres.map((offre) => [
+      offre.nom_utilisateur,
+      offre.prenom_utilisateur,
+      offre.email,
+      offre.adresse_user,
+      offre.tel_utilisateur,
+    ]);
+
+    const headerForExcel = ['Nom','Prénom', 'Email', 'Adresse','Téléphone'];
+    const data = [headerForExcel, ...dataForExcel];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Offres');
+
+    const fileName = 'offres.xlsx';
+    XLSX.writeFile(workbook, fileName);
+  };
+    const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const [offres, setOffres] = useState([]);
+  useEffect(() => {
+    const getOffres = async () => {
+      try {
+        const response = await api.get('https://79.137.85.120:443/offres_dispo/');
+        setOffres(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getOffres();
+  }, []);
 
   const useOffres = (page, rowsPerPage) => {
       return useMemo(
@@ -76,24 +122,14 @@ function OffresPage({ offres }) {
                       >
                           <Stack spacing={1}>
                               <Typography variant="h4">
-                                  Les offres : {offres.length}
+                                  Les Offres 
+                                  {/* : {offres.length} */}
                               </Typography>
-                              <Stack
-                                  alignItems="center"
-                                  direction="row"
-                                  spacing={1}
-                              >
-                                  <Button
-                                      color="inherit"
-                                      startIcon={(
-                                          <SvgIcon fontSize="small">
-                                              <ArrowUpOnSquareIcon />
-                                          </SvgIcon>
-                                      )}
-                                  >
-                                      Importer
-                                  </Button>
-                                  <Button
+                                  
+                              {/* </Stack> */}
+                          </Stack>
+                          <div>
+                          <Button
                                       color="inherit"
                                       startIcon={(
                                           <SvgIcon fontSize="small">
@@ -103,9 +139,6 @@ function OffresPage({ offres }) {
                                   >
                                       Exporter
                                   </Button>
-                              </Stack>
-                          </Stack>
-                          {/* <div>
                               <Button
                                   startIcon={(
                                       <SvgIcon fontSize="small">
@@ -116,7 +149,7 @@ function OffresPage({ offres }) {
                               >
                                   Ajouter
                               </Button>
-                          </div> */}
+                          </div>
                       </Stack>
                       <OffersSearch />
                       <OffersTable
@@ -139,23 +172,23 @@ function OffresPage({ offres }) {
   );
 }
 
-export async function getStaticProps() {
-  try {
-      const offres = await offreServices.getAllOffres();
-      return {
-          props: {
-              offres
-          },
-      };
-  } catch (error) {
-      console.error('Error fetching offres:', error);
-      return {
-          props: {
-              offres: []
-          },
-      };
-  }
-}
+// export async function getStaticProps() {
+//   try {
+//       const offres = await offreServices.getAllOffres();
+//       return {
+//           props: {
+//               offres
+//           },
+//       };
+//   } catch (error) {
+//       console.error('Error fetching offres:', error);
+//       return {
+//           props: {
+//               offres: []
+//           },
+//       };
+//   }
+// }
 
 
 export default OffresPage;

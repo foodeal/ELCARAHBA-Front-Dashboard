@@ -1,51 +1,33 @@
+import React, { useState } from 'react';
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
-class RequestPerformer {
-  method: string;
-  path: string;
-  onSuccess: (response: AxiosResponse) => void;
-  onFailure: (error: any) => void;
-  data: Record<string, any>;
-
-  constructor(method: string, path: string, onSuccess: (response: AxiosResponse) => void, onFailure: (error: any) => void) {
-    this.method = method;
-    this.path = path;
-    this.onSuccess = onSuccess;
-    this.onFailure = onFailure;
-    this.data = {}
-  }
-
-  setData(data: Record<string, any>) {
-    this.data = data;
-  }
-
-  performRequest() {
+function RequestPerformer(method: string, path:string, onSuccess: (response: AxiosResponse) => void, onFailure: (error: any) => void)  {
+    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImlhdCI6MTY5NzU0NjQyMiwiZXhwIjoxNjk4MTUxMjIyfQ.J7ZY8SzWcHDlzMmCydfV_XttZP-0BxjC1fCjN_SlTG4';
+    const token = JSON.parse(localStorage.getItem('token'));
+    var data : Record<string, any>;
     const headers = { Accept: 'application/json' };
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImlhdCI6MTY4OTM0Mzg4NCwiZXhwIjoxNjg5OTQ4Njg0fQ.q1QQYPRET6brO3maPlavYMXa8p8EBOVr-nEM31ptfvk";
-
     axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       if (!config.headers.Authorization) {
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${(token)}`;
       }
       return config;
     });
 
     axios.request({
-      method: this.method,
-      url: this.path,
+      method: method,
+      url: path,
       headers: {
         ...headers,
       },
-      data: this.data
+      data: data
 
     })
       .then((response: AxiosResponse) => {
-        this.onSuccess(response);
+        onSuccess(response);
       })
       .catch((error: any) => {
-        this.onFailure(error);
+        onFailure(error);
       });
-  }
 }
 
 export default RequestPerformer;

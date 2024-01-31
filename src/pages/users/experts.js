@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+/* eslint-disable react/jsx-max-props-per-line */
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
@@ -10,8 +11,56 @@ import { ExpertsTable } from 'src/sections/user/experts-table';
 import { CustomersSearch } from 'src/sections/user/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import userServices from '../../core/services/userServices.service';
+import React from 'react';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import axios from 'axios';
+import api from 'src/core/services/helpers/api-get';
+function ExpertsPage() {
+  const exportDataToExcel = () => {
+    const dataForExcel = experts.map((user) => [
+      user.nom_prenom_expert,
+      user.mail_expert,
+      user.telephone_expert,
+      user.domaine_expert,
+      // Add other fields you want to export from the clients array
+    ]);
 
-function ExpertsPage({ experts }) {
+    const headerForExcel = ['Nom', 'Email', 'Téléphone','Domaine'];
+    const data = [headerForExcel, ...dataForExcel];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Experts');
+
+    const fileName = 'experts.xlsx';
+    XLSX.writeFile(workbook, fileName);
+  };
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  
+  const [experts, setExperts] = useState([]);
+  useEffect(() => {
+    const getExperts = async () => {
+      try {
+        const response = await api.get('https://79.137.85.120:443/experts/');
+        setExperts(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getExperts();
+  }, []);
+
+
+
 
     const useCustomers = (page, rowsPerPage) => {
         return useMemo(
@@ -75,36 +124,15 @@ function ExpertsPage({ experts }) {
                         >
                             <Stack spacing={1}>
                                 <Typography variant="h4">
-                                    Les Experts {experts.length}
+                                    Les Experts 
+                                    {/* {experts.length} */}
                                 </Typography>
-                                <Stack
-                                    alignItems="center"
-                                    direction="row"
-                                    spacing={1}
-                                >
-                                    <Button
-                                        color="inherit"
-                                        startIcon={(
-                                            <SvgIcon fontSize="small">
-                                                <ArrowUpOnSquareIcon />
-                                            </SvgIcon>
-                                        )}
-                                    >
-                                        Import
-                                    </Button>
-                                    <Button
-                                        color="inherit"
-                                        startIcon={(
-                                            <SvgIcon fontSize="small">
-                                                <ArrowDownOnSquareIcon />
-                                            </SvgIcon>
-                                        )}
-                                    >
-                                        Export
-                                    </Button>
-                                </Stack>
+                                      
                             </Stack>
                             <div>
+                                    <Button color="inherit" startIcon={(  <SvgIcon fontSize="small"><ArrowDownOnSquareIcon /></SvgIcon> )} onClick={exportDataToExcel}  >
+                                       Exporter 
+                                    </Button>
                                 <Button
                                     startIcon={(
                                         <SvgIcon fontSize="small">
@@ -117,7 +145,7 @@ function ExpertsPage({ experts }) {
                                 </Button>
                             </div>
                         </Stack>
-                        <CustomersSearch />
+                        {/* <CustomersSearch /> */}
                         <ExpertsTable
                             count={experts.length}
                             items={experts}
@@ -137,25 +165,6 @@ function ExpertsPage({ experts }) {
         </>
     );
 }
-
-export async function getStaticProps() {
-    try {
-        const experts = await userServices.getAllExpert();
-        return {
-            props: {
-                experts
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching users:', error);
-        return {
-            props: {
-                experts: []
-            },
-        };
-    }
-}
-
 
 export default ExpertsPage;
 

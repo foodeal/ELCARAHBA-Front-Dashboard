@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-max-props-per-line */
 import { useCallback, useMemo, useState } from 'react';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
@@ -9,12 +10,120 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/user/customers-table';
 import { CustomersSearch } from 'src/sections/user/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
+import EditIcon from '@mui/icons-material/Edit';
 import userServices from '../../core/services/userServices.service';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-function UsersPage({ clients }) {
+import api from 'src/core/services/helpers/api-get';
 
+const UsersPage = ()=> {
+
+  const [clients, setClients] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(false); 
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [nomUtilisateur, setNomUtilisateur] = useState('');
+  const [prenomUtilisateur, setPrenomUtilisateur] = useState('');
+  const [dateNaissance, setDateNaissance] = useState('1992-02-17');
+  const [email, setEmail] = useState('');
+  const [telephone, setTelephone] = useState('');
+  const [pays, setPays] = useState('Tunis');
+  const [ville, setVille] = useState('');
+  const [adresse, setAdresse] = useState('');
+  const [motdepasse, setMotdepasse] = useState('');
+  const [usersList, setUsersList] = useState([]);
+  const [count, setCount] = useState(0);
+  
+
+
+  useEffect(() => {
+    const getClients = async () => {
+      try {
+        const response = await api.get('https://79.137.85.120:443/users/');
+        setClients(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getClients();
+  }, []);
+
+ // exporter la liste des clients :
+  const exportDataToExcel = () => {
+    const dataForExcel = clients.map((client) => [
+      client.nom_utilisateur,
+      client.prenom_utilisateur,
+      client.email,
+      client.adresse_user,
+      client.tel_utilisateur,
+    ]);
+
+    const headerForExcel = ['Nom','Prénom', 'Email', 'Adresse','Téléphone'];
+    const data = [headerForExcel, ...dataForExcel];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Clients');
+
+    const fileName = 'clients.xlsx';
+    XLSX.writeFile(workbook, fileName);
+  };
+
+  
+  
+
+  // chercher des clients :
+  const handleChange = async (event) => {
+    const newValue = event.target.value;
+    setSearchTerm(newValue);
+
+    try {
+      const response = await axios.post('https://79.137.85.120:443/users/suser', {
+        search_term: newValue, // Sending the search term to the backend
+      });
+      console.log('Response:', response.data);
+      setUsersList(response.data);
+      setCount(Math.ceil(response.data.length / 9));
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  }; 
+
+
+  // l'ajout d'un client : 
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
+    const newUser = {
+      nom_utilisateur : nomUtilisateur,
+      prenom_utilisateur: prenomUtilisateur,
+      date_naissance: dateNaissance,
+      email: email,
+      tel_utilisateur: telephone,
+      role : 'User',
+      pays_user: pays,
+      ville_user: ville,
+      adresse_user: adresse,
+      motdepasse: motdepasse,
+      argent_gagner : 0,
+    };
+    console.log(newUser);
+    const access_token = JSON.parse(localStorage.getItem('token')); 
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+    axios
+      .post("https://79.137.85.120:443/users/register", newUser)
+      .then((response) => {
+        console.log("Utilisateur ajouté avec succès :", response.data); 
+        setOpenDialog(false);
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la soumission du formulaire :', error); 
+      });
+  };
+
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -42,11 +151,6 @@ function UsersPage({ clients }) {
     );
   };
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const users = useUsers(page, rowsPerPage);
-  const usersIds = useUserIds(users);
-  const usersSelection = useSelection(usersIds);
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -61,51 +165,15 @@ function UsersPage({ clients }) {
     },
     []
   );
-
-  const [nomUtilisateur, setNomUtilisateur] = useState('');
-  const [prenomUtilisateur, setPrenomUtilisateur] = useState('');
-  const [dateNaissance, setDateNaissance] = useState('1992-02-17');
-  const [email, setEmail] = useState('');
-  const [telephone, setTelephone] = useState('');
-  const [pays, setPays] = useState('Tunis');
-  const [ville, setVille] = useState('');
-  const [adresse, setAdresse] = useState('');
-  const [motdepasse, setMotdepasse] = useState('');
-
-  const user = {
-    "nom_prenom": nomUtilisateur + prenomUtilisateur,
-    "date_naissance": dateNaissance,
-    "email": email,
-    "tel_utilisateur": telephone,
-    "pays_user": pays,
-    "ville_user": ville,
-    "adresse_user": adresse,
-    "motdepasse": motdepasse
-  };
-
-  const submitForm = (event) => {
-    event.preventDefault();
-    fetch("http://localhost:4000/users/register", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    });
-
-    // Reset the form state
-    setNomUtilisateur('');
-    setPrenomUtilisateur('');
-    setDateNaissance('1992-02-17');
-    setEmail('');
-    setTelephone('');
-    setPays('Tunis');
-    setVille('');
-    setAdresse('');
-    setMotdepasse('');
-  }
-
-  if (!users) {
+  
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const users = useUsers(page, rowsPerPage);
+  const usersIds = useUserIds(users);
+  const usersSelection = useSelection(usersIds);
+  const paginatedUsers = useUsers(page, rowsPerPage);
+  
+  if (!clients) {
     return <div>Loading...</div>;
   }
 
@@ -128,36 +196,24 @@ function UsersPage({ clients }) {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Les clients {users.length}
+                  Les Clients 
+                  {/* {clients.length} */}
                 </Typography>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                >
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Importer
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Exporter
-                  </Button>
-                </Stack>
+      
+                {/* </Stack> */}
               </Stack>
               <div>
+              <Button
+                color="inherit"
+                startIcon={(
+                  <SvgIcon fontSize="small">
+                    <ArrowDownOnSquareIcon />
+                  </SvgIcon>
+                )}
+                onClick={exportDataToExcel}
+              >
+                Exporter
+              </Button>
                 <Button
                   startIcon={(
                     <SvgIcon fontSize="small">
@@ -171,7 +227,7 @@ function UsersPage({ clients }) {
                 </Button>
                 <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth sx={{ width: '800px' }}>
                   <DialogTitle>Ajouter un client</DialogTitle>
-                  <form onSubmit={submitForm}>
+                  <form onSubmit={handleSubmit}>
                     <DialogContent>
                       <Stack spacing={2}>
                         <Stack direction="row" spacing={2}>
@@ -257,23 +313,26 @@ function UsersPage({ clients }) {
   );
 }
 
-export async function getStaticProps() {
-  try {
-    const clients = await userServices.getAllUsers();
-    return {
-      props: {
-        clients
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    return {
-      props: {
-        clients: []
-      },
-    };
-  }
-}
+
+
+// export async function getStaticProps() {
+//   try {
+//     console.log("1");
+//     const clients = await userServices.getAllUsers();
+//     return {
+//       props: {
+//         clients
+//       },
+//     };
+//   } catch (error) {
+//     console.error('Error fetching users:', error);
+//     return {
+//       props: {
+//         clients: []
+//       },
+//     };
+//   }
+// }
 
 
 export default UsersPage;

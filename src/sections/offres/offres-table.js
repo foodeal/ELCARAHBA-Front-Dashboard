@@ -110,10 +110,10 @@ export const OffersTable = (props) => {
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {offre.offre.quantite}
+                      {offre.nombre_offres}
                     </TableCell>
                     <TableCell>
-                      {offre.offre.statut}
+                      {offre.statut_dispo}
                     </TableCell>
                     <TableCell>
                       {offre.offre.categorie}
