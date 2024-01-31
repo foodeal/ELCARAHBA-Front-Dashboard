@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
@@ -10,32 +10,29 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import { CouponExpiredSearch } from 'src/sections/coupons/couponExpired-search';
 import { CouponExpiredTable } from 'src/sections/coupons/couponExpired-table';
 import couponService  from '../core/services/couponServices.services';
+import api from 'src/core/services/helpers/api-get';
 
-function CouponExpiredPage({ couponExpired }) {
+function CouponExpiredPage() {
 
-    const useCoupons = (page, rowsPerPage) => {
-        return useMemo(
-            () => {
-                return applyPagination(couponExpired, page, rowsPerPage);
-            },
-            [page, rowsPerPage]
-        );
+  const [couponExpired, setCoupon] = useState([]);
+  useEffect(() => {
+    const getCoupons = async () => {
+      try {
+        const response = await api.get('https://79.137.85.120:443/coupons/expire/1');
+        setCoupon(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
-    const useCouponIds = (couponExpired) => {
-        return useMemo(
-            () => {
-                return couponExpired.map((couponExpired) => couponExpired.id);
-            },
-            [couponExpired]
-        );
-    };
+    getCoupons();
+  }, []);
+
+
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const coupons = useCoupons(page, rowsPerPage);
-    const couponsIds = useCouponIds(couponExpired);
-    const couponsSelection = useSelection(couponsIds);
+
     
     const handlePageChange = useCallback(
         (event, value) => {
@@ -50,6 +47,27 @@ function CouponExpiredPage({ couponExpired }) {
         },
         []
     );
+
+    const useCoupons = (page, rowsPerPage) => {
+      return useMemo(
+          () => {
+              return applyPagination(couponExpired, page, rowsPerPage);
+          },
+          [page, rowsPerPage]
+      );
+  };
+
+      const useCouponIds = (couponExpired) => {
+        return useMemo(
+            () => {
+                  return couponExpired.map((couponExpired) => couponExpired.id);
+            },
+        );
+      };
+
+      const coupons = useCoupons(page, rowsPerPage);
+      const couponsIds = useCouponIds(couponExpired);
+      const couponsSelection = useSelection(couponsIds);
 
     if (!couponExpired) {
         return <div>Loading...</div>;
@@ -74,7 +92,8 @@ function CouponExpiredPage({ couponExpired }) {
                         >
                             <Stack spacing={1}>
                                 <Typography variant="h4">
-                                    Les coupons expirés : {couponExpired.length}
+                                    Les Coupons Expirés 
+                                    {/* : {couponExpired.length} */}
                                 </Typography>
                                 {/* <Stack
                                     alignItems="center"
@@ -137,23 +156,23 @@ function CouponExpiredPage({ couponExpired }) {
     );
 }
 
-export async function getStaticProps() {
-    try {
-        const couponExpired = await couponService.getAllCouponsExpired();
-        return {
-            props: {
-                couponExpired
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching couponExpired:', error);
-        return {
-            props: {
-                couponExpired: []
-            },
-        };
-    }
-}
+// export async function getStaticProps() {
+//     try {
+//         const couponExpired = await couponService.getAllCouponsExpired();
+//         return {
+//             props: {
+//                 couponExpired
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching couponExpired:', error);
+//         return {
+//             props: {
+//                 couponExpired: []
+//             },
+//         };
+//     }
+// }
 
 
 export default CouponExpiredPage;

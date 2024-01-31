@@ -3,9 +3,6 @@ import { HttpParamsType } from '../models';
 import { LoginDTO } from '../generated/LoginDto';
 import { UserDTO } from '../generated/UserDto';
 import { UserDetails } from '../models/user/user-details';
-import { SignupDTO } from '@core/generated/SignupDTO';
-import { ServiceDTO } from '@core/generated/ServiceDTO';
-import { ServiceData } from '@core/models/service/service';
 
 // export async function authenticate(params: HttpParamsType<LoginDTO>): Promise<UserDetails> {
 //   console.log("Params", params);

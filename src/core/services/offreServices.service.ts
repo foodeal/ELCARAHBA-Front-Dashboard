@@ -1,9 +1,10 @@
 import { OffreFullDTO } from './../generated/OffreFullDTO';
 import { OffreFullData } from './../models/offre/offreFull';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { apiUrl } from './helpers/api-url';
 import { ApiUrlsEnum } from './helpers/api-url';
 import RequestPerformer from './helpers/request_performer';
+import { OffreData } from '../models/offre/offre';
 
 async function getAllOffres(): Promise<OffreFullDTO[]> {
   const onSuccess = (response: AxiosResponse) => {

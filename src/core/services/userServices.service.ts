@@ -7,10 +7,12 @@ import { PrestataireDTO } from '../generated/PrestataireDTO';
 import { ExpertDTO } from '../generated/ExpertDTO';
 import { ExpertData } from '../models/expert/expert';
 import { UserDTO } from '../generated/UserDto';
+import React from 'react';
+import { UseLocalStorage } from './helpers/use-local-storage';
 import RequestPerformer from './helpers/request_performer';
 
-
 async function getAllUsers(): Promise<UserDetails[]> {
+  console.log("2");
     const onSuccess = (response: AxiosResponse) => {
         return response.data.map((userData: any) => UserDetails.mapToApiValue(userData));
     };
@@ -23,7 +25,7 @@ async function getAllUsers(): Promise<UserDetails[]> {
     const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllUsers}/`, onSuccess, onFailure);
 
     return new Promise<UserDetails[]>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
 
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
@@ -36,6 +38,8 @@ async function getAllUsers(): Promise<UserDetails[]> {
 }
 
 async function getAllPrestataires(): Promise<PrestataireDTO[]> {
+  
+
     const onSuccess = (response: AxiosResponse) => {
         return response.data.map((userData: any) => PrestataireDetails.mapToApiValue(userData));
     }
@@ -45,7 +49,7 @@ async function getAllPrestataires(): Promise<PrestataireDTO[]> {
     }
     const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllPrestataire}/`, onSuccess, onFailure);
     return new Promise<PrestataireDTO[]>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -57,6 +61,8 @@ async function getAllPrestataires(): Promise<PrestataireDTO[]> {
 }
 
 async function getAllDemandes(): Promise<PrestataireDTO[]> {
+  
+  
     const onSuccess = (response: AxiosResponse) => {
         return response.data.map((userData: any) => PrestataireDetails.mapToApiValue(userData));
     }
@@ -66,7 +72,7 @@ async function getAllDemandes(): Promise<PrestataireDTO[]> {
     }
     const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllPrestataire}/`, onSuccess, onFailure);
     return new Promise<PrestataireDTO[]>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -78,6 +84,8 @@ async function getAllDemandes(): Promise<PrestataireDTO[]> {
 }
 
 async function getAllExpert(): Promise<ExpertDTO[]> {
+  
+
     const onSuccess = (response: AxiosResponse) => {
         return response.data.map((userData: any) => ExpertData.mapToApiValue(userData));
     }
@@ -85,9 +93,9 @@ async function getAllExpert(): Promise<ExpertDTO[]> {
         console.error('Error fetching users:', error);
         return [];
     }
-    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllExperts}/`, onSuccess, onFailure);
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetAllExperts}/`,  onSuccess, onFailure);
     return new Promise<ExpertDTO[]>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -99,14 +107,16 @@ async function getAllExpert(): Promise<ExpertDTO[]> {
 }
 
 async function getUser(id: number): Promise<UserDetails> {
+  
+
     const onSuccess = (response: AxiosResponse) => UserDetails.mapToApiValue(response.data);
     const onFailure = (error: any) => {
         console.error('Error fetching user:', error);
         return null;
     }
-    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetUser}/${id}`, onSuccess, onFailure);
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetUser}/${id}`,  onSuccess, onFailure);
     return new Promise<UserDetails>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -118,14 +128,16 @@ async function getUser(id: number): Promise<UserDetails> {
 }
 
 async function GetPrestataire(id: number): Promise<PrestataireDTO> {
+  
+
     const onSuccess = (response: AxiosResponse) => PrestataireDetails.mapToApiValue(response.data);
     const onFailure = (error: any) => {
         console.error('Error fetching user:', error);
         return null;
     }
-    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetPrestataire}/${id}`, onSuccess, onFailure);
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetPrestataire}/${id}`,  onSuccess, onFailure);
     return new Promise<PrestataireDTO>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -137,14 +149,16 @@ async function GetPrestataire(id: number): Promise<PrestataireDTO> {
 }
 
 async function getExpert(id: number): Promise<ExpertDTO> {
+  
+  
     const onSuccess = (response: AxiosResponse) => ExpertData.mapToApiValue(response.data);
     const onFailure = (error: any) => {
         console.error('Error fetching user:', error);
         return null;
     }
-    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetExpert}/${id}`, onSuccess, onFailure);
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetExpert}/${id}`,  onSuccess, onFailure);
     return new Promise<ExpertDTO>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -156,14 +170,16 @@ async function getExpert(id: number): Promise<ExpertDTO> {
 }
 
 async function getDemande(id: number): Promise<ExpertDTO> {
+
+
     const onSuccess = (response: AxiosResponse) => ExpertData.mapToApiValue(response.data);
     const onFailure = (error: any) => {
         console.error('Error fetching user:', error);
         return null;
     }
-    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetPrestataire}/${id}`, onSuccess, onFailure);
+    const requestPerformer = new RequestPerformer('get', `${apiUrl}/${ApiUrlsEnum.GetPrestataire}/${id}`,  onSuccess, onFailure);
     return new Promise<ExpertDTO>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
         };
@@ -195,7 +211,10 @@ async function addUser(
         return null;
     };
 
-    const requestPerformer = new RequestPerformer('post', `${apiUrl}${ApiUrlsEnum.Register}`, onSuccess, onFailure);
+    
+    
+
+    const requestPerformer = new RequestPerformer('post', `${apiUrl}${ApiUrlsEnum.Register}`,  onSuccess, onFailure);
     requestPerformer.setData({
         nom_utilisateur,
         prenom_utilisateur,
@@ -209,7 +228,7 @@ async function addUser(
     });
 
     return new Promise<UserDetails>((resolve, reject) => {
-        requestPerformer.performRequest();
+        
 
         requestPerformer.onSuccess = (response: AxiosResponse) => {
             resolve(response.data);
@@ -221,6 +240,5 @@ async function addUser(
     });
 }
 
-
-
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { getAllUsers, getAllPrestataires, getAllExpert, getUser, GetPrestataire, getExpert, getAllDemandes, getDemande, addUser };

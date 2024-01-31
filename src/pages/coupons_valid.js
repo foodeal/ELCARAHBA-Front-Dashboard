@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
@@ -10,10 +10,23 @@ import { applyPagination } from 'src/utils/apply-pagination';
 import { CouponValidSearch } from 'src/sections/coupons/couponValid-search';
 import { CouponValidTable } from 'src/sections/coupons/couponValid-table';
 import  couponService  from '../core/services/couponServices.services';
+import api from 'src/core/services/helpers/api-get';
 
-function CouponValidPage({ couponValid }) {
+function CouponValidPage() {
 
-    console.log(couponValid);
+  const [couponValid, setCoupon] = useState([]);
+  useEffect(() => {
+    const getCoupons = async () => {
+      try {
+        const response = await api.get('https://79.137.85.120:443/coupons/valide/1');
+        setCoupon(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getCoupons();
+  }, []);
 
     const useCoupons = (page, rowsPerPage) => {
         return useMemo(
@@ -76,7 +89,8 @@ function CouponValidPage({ couponValid }) {
                         >
                             <Stack spacing={1}>
                                 <Typography variant="h4">
-                                    Les Coupons valides : {couponValid.length}
+                                    Les Coupons Valides 
+                                    {/* : {couponValid.length} */}
                                 </Typography>
                                 {/* <Stack
                                     alignItems="center"
