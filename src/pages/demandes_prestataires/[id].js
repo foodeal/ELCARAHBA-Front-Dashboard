@@ -21,7 +21,7 @@ function DemandeDetails() {
     const router = useRouter();
     const { id } = router.query;
 
-    const [oldPrestataire, setPrestataire] = useState(null);
+    const [oldPrestataire, setPrestataire] = useState();
 
     useEffect(() => {
         if (id) {

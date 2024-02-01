@@ -20,7 +20,7 @@ function PubDetails() {
     const router = useRouter();
     const { id } = router.query;
 
-    const [oldPub, setPub] = useState(null);
+    const [oldPub, setPub] = useState();
 
     useEffect(() => {
         if (id) {
@@ -155,38 +155,38 @@ function ExpertDetailsForm({ expert }) {
     </form>;
 }
 
-export async function getStaticPaths() {
-    const experts = await userServicesService.getAllExpert();
+// export async function getStaticPaths() {
+//     const experts = await userServicesService.getAllExpert();
 
-    const paths = experts.map((expert) => ({
-        params: { id: expert.id.toString() },
-    }));
+//     const paths = experts.map((expert) => ({
+//         params: { id: expert.id.toString() },
+//     }));
 
-    console.log(paths);
-    return { paths, fallback: false };
-}
+//     console.log(paths);
+//     return { paths, fallback: false };
+// }
 
-export async function getStaticProps({ params }) {
-    const { id } = params;
-    try {
-        var expert = await userServicesService.getExpert(id);
-        return {
-            props: {
-                expert: expert,
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching expert details:', error);
-        return {
-            props: {
-                expert: null,
-            },
-        };
-    }
-}
+// export async function getStaticProps({ params }) {
+//     const { id } = params;
+//     try {
+//         var expert = await userServicesService.getExpert(id);
+//         return {
+//             props: {
+//                 expert: expert,
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching expert details:', error);
+//         return {
+//             props: {
+//                 expert: null,
+//             },
+//         };
+//     }
+// }
 
 
-ExpertDetails.getLayout = (page) => (
+PubDetails.getLayout = (page) => (
     <DashboardLayout>
         {page}
     </DashboardLayout>

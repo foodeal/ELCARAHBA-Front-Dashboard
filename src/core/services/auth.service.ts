@@ -4,8 +4,7 @@ import { HttpParamsType } from '../models';
 import { LoginDTO } from '../generated/LoginDto';
 import { UserDTO } from '../generated/UserDto';
 import { UserDetails } from '../models/user/user-details';
-import { SignupDTO } from '@core/generated/SignupDTO';
-import user from 'pages/sign-up/user';
+import { SignupDTO } from '../generated/SignupDTO';
 
 
 //User

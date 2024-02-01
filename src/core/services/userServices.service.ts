@@ -12,7 +12,6 @@ import { UseLocalStorage } from './helpers/use-local-storage';
 import RequestPerformer from './helpers/request_performer';
 
 async function getAllUsers(): Promise<UserDetails[]> {
-  console.log("2");
     const onSuccess = (response: AxiosResponse) => {
         return response.data.map((userData: any) => UserDetails.mapToApiValue(userData));
     };

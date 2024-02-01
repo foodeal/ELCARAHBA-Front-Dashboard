@@ -120,7 +120,7 @@ function UserDetails() {
 
     const router = useRouter();
     const { id } = router.query;
-    const [oldUser, setUser] = useState(null);
+    const [oldUser, setUser] = useState();
     useEffect(() => {
       const getUser = async () => {
         try {
@@ -308,35 +308,35 @@ function UserDetailsForm({ user }) {
     </form>;
 }
 
-export async function getStaticPaths() {
-    const users = await userServicesService.getAllUsers();
+// export async function getStaticPaths() {
+//     const users = await userServicesService.getAllUsers();
 
-    const paths = users.map((user) => ({
-        params: { id: user.id.toString() },
-    }));
+//     const paths = users.map((user) => ({
+//         params: { id: user.id.toString() },
+//     }));
 
-    console.log(paths);
-    return { paths, fallback: false };
-}
+//     console.log(paths);
+//     return { paths, fallback: false };
+// }
 
-export async function getStaticProps({ params }) {
-    const { id } = params;
-    try {
-        var user = await userServicesService.getUser(id);
-        return {
-            props: {
-                user: user,
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching user details:', error);
-        return {
-            props: {
-                user: null,
-            },
-        };
-    }
-}
+// export async function getStaticProps({ params }) {
+//     const { id } = params;
+//     try {
+//         var user = await userServicesService.getUser(id);
+//         return {
+//             props: {
+//                 user: user,
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching user details:', error);
+//         return {
+//             props: {
+//                 user: null,
+//             },
+//         };
+//     }
+// }
 
 
 UserDetails.getLayout = (page) => (

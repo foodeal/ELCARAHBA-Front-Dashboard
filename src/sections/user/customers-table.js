@@ -33,7 +33,7 @@ import { apiUrl } from 'src/core/services/helpers';
 export const CustomersTable = (props) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [userX, setUserX] = useState({});
-  const [editingUser, setEditingUser] = useState(null);
+  const [editingUser, setEditingUser] = useState();
   const handleCloseEditDialog = () => {
     setIsEditDialogOpen(false);
   };
@@ -173,7 +173,7 @@ export const CustomersTable = (props) => {
 
   const [isChecked, setIsChecked] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState();
 
   const handleCheckboxChange = (event) => {
     const itemId = event.target.value;

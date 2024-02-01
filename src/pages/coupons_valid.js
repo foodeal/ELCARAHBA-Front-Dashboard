@@ -153,25 +153,6 @@ function CouponValidPage() {
     );
 }
 
-export async function getStaticProps() {
-    try {
-        const couponValid = await couponService.getAllCouponsValide();
-        return {
-            props: {
-                couponValid
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching couponValid:', error);
-        return {
-            props: {
-                couponValid: []
-            },
-        };
-    }
-}
-
-
 export default CouponValidPage;
 
 CouponValidPage.getLayout = (page) => (

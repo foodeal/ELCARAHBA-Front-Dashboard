@@ -12,7 +12,7 @@ function CarnetDetails() {
     const router = useRouter();
     const { id } = router.query;
 
-    const [carnet, setCarnet] = useState(null);
+    const [carnet, setCarnet] = useState();
 
     useEffect(() => {
         if (id) {
@@ -87,32 +87,32 @@ function CarnetDetailsForm({ carnet }) {
     );
 }
 
-export async function getStaticPaths() {
-    const carnets = await carnetServicesService.getAllCarnets();
-    const paths = carnets.map((carnet) => ({
-        params: { id: carnet.id.toString() },
-    }));
-    return { paths, fallback: false };
-}
+// export async function getStaticPaths() {
+//     const carnets = await carnetServicesService.getAllCarnets();
+//     const paths = carnets.map((carnet) => ({
+//         params: { id: carnet.id.toString() },
+//     }));
+//     return { paths, fallback: false };
+// }
 
-export async function getStaticProps({ params }) {
-    const { id } = params;
-    try {
-        const carnet = await carnetServicesService.getCarnet(id);
-        return {
-            props: {
-                carnet,
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching carnet details:', error);
-        return {
-            props: {
-                carnet: null,
-            },
-        };
-    }
-}
+// export async function getStaticProps({ params }) {
+//     const { id } = params;
+//     try {
+//         const carnet = await carnetServicesService.getCarnet(id);
+//         return {
+//             props: {
+//                 carnet,
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching carnet details:', error);
+//         return {
+//             props: {
+//                 carnet: null,
+//             },
+//         };
+//     }
+// }
 
 export default CarnetDetails;
 

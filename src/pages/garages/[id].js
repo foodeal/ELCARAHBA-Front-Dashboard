@@ -20,7 +20,7 @@ function GarageDetails() {
     const router = useRouter();
     const { id } = router.query;
 
-    const [oldGarage, setGarage] = useState(null);
+    const [oldGarage, setGarage] = useState();
 
     useEffect(() => {
         if (id) {
@@ -230,32 +230,32 @@ function GarageDetailsForm({ garage }) {
     );
 }
 
-export async function getStaticPaths() {
-    const garages = await garagesServicesService.getAllGarages();
-    const paths = garages.map((garage) => ({
-        params: { id: garage.id.toString() },
-    }));
-    return { paths, fallback: false };
-}
+// export async function getStaticPaths() {
+//     const garages = await garagesServicesService.getAllGarages();
+//     const paths = garages.map((garage) => ({
+//         params: { id: garage.id.toString() },
+//     }));
+//     return { paths, fallback: false };
+// }
 
-export async function getStaticProps({ params }) {
-    const { id } = params;
-    try {
-        const garage = await garagesServicesService.getGarageDetails(id);
-        return {
-            props: {
-                garage,
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching garage details:', error);
-        return {
-            props: {
-                garage: null,
-            },
-        };
-    }
-}
+// export async function getStaticProps({ params }) {
+//     const { id } = params;
+//     try {
+//         const garage = await garagesServicesService.getGarageDetails(id);
+//         return {
+//             props: {
+//                 garage,
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching garage details:', error);
+//         return {
+//             props: {
+//                 garage: null,
+//             },
+//         };
+//     }
+// }
 
 GarageDetails.getLayout = (page) => (
     <DashboardLayout>

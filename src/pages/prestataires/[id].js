@@ -119,7 +119,7 @@ function PrestataireDetails() {
     const router = useRouter();
     const { id } = router.query;
 
-    const [oldPrestataire, setPrestataire] = useState(null);
+    const [oldPrestataire, setPrestataire] = useState();
 
     useEffect(() => {
         if (id) {
@@ -295,35 +295,35 @@ function PrestataireDetailsForm({ prestataire }) {
     </form>;
 }
 
-export async function getStaticPaths() {
-    const prestataires = await userServicesService.getAllPrestataires();
+// export async function getStaticPaths() {
+//     const prestataires = await userServicesService.getAllPrestataires();
 
-    const paths = prestataires.map((user) => ({
-        params: { id: user.id.toString() },
-    }));
+//     const paths = prestataires.map((user) => ({
+//         params: { id: user.id.toString() },
+//     }));
 
-    console.log(paths);
-    return { paths, fallback: false };
-}
+//     console.log(paths);
+//     return { paths, fallback: false };
+// }
 
-export async function getStaticProps({ params }) {
-    const { id } = params;
-    try {
-        var prestataire = await userServicesService.GetPrestataire(id);
-        return {
-            props: {
-                prestataire: prestataire,
-            },
-        };
-    } catch (error) {
-        console.error('Error fetching prestataire details:', error);
-        return {
-            props: {
-                prestataire: null,
-            },
-        };
-    }
-}
+// export async function getStaticProps({ params }) {
+//     const { id } = params;
+//     try {
+//         var prestataire = await userServicesService.GetPrestataire(id);
+//         return {
+//             props: {
+//                 prestataire: prestataire,
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching prestataire details:', error);
+//         return {
+//             props: {
+//                 prestataire: null,
+//             },
+//         };
+//     }
+// }
 
 
 PrestataireDetails.getLayout = (page) => (

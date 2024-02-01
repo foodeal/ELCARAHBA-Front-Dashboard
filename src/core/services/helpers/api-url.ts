@@ -82,4 +82,11 @@ export enum ApiUrlsEnum {
   GetAllCarnets = 'carnets',
   DeleteCarnet = '/carnets/',
   UpdateCarnet = '/carnets/',
+
+  //Pub
+  AddPub = '/pubs/add',
+  GetPub = 'pubs',
+  GetAllPubs = 'pubs',
+  DeletePub = '/pubs/',
+  UpdatePub = '/pubs/',
 }

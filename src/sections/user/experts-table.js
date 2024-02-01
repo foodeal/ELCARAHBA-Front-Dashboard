@@ -26,7 +26,7 @@ import Link from 'next/link';
 
 
 export const ExpertsTable = (props) => {
-  const [editingUser, setEditingUser] = useState(null);
+  const [editingUser, setEditingUser] = useState();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
     const handleEditIconClick = (user) =>

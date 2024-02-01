@@ -16,7 +16,7 @@ import  '../core/services/publicites.service';
 import { PubsSearch } from 'src/sections/publicite/pubs-search';
 function PublicitesPage({publicites})
 {
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState();
 
   const handleImageUpload = (event) => {
     const selectedFile = event.target.files[0];
@@ -289,23 +289,23 @@ function PublicitesPage({publicites})
       );
 }
 export default PublicitesPage;
-export async function getStaticProps() {
-    try {
-      const publicites = await userServices.getAllUsers();
-      return {
-        props: {
-          publicites
-        },
-      };
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      return {
-        props: {
-          publicites: []
-        },
-      };
-    }
-  }
+// export async function getStaticProps() {
+//     try {
+//       const publicites = await userServices.getAllUsers();
+//       return {
+//         props: {
+//           publicites
+//         },
+//       };
+//     } catch (error) {
+//       console.error('Error fetching users:', error);
+//       return {
+//         props: {
+//           publicites: []
+//         },
+//       };
+//     }
+//   }
 PublicitesPage.getLayout = (page) => (
   <DashboardLayout>
     {page}
